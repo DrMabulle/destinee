@@ -15,10 +15,10 @@ import destinee.probas.ProbaMoins;
 public class ResolutionAttaque
 {
 
-	public static final int REOLUTION_COUP_CRITIQUE = 0;
-	public static final int REOLUTION_COUP_SIMPLE = 1;
-	public static final int REOLUTION_ESQUIVE_SIMPLE = 2;
-	public static final int REOLUTION_ESQUIVE_PARFAITE = 3;
+	public static final int RESOLUTION_COUP_CRITIQUE = 0;
+	public static final int RESOLUTION_COUP_SIMPLE = 1;
+	public static final int RESOLUTION_ESQUIVE_SIMPLE = 2;
+	public static final int RESOLUTION_ESQUIVE_PARFAITE = 3;
 
 	/**
 	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour une attaque
@@ -40,7 +40,7 @@ public class ResolutionAttaque
 
 		switch (typeResol)
 		{
-			case REOLUTION_COUP_CRITIQUE: //attaque critique
+			case RESOLUTION_COUP_CRITIQUE: //attaque critique
 				for (int i = Math.max(attMin, (bonusDef - bonusAtt)); i <= attMax; i++) // i correspond a chaque resultat du jet de dés d'attaque
 				{ //pas d'attaque critique si le jet d'attaque est negatif
 					temp = Proba.calculerProba(i, nbDesAtt);
@@ -48,7 +48,7 @@ public class ResolutionAttaque
 					result = result.add(temp);
 				}
 				break;
-			case REOLUTION_COUP_SIMPLE: // attaque reussie
+			case RESOLUTION_COUP_SIMPLE: // attaque reussie
 				for (int i = attMin; i <= attMax; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
@@ -58,7 +58,7 @@ public class ResolutionAttaque
 					result = result.add(temp);
 				}
 				break;
-			case REOLUTION_ESQUIVE_SIMPLE: // esquive reussie
+			case RESOLUTION_ESQUIVE_SIMPLE: // esquive reussie
 				for (int i = attMin; i <= attMax; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
@@ -68,7 +68,7 @@ public class ResolutionAttaque
 					result = result.add(temp);
 				}
 				break;
-			case REOLUTION_ESQUIVE_PARFAITE: // esquive parfaite
+			case RESOLUTION_ESQUIVE_PARFAITE: // esquive parfaite
 				for (int i = attMin; i <= attMax; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
