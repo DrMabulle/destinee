@@ -18,9 +18,6 @@ import java.util.StringTokenizer;
  */
 public class ConversionUtil {
 
-	/** DATE_PATTERN */
-	public static final String DATE_PATTERN = "beanUtils.date.pattern";
-	
 	/**
 	 * Conversion d'un bigDecimal en String, avec formatage correct
 	 * 
@@ -44,31 +41,55 @@ public class ConversionUtil {
 		StringBuffer	sb			= null;
 		
 		if (decimal != null) {
-			// Arrondi à 2 chiffres après la virgule
-			str = decimal.setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
-			// , au lieu de .
-			str = str.replaceAll("\\.", ",");
-		
-			// Ajout des espaces tous les 3 chiffres
-			idxVirgule = str.indexOf(',');
-			buf = new char[idxVirgule];
-			str.getChars(0, idxVirgule, buf, 0);
-			sb = new StringBuffer();
 			
-			for (int n = 0; n < idxVirgule; n++) {
-				int reste = idxVirgule - n;
+			// On distingue 2 cas :
+			// - decimal est très petit (proche de 0)
+			// - decimal n'est pas très petit (cas 'normal')
+			BigDecimal abs = decimal.abs();
+			BigDecimal zero = new BigDecimal(0);
+			BigDecimal un = new BigDecimal(1);
+			
+			if (zero.equals(zero.min(abs))
+					&& un.equals(un.max(abs)))
+			{
+				// decimal est compris entre -1 et 1
+				// Représentation non scientifique : pas de puissance de 10
+				str = decimal.toPlainString();
+
+				// , au lieu de .
+				str = str.replaceAll("\\.", ",");
+				str = str.substring(0, scale + 2);
+			}
+			else 
+			{
+				// Cas 'normal'
+				// Arrondi à 2 chiffres après la virgule
+				str = decimal.setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+				// , au lieu de .
+				str = str.replaceAll("\\.", ",");
+			
+				// Ajout des espaces tous les 3 chiffres
+				idxVirgule = str.indexOf(',');
+				buf = new char[idxVirgule];
+				str.getChars(0, idxVirgule, buf, 0);
+				sb = new StringBuffer();
 				
-				// Le reste est multiple de 3 et ce n'est pas ni le premier ni le dernier caractère
-				if (reste % 3 == 0 && n > 0 && reste > 0) {
-					sb.append(' ');
+				for (int n = 0; n < idxVirgule; n++) {
+					int reste = idxVirgule - n;
+					
+					// Le reste est multiple de 3 et ce n'est pas ni le premier ni le dernier caractère
+					if (reste % 3 == 0 && n > 0 && reste > 0) {
+						sb.append(' ');
+					}
+					
+					sb.append(str.charAt(n));
 				}
 				
-				sb.append(str.charAt(n));
+				sb.append(str.substring(idxVirgule));
+				
+				str = sb.toString();
 			}
 			
-			sb.append(str.substring(idxVirgule));
-			
-			str = sb.toString();
 		}
 		
 		return str;

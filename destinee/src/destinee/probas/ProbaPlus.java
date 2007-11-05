@@ -1,72 +1,89 @@
 package destinee.probas;
 
 import java.math.BigDecimal;
-import destinee.utils.Cache;
+import destinee.utils.CacheProba;
+
 /**
  * @author AMOROS
  *
- *permet de déterminer la probabilité de tomber sur une nombre supérieur a A en jetant B dés a dix faces
+ * Class utilitaire pour les calculs de probasPlus
  */
-public class ProbaPlus 
+public class ProbaPlus
 {
-	
-	public static BigDecimal calculerProba(int seuilMin, int nbDes) 
+
+	/**
+	 * Méthode permettant de déterminer la probabilité de tomber sur une nombre supérieur à A en jetant B dés à 10 faces
+	 * @param seuilMin seuil minimal à atteindre (A)
+	 * @param nbDes nombre de dés (B)
+	 * @return la probabilité de faire plus que A en jetant B dés
+	 */
+	public static BigDecimal calculerProba(int seuilMin, int nbDes)
 	{
-		BigDecimal result = new BigDecimal (0);
-		if(seuilMin < nbDes) 						//résultat inférieur au nombre de dés
+		BigDecimal result = null;
+		if (seuilMin < nbDes)
 		{
-			result = new BigDecimal (1);
+			//résultat inférieur au nombre de dés
+			result = new BigDecimal(1);
 		}
-		else if( nbDes < 1) 							// pas de dés lancés
+		else if (nbDes < 1)
 		{
-			result = new BigDecimal (0)	;
+			// pas de dés lancés
+			result = new BigDecimal(0);
 		}
-		else if (seuilMin > 10* nbDes)				// seuil supérieur au score maximum
+		else if (seuilMin > 10 * nbDes)
 		{
-			result = new BigDecimal (0)	;
+			// seuil supérieur au score maximum
+			result = new BigDecimal(0);
 		}
-		else if (seuilMin < 5.5 * nbDes)			// seuil inférieur a la moyenne, on va se simplifier la vie 
-		{											//en passant par le calcul de probaMoins qui est plus rapide
-			BigDecimal temp1 = ProbaMoins.calculerProba(seuilMin, nbDes);
-			temp1 = temp1.add(Proba.calculerProba(seuilMin, nbDes));
-			BigDecimal temp2 = new BigDecimal (1);
-			result = temp2.subtract(temp1);
+		else if (seuilMin < 5.5 * nbDes)
+		{
+			// Seuil inférieur à la moyenne : on va se simplifier la vie 
+			// en passant par le calcul de probaMoins qui est plus rapide
+			BigDecimal probaMoins = ProbaMoins.calculerProba(seuilMin, nbDes);
+			probaMoins = probaMoins.add(Proba.calculerProba(seuilMin, nbDes));
+			BigDecimal un = new BigDecimal(1);
+			result = un.subtract(probaMoins);
 		}
 		else
 		{
-			// on calcule la probabilité de faire plus qu'un certain résultat en lançant un certain 
-			//nombre de dés. Pour cela on calcule la probabilité d'atteindre chacun des nombres 
-			//supérieurs au seuil avec le nombre de dés lancés.
+			// On calcule la probabilité de faire plus qu'un certain résultat en lançant un certain 
+			// nombre de dés. Pour cela on calcule la probabilité d'atteindre chacun des nombres 
+			// supérieurs au seuil avec le nombre de dés lancés.
 			String cle = ProbaPlus.genererCle(seuilMin, nbDes);
-			
-			Object resultatCache = Cache.getDefaultInstance().sortirDonnee(cle);
-			
-			if (resultatCache == null) 
+
+			Object resultatCache = CacheProba.getDefaultInstance().recupererDonnees(cle);
+
+			if (resultatCache == null)
 			{
+				// Le résultat n'est pas en cache => il n'a pas été calculé => le faire
+				result = new BigDecimal(0);
 				System.out.println("cache non trouvé, calcul de " + cle);
-				for (int i = seuilMin + 1; i <= (nbDes * 10); i++) 
+				for (int i = seuilMin + 1; i <= (nbDes * 10); i++)
 				{
 					BigDecimal temp = Proba.calculerProba(i, nbDes);
 					result = result.add(temp);
 				}
-				Cache.getDefaultInstance().rangerDonnee(cle, result);
+				CacheProba.getDefaultInstance().stockerDonnees(cle, result);
 
 			}
-			else 
+			else
 			{
+				// Le résultat est en cache => on utilise le résultat calculé auparavant
 				result = (BigDecimal) resultatCache;
 				System.out.println("cache trouvé pour " + cle);
 			}
 		}
-		System.out.println("probaPlus(" + seuilMin + "," + nbDes +  ") : " + result);
+		System.out.println("probaPlus(" + seuilMin + "," + nbDes + ") : " + result);
 		return result;
 	}
-	/** sert a generer la clé unique de chaque objet probaPlus
+
+	/** 
+	 * Méthode servant à generer la clé unique de chaque objet probaPlus
 	 * @param seuilMin : nombre a dépasser avec les dés
 	 * @param nbDes : nombre de dés
 	 * @return probaPlus(seuilMin , nbDes)
 	 */
-	private static String genererCle(int seuilMin, int nbDes) 
+	private static String genererCle(int seuilMin, int nbDes)
 	{
 		StringBuffer cle = new StringBuffer("probaPlus(");
 		cle.append(seuilMin).append(",").append(nbDes).append(")");
