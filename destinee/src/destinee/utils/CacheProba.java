@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author AMOROS cache
+ * @author AMOROS 
+ * Cache utilisé pour les calculs de Proba, ProbaPlus et ProbaMoins
  */
 public class CacheProba
 {
@@ -16,7 +17,7 @@ public class CacheProba
 	/**
 	 * Contenu du cache
 	 */
-	private Map<String, BigDecimal> maMap;
+	private Map<String, BigDecimal> cache;
 	/**
 	 * Instance par défaut
 	 */
@@ -27,7 +28,7 @@ public class CacheProba
 	 */
 	private CacheProba()
 	{
-		maMap = new HashMap<String, BigDecimal>(20000, 0.8F);
+		cache = new HashMap<String, BigDecimal>(20000, 0.8F);
 	}
 
 	/**
@@ -52,8 +53,8 @@ public class CacheProba
 	 */
 	public void stockerDonnees(String cle, BigDecimal valeur)
 	{
-		maMap.put(cle, valeur);
-		System.out.println("stockage de " + cle);
+		cache.put(cle, valeur);
+//		System.out.println("" + cache.size() + " données dans le cache.");
 	}
 
 	/**
@@ -64,16 +65,23 @@ public class CacheProba
 	 */
 	public BigDecimal recupererDonnees(Object cle)
 	{
-		BigDecimal result = maMap.get(cle);
-		if (result == null)
-		{
-			System.out.println("pas de valeur stockée pour la clé " + cle);
-		}
-		else
-		{
-			System.out.println("la valeur stockée pour la clé " + cle + " est " + result);
-		}
-
-		return result;
+		return cache.get(cle);
+	}
+	
+	/**
+	 * Méthode permettant de connaitre le nombre de données stockées en cache actuellement
+	 * @return la taille actuelle du cache
+	 */
+	public int size() 
+	{
+		return cache.size();
+	}
+	
+	/**
+	 * Méthode permettant de vider toutes les données stockées dans le cache
+	 */
+	public void viderCache() 
+	{
+		cache.clear();
 	}
 }
