@@ -27,7 +27,7 @@ public class CacheProba
 	 */
 	private CacheProba()
 	{
-		maMap = new HashMap(20000, 0.8F);
+		maMap = new HashMap<String, BigDecimal>(20000, 0.8F);
 	}
 
 	/**
