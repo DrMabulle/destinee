@@ -66,9 +66,9 @@ public class Main
 		long globalStopTime = System.currentTimeMillis();
 		System.out.println("Récap des temps : ");
 		System.out.println("Traitement 1 exécuté en " + ConversionUtil.longVersStringFormat(time1) + " millisecondes");
-		System.out.println("proba(170,19) = " + resultat1);
+		System.out.println("proba(170,19) = " + ConversionUtil.bigDecimalVersString(resultat1, 12));
 		System.out.println("Traitement 2 exécuté en " + ConversionUtil.longVersStringFormat(time2) + " millisecondes");
-		System.out.println("proba(168, 18) = " + resultat2);
+		System.out.println("proba(168, 18) = " + ConversionUtil.bigDecimalVersString(resultat2, 12));
 		System.out.println("Traitement 3 exécuté en " + ConversionUtil.longVersStringFormat(time3) + " millisecondes");
 		System.out.println("chances de toucher avec " + nbDAtt + "D+" + bonusAtt + " sur " + nbDDef + "D+" + bonusDef + " (reussite critique ) : " 
 				+ ConversionUtil.bigDecimalVersString(resultat3, 12));

@@ -51,13 +51,12 @@ public class ProbaPlus
 			// supérieurs au seuil avec le nombre de dés lancés.
 			String cle = ProbaPlus.genererCle(seuilMin, nbDes);
 
-			Object resultatCache = CacheProba.getDefaultInstance().recupererDonnees(cle);
+			BigDecimal resultatCache = CacheProba.getDefaultInstance().recupererDonnees(cle);
 
 			if (resultatCache == null)
 			{
 				// Le résultat n'est pas en cache => il n'a pas été calculé => le faire
 				result = new BigDecimal(0);
-				System.out.println("cache non trouvé, calcul de " + cle);
 				for (int i = seuilMin + 1; i <= (nbDes * 10); i++)
 				{
 					BigDecimal temp = Proba.calculerProba(i, nbDes);
@@ -69,11 +68,9 @@ public class ProbaPlus
 			else
 			{
 				// Le résultat est en cache => on utilise le résultat calculé auparavant
-				result = (BigDecimal) resultatCache;
-				System.out.println("cache trouvé pour " + cle);
+				result = resultatCache;
 			}
 		}
-		System.out.println("probaPlus(" + seuilMin + "," + nbDes + ") : " + result);
 		return result;
 	}
 
