@@ -5,28 +5,34 @@ package destinee.probas;
 
 import java.math.BigDecimal;
 
-import destinee.utils.Cache;
+import destinee.utils.CacheProba;
 
 /**
  * @author AMOROS
  *
- *permet de déterminer la probabilité de tomber sur une nombre A en jetant B dés a dix faces
+ * Class utilitaire pour les calculs de probas
  */
-public class Proba {
-	
-	
-	public static BigDecimal calculerProba(int resultatCible, int nbDes) 
+public class Proba
+{
+
+	/**
+	 * Permet de déterminer la probabilité de tomber sur une nombre A en jetant B dés à 10 faces
+	 * @param resultatCible résultat cible
+	 * @param nbDes nombre de dés
+	 * @return la probabilité de faire le résultat cible en lançant le nombre de dés donné
+	 */
+	public static BigDecimal calculerProba(int resultatCible, int nbDes)
 	{
-		BigDecimal result = new BigDecimal (0);
-		if(resultatCible < nbDes 					//résultat inférieur au nombre de dés
+		BigDecimal result = null;
+		if (resultatCible < nbDes 					// résultat inférieur au nombre de dés
 				|| nbDes < 1 						// pas de dés lancés
-				|| resultatCible > 10* nbDes) 		// résultat supérieur au score maximum
+				|| resultatCible > 10 * nbDes) 		// résultat supérieur au score maximum
 		{
-			result = new BigDecimal (0)	;
+			result = new BigDecimal(0);
 		}
-		else if(nbDes == 1) 
+		else if (nbDes == 1)
 		{
-			result = new BigDecimal (0.1);			//pour un seul dé on a une équiprobabilité à 10%
+			result = new BigDecimal(0.1); 			//pour un seul dé on a une équiprobabilité à 10%
 		}
 		else
 		{
@@ -35,35 +41,40 @@ public class Proba {
 			// on met le resultat en cache pour future utilisation.
 			// Les cas précédents permettent d'eviter de calculer les impossibilités
 			String cle = Proba.genererCle(resultatCible, nbDes);
-			
-			Object resultatCache = Cache.getDefaultInstance().sortirDonnee(cle);
-			
-			if (resultatCache == null) 
+
+			Object resultatCache = CacheProba.getDefaultInstance().recupererDonnees(cle);
+
+			if (resultatCache == null)
 			{
+				// Le résultat n'est pas en cache => il n'a pas été calculé => le faire
+				result = new BigDecimal(0);
 				System.out.println("cache non trouvé, calcul de " + cle);
-				for (int i = resultatCible - 1; i >= resultatCible - 10; i--) 
+				for (int i = resultatCible - 1; i >= resultatCible - 10; i--)
 				{
 					BigDecimal temp = Proba.calculerProba(i, nbDes - 1);
 					temp = temp.multiply(new BigDecimal(0.1));
 					result = result.add(temp);
 				}
-				Cache.getDefaultInstance().rangerDonnee(cle, result);
+				CacheProba.getDefaultInstance().stockerDonnees(cle, result);
 
 			}
-			else 
+			else
 			{
+				// Le résultat est en cache => on utilise le résultat calculé auparavant
 				result = (BigDecimal) resultatCache;
 				System.out.println("cache trouvé pour " + cle);
 			}
 		}
 		return result;
 	}
-	/** sert a generer la clé unique de chaque objet proba
-	 * @param resultatCible : nombre a atteindre avec les dés
-	 * @param nbDes : nombre de dés
-	 * @return proba( resultatCible , nbdés)
+
+	/** 
+	 * Méthode servant à generer la clé unique de chaque objet proba
+	 * @param resultatCible nombre à atteindre avec les dés
+	 * @param nbDes nombre de dés
+	 * @return proba(resultatCible , nbDes)
 	 */
-	private static String genererCle(int resultatCible, int nbDes) 
+	private static String genererCle(int resultatCible, int nbDes)
 	{
 		StringBuffer cle = new StringBuffer("proba(");
 		cle.append(resultatCible).append(",").append(nbDes).append(")");
