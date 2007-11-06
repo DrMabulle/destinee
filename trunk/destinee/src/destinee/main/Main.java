@@ -2,6 +2,7 @@ package destinee.main;
 
 import java.math.BigDecimal;
 
+import destinee.data.Perso;
 import destinee.probas.Proba;
 import destinee.probas.ResolutionAttaque;
 import destinee.utils.ConversionUtil;
@@ -29,10 +30,16 @@ public class Main
 		stopTime = System.currentTimeMillis();
 		long time2 = stopTime - startTime;
 
-		int nbDAtt = 30;
-		int nbDDef = 27;
+		Perso noone = new Perso(12,10,8,5,5,-3);
+		
+		
+		
+		int nbDAtt = noone.getNombreDeDesAttaque();
+		int bonusAtt = noone.getBonusAttaque();
+		//int nbDAtt = 12;
+		//int bonusAtt = 10;
 
-		int bonusAtt = 11;
+		int nbDDef = 11;
 		int bonusDef = 3;
 
 		startTime = System.currentTimeMillis();
@@ -66,9 +73,9 @@ public class Main
 		long globalStopTime = System.currentTimeMillis();
 		System.out.println("Récap des temps : ");
 		System.out.println("Traitement 1 exécuté en " + ConversionUtil.longVersStringFormat(time1) + " millisecondes");
-		System.out.println("proba(170,19) = " + ConversionUtil.bigDecimalVersString(resultat1, 12));
+		System.out.println("proba(170,19) = " + resultat1);
 		System.out.println("Traitement 2 exécuté en " + ConversionUtil.longVersStringFormat(time2) + " millisecondes");
-		System.out.println("proba(168, 18) = " + ConversionUtil.bigDecimalVersString(resultat2, 12));
+		System.out.println("proba(168, 18) = " + resultat2);
 		System.out.println("Traitement 3 exécuté en " + ConversionUtil.longVersStringFormat(time3) + " millisecondes");
 		System.out.println("chances de toucher avec " + nbDAtt + "D+" + bonusAtt + " sur " + nbDDef + "D+" + bonusDef + " (reussite critique ) : " 
 				+ ConversionUtil.bigDecimalVersString(resultat3, 12));
