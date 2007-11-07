@@ -16,7 +16,6 @@ public class attaqueImparable extends AttaqueAbstract implements Attaque
 	public attaqueImparable(Perso aPerso)
 	{
 		super(aPerso);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -24,7 +23,6 @@ public class attaqueImparable extends AttaqueAbstract implements Attaque
 	 */
 	public int getBonusAtt()
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -33,8 +31,7 @@ public class attaqueImparable extends AttaqueAbstract implements Attaque
 	 */
 	public int getBonusDeg()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return getPerso().getBonusDegats();
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +39,6 @@ public class attaqueImparable extends AttaqueAbstract implements Attaque
 	 */
 	public int getNbDesAtt()
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -51,8 +47,7 @@ public class attaqueImparable extends AttaqueAbstract implements Attaque
 	 */
 	public int getNbDesDeg()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return getPerso().getNombreDeDesAttaque();
 	}
 
 }

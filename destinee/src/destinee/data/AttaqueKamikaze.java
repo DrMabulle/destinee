@@ -10,13 +10,15 @@ package destinee.data;
 public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 {
 
+	private int bonusDesAttaque;
+	private int bonusDesDegats;
+
 	/**
 	 * @param aPerso
 	 */
 	public AttaqueKamikaze(Perso aPerso)
 	{
 		super(aPerso);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -24,8 +26,7 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	 */
 	public int getBonusAtt()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return getPerso().getBonusAttaque();
 	}
 
 	/* (non-Javadoc)
@@ -33,8 +34,7 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	 */
 	public int getBonusDeg()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return getPerso().getBonusDegats();
 	}
 
 	/* (non-Javadoc)
@@ -42,8 +42,7 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	 */
 	public int getNbDesAtt()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (getPerso().getNombreDeDesAttaque() + bonusDesAttaque);
 	}
 
 	/* (non-Javadoc)
@@ -51,8 +50,39 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	 */
 	public int getNbDesDeg()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (getPerso().getNombreDeDesDegats() + bonusDesDegats);
+	}
+
+	/**
+	 * @return the bonusDesAttaque
+	 */
+	public int getBonusDesAttaque()
+	{
+		return bonusDesAttaque;
+	}
+
+	/**
+	 * @param aBonusDesAttaque the bonusDesAttaque to set
+	 */
+	public void setBonusDesAttaque(int aBonusDesAttaque)
+	{
+		bonusDesAttaque = aBonusDesAttaque;
+	}
+
+	/**
+	 * @return the bonusDesDegats
+	 */
+	public int getBonusDesDegats()
+	{
+		return bonusDesDegats;
+	}
+
+	/**
+	 * @param aBonusDesDegats the bonusDesDegats to set
+	 */
+	public void setBonusDesDegats(int aBonusDesDegats)
+	{
+		bonusDesDegats = aBonusDesDegats;
 	}
 
 }

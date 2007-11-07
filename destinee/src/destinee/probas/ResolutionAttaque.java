@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import destinee.probas.Proba;
 import destinee.probas.ProbaPlus;
 import destinee.probas.ProbaMoins;
+import destinee.data.*;
 
 /**
  * @author AMOROS
@@ -80,5 +81,8 @@ public class ResolutionAttaque
 		}
 		return result;
 	}
-
+	public static BigDecimal ResoudreAttaque(Attaque attaque, Cible cible, int typeResol)
+	{
+	return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNombreDeDesDefense(), cible.getBonusDefense(), typeResol);	
+	}
 }
