@@ -47,15 +47,11 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-
-	@Override
 	public void ajouterPerso(String aNomPerso, int aNbDesAtt, int aBonusAtt, int aNbDesDeg, int aBonusDeg, int aNbPaCyc1, int aNbPaCyc2)
 	{
 		itsGate.addFact("perso('" + aNomPerso + "', " + aNbDesAtt + ", " + aBonusAtt + ", " + aNbDesDeg + ", " + aBonusDeg + ", " + aNbPaCyc1 + ", " + aNbPaCyc2 + ").\n");
 	}
     
-
-	@Override
 	public void ajouterAttaquePerso(String aNomPerso, String aNomAttaque)
 	{
 		itsGate.addFact("attaque('" + aNomPerso + "', '" + aNomAttaque + "')\n.");
