@@ -1,7 +1,8 @@
 package destinee.probas;
 
 import java.math.BigDecimal;
-import destinee.utils.CacheProba;
+
+import destinee.core.utils.CacheProba;
 
 /**
  * @author AMOROS

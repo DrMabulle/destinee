@@ -36,21 +36,22 @@ public class ResolutionAttaque
 		BigDecimal temp = null;
 		BigDecimal borneSup = null;
 		BigDecimal borneInf = null;
-		int attMin = nbDesAtt - 1;
-		int attMax = (nbDesAtt * 10) + 1;
+		int attMin = nbDesAtt;
+		int attMax = (nbDesAtt * 10);
 
 		switch (typeResol)
 		{
-			case RESOLUTION_COUP_CRITIQUE: //attaque critique
-				for (int i = Math.max(attMin, (bonusDef - bonusAtt)); i <= attMax; i++) // i correspond a chaque resultat du jet de dés d'attaque
-				{ //pas d'attaque critique si le jet d'attaque est negatif
+			case RESOLUTION_COUP_CRITIQUE: // attaque critique
+				for (int i = Math.max(attMin - 1, (bonusDef - bonusAtt)); i <= attMax + 1; i++) // i correspond a chaque resultat du jet de dés d'attaque
+				{ 
+					//pas d'attaque critique si le jet d'attaque est negatif
 					temp = Proba.calculerProba(i, nbDesAtt);
 					temp = temp.multiply(ProbaMoins.calculerProba((int) (0.5 * (i + 1 + bonusAtt) - bonusDef), nbDesDef));
 					result = result.add(temp);
 				}
 				break;
 			case RESOLUTION_COUP_SIMPLE: // attaque reussie
-				for (int i = attMin; i <= attMax; i++)
+				for (int i = attMin - 1; i <= attMax + 1; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
 					borneSup = ProbaMoins.calculerProba((i + bonusAtt - bonusDef), nbDesDef);
@@ -60,7 +61,7 @@ public class ResolutionAttaque
 				}
 				break;
 			case RESOLUTION_ESQUIVE_SIMPLE: // esquive reussie
-				for (int i = attMin; i <= attMax; i++)
+				for (int i = attMin - 1; i <= attMax + 1; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
 					borneSup = ProbaMoins.calculerProba((2 * (i + bonusAtt) - bonusDef), nbDesDef);
@@ -70,7 +71,7 @@ public class ResolutionAttaque
 				}
 				break;
 			case RESOLUTION_ESQUIVE_PARFAITE: // esquive parfaite
-				for (int i = attMin; i <= attMax; i++)
+				for (int i = attMin - 1; i <= attMax + 1; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
 					borneInf = ProbaPlus.calculerProba((2 * (i + bonusAtt) - bonusDef - 1), nbDesDef);
@@ -85,4 +86,5 @@ public class ResolutionAttaque
 	{
 	return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNombreDeDesDefense(), cible.getBonusDefense(), typeResol);	
 	}
+
 }

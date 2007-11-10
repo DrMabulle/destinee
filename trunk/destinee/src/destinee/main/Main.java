@@ -2,10 +2,10 @@ package destinee.main;
 
 import java.math.BigDecimal;
 
+import destinee.core.utils.ConversionUtil;
 import destinee.data.Perso;
 import destinee.probas.Proba;
 import destinee.probas.ResolutionAttaque;
-import destinee.utils.ConversionUtil;
 
 public class Main
 {
