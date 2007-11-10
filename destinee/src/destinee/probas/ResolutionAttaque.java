@@ -82,9 +82,9 @@ public class ResolutionAttaque
 		}
 		return result;
 	}
+
 	public static BigDecimal ResoudreAttaque(Attaque attaque, Cible cible, int typeResol)
 	{
-	return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNombreDeDesDefense(), cible.getBonusDefense(), typeResol);	
+		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNombreDeDesDefense(), cible.getBonusDefense(), typeResol);
 	}
-
 }
