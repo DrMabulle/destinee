@@ -22,7 +22,7 @@ public class ResolutionAttaque
 	public static final int RESOLUTION_ESQUIVE_PARFAITE = 3;
 
 	/**
-	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour une attaque
+	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour certaines caractéristiques d'attaque
 	 * @param nbDesAtt nombre de dés d'attaque
 	 * @param bonusAtt bonus fixe en attaque
 	 * @param nbDesDef nombre de dés de défense
@@ -83,6 +83,13 @@ public class ResolutionAttaque
 		return result;
 	}
 
+	/**
+	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour une attaque, face à une cible
+	 * @param attaque une attaque
+	 * @param cible une cible
+	 * @param typeResol type de résolution
+	 * @return la probabilité d'obtenir la résolution choisie
+	 */
 	public static BigDecimal ResoudreAttaque(Attaque attaque, Cible cible, int typeResol)
 	{
 		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNombreDeDesDefense(), cible.getBonusDefense(), typeResol);

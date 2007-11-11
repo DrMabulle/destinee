@@ -23,8 +23,7 @@ public abstract class AttaqueAbstract
 	}
 
 	/**
-	 * @param aPerso
-	 *            the perso to set
+	 * @param aPerso the perso to set
 	 */
 	protected void setPerso(Perso aPerso)
 	{

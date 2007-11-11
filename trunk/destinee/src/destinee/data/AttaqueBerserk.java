@@ -11,7 +11,7 @@ public class AttaqueBerserk extends AttaqueAbstract implements Attaque
 {
 
 	/**
-	 * @param aPerso
+	 * @param aPerso un Perso
 	 */
 	public AttaqueBerserk(Perso aPerso)
 	{

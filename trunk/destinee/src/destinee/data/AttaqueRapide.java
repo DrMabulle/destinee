@@ -12,7 +12,7 @@ public class AttaqueRapide extends AttaqueAbstract implements Attaque
 {
 
 	/**
-	 * @param aPerso
+	 * @param aPerso un Perso
 	 */
 	public AttaqueRapide(Perso aPerso)
 	{

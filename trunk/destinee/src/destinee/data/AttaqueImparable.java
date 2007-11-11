@@ -5,32 +5,28 @@ package destinee.data;
 
 /**
  * @author AMOROS
- * 
+ *
  */
-public class AttaqueNormale extends AttaqueAbstract implements Attaque
+public class AttaqueImparable extends AttaqueAbstract implements Attaque
 {
 
 	/**
 	 * @param aPerso un Perso
 	 */
-	public AttaqueNormale(Perso aPerso)
+	public AttaqueImparable(Perso aPerso)
 	{
 		super(aPerso);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see destinee.data.Attaque#getBonusAtt()
 	 */
 	public int getBonusAtt()
 	{
-		return getPerso().getBonusAttaque();
+		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see destinee.data.Attaque#getBonusDeg()
 	 */
 	public int getBonusDeg()
@@ -38,24 +34,20 @@ public class AttaqueNormale extends AttaqueAbstract implements Attaque
 		return getPerso().getBonusDegats();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see destinee.data.Attaque#getNbDesAtt()
 	 */
 	public int getNbDesAtt()
 	{
-		return getPerso().getNombreDeDesAttaque();
+		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see destinee.data.Attaque#getNbDesDeg()
 	 */
 	public int getNbDesDeg()
 	{
-		return getPerso().getNombreDeDesDegats();
+		return getPerso().getNombreDeDesAttaque();
 	}
 
 }
