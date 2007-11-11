@@ -11,7 +11,7 @@ public class AttaqueMagique extends AttaqueAbstract implements Attaque
 {
 
 	/**
-	 * @param aPerso
+	 * @param aPerso un Perso
 	 */
 	public AttaqueMagique(Perso aPerso)
 	{

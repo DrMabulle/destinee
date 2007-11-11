@@ -14,13 +14,18 @@ public class Cible
 	private int compteurAttaques;
 	private int compteurAttaquesCritiques;
 
+	/**
+	 * Constructeur par défaut
+	 * 
+	 * @param aNombreDeDesDefense
+	 *            nombre de dés de défense
+	 * @param aBonusDefense
+	 *            bonus fixe en défense
+	 * @param aArmure
+	 *            quantité d'armure
+	 */
 	public Cible(int aNombreDeDesDefense, int aBonusDefense, int aArmure)
 	{
-		/**
-		 * @param aNombreDeDesDefense
-		 * @param aBonusDefense
-		 * @param aArmure
-		 */
 		super();
 		nombreDeDesDefense = aNombreDeDesDefense;
 		bonusDefense = aBonusDefense;
@@ -38,8 +43,7 @@ public class Cible
 	}
 
 	/**
-	 * @param aNombreDeDesDefense
-	 *            the nombreDeDesDefense to set
+	 * @param aNombreDeDesDefense the nombreDeDesDefense to set
 	 */
 	public void setNombreDeDesDefense(int aNombreDeDesDefense)
 	{
@@ -55,8 +59,7 @@ public class Cible
 	}
 
 	/**
-	 * @param aBonusDefense
-	 *            the bonusDefense to set
+	 * @param aBonusDefense the bonusDefense to set
 	 */
 	public void setBonusDefense(int aBonusDefense)
 	{
@@ -72,8 +75,7 @@ public class Cible
 	}
 
 	/**
-	 * @param aArmure
-	 *            the armure to set
+	 * @param aArmure the armure to set
 	 */
 	public void setArmure(int aArmure)
 	{
@@ -89,8 +91,7 @@ public class Cible
 	}
 
 	/**
-	 * @param aCompteurAttaques
-	 *            the compteurAttaques to set
+	 * @param aCompteurAttaques the compteurAttaques to set
 	 */
 	public void setCompteurAttaques(int aCompteurAttaques)
 	{
@@ -106,8 +107,7 @@ public class Cible
 	}
 
 	/**
-	 * @param aCompteurAttaquesCritiques
-	 *            the compteurAttaquesCritiques to set
+	 * @param aCompteurAttaquesCritiques the compteurAttaquesCritiques to set
 	 */
 	public void setCompteurAttaquesCritiques(int aCompteurAttaquesCritiques)
 	{

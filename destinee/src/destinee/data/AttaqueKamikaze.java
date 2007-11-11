@@ -14,7 +14,7 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	private int bonusDesDegats;
 
 	/**
-	 * @param aPerso
+	 * @param aPerso un Perso
 	 */
 	public AttaqueKamikaze(Perso aPerso)
 	{
