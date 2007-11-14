@@ -50,12 +50,12 @@ public class AttaqueMagique extends AttaqueAbstract implements Attaque
 
 	public int getBonusDeg(int aArmureCible)
 	{
-		return (int) ( 0.5 * getPerso().getBonusPM() - aArmureCible);
+		return (int) ( 0.5 * getPerso().getBonusPM() );
 	}
 
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
-		return (int) ( 0.5 * getPerso().getBonusPM() - aArmureCible);
+		return (int) ( 0.5 * getPerso().getBonusPM() );
 	}
 
 	public int getNbDesDegatsCritique()
