@@ -31,16 +31,6 @@ public class AttaqueMagique extends AttaqueAbstract implements Attaque
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see destinee.data.Attaque#getBonusDeg()
-	 */
-	public int getBonusDeg()
-	{
-		return (int) (0.5 * getPerso().getBonusPM());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see destinee.data.Attaque#getNbDesAtt()
 	 */
 	public int getNbDesAtt()
@@ -54,6 +44,21 @@ public class AttaqueMagique extends AttaqueAbstract implements Attaque
 	 * @see destinee.data.Attaque#getNbDesDeg()
 	 */
 	public int getNbDesDeg()
+	{
+		return (int) (0.5 * getPerso().getNombreDeDesPM());
+	}
+
+	public int getBonusDeg(int aArmureCible)
+	{
+		return (int) ( 0.5 * getPerso().getBonusPM() - aArmureCible);
+	}
+
+	public int getBonusDegatsCritique(int aArmureCible)
+	{
+		return (int) ( 0.5 * getPerso().getBonusPM() - aArmureCible);
+	}
+
+	public int getNbDesDegatsCritique()
 	{
 		return (int) (0.5 * getPerso().getNombreDeDesPM());
 	}

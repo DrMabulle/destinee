@@ -30,14 +30,6 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	}
 
 	/* (non-Javadoc)
-	 * @see destinee.data.Attaque#getBonusDeg()
-	 */
-	public int getBonusDeg()
-	{
-		return getPerso().getBonusDegats();
-	}
-
-	/* (non-Javadoc)
 	 * @see destinee.data.Attaque#getNbDesAtt()
 	 */
 	public int getNbDesAtt()
@@ -83,6 +75,21 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	public void setBonusDesDegats(int aBonusDesDegats)
 	{
 		bonusDesDegats = aBonusDesDegats;
+	}
+
+	public int getBonusDeg(int aArmureCible)
+	{
+		return (getPerso().getBonusDegats() - aArmureCible);
+	}
+
+	public int getBonusDegatsCritique(int aArmureCible)
+	{
+		return (getPerso().getBonusDegats() - aArmureCible);
+	}
+
+	public int getNbDesDegatsCritique()
+	{
+		return (int) ( 1.5 *(getPerso().getNombreDeDesDegats() + getBonusDesDegats()));
 	}
 
 }

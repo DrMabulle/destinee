@@ -31,16 +31,6 @@ public class AttaquePrecise extends AttaqueAbstract implements Attaque
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see destinee.data.Attaque#getBonusDeg()
-	 */
-	public int getBonusDeg()
-	{
-		return getPerso().getBonusDegats();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see destinee.data.Attaque#getNbDesAtt()
 	 */
 	public int getNbDesAtt()
@@ -56,6 +46,21 @@ public class AttaquePrecise extends AttaqueAbstract implements Attaque
 	public int getNbDesDeg()
 	{
 		return (int) (2 / 3 * getPerso().getNombreDeDesDegats());
+	}
+
+	public int getBonusDeg(int aArmureCible)
+	{
+		return (getPerso().getBonusDegats() - aArmureCible);
+	}
+
+	public int getBonusDegatsCritique(int aArmureCible)
+	{
+		return (getPerso().getBonusDegats() - aArmureCible);
+	}
+
+	public int getNbDesDegatsCritique()
+	{
+		return (int) (((int) (2/3 * getPerso().getNombreDeDesDegats()) * 3/2 ));
 	}
 
 }
