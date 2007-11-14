@@ -7,11 +7,16 @@ package destinee.data;
  * @author AMOROS
  * 
  */
+/**
+ * @author AMOROS
+ *
+ */
 public class AttaqueBerserk extends AttaqueAbstract implements Attaque
 {
 
 	/**
-	 * @param aPerso un Perso
+	 * @param aPerso
+	 *            un Perso
 	 */
 	public AttaqueBerserk(Perso aPerso)
 	{
@@ -26,16 +31,6 @@ public class AttaqueBerserk extends AttaqueAbstract implements Attaque
 	public int getBonusAtt()
 	{
 		return getPerso().getBonusAttaque();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see destinee.data.Attaque#getBonusDeg()
-	 */
-	public int getBonusDeg()
-	{
-		return getPerso().getBonusDegats();
 	}
 
 	/*
@@ -56,6 +51,21 @@ public class AttaqueBerserk extends AttaqueAbstract implements Attaque
 	public int getNbDesDeg()
 	{
 		return (2 * getPerso().getNombreDeDesDegats());
+	}
+
+	public int getBonusDeg(int aArmureCible)
+	{
+		return getPerso().getBonusDegats() - aArmureCible;
+	}
+
+	public int getBonusDegatsCritique(int aArmureCible)
+	{
+		return getPerso().getBonusDegats();
+	}
+
+	public int getNbDesDegatsCritique()
+	{
+		return (getPerso().getNombreDeDesDegats() * 3);
 	}
 
 }

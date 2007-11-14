@@ -31,10 +31,26 @@ public interface Attaque
 	public int getBonusAtt();
 
 	/**
-	 * rend le bonus de dégats
+	 * rend le bonus de dégats (en fonction de l'armure de la cible)
 	 * 
 	 * @return bonusDeg
 	 */
-	public int getBonusDeg();
+	public int getBonusDeg(int armureCible);
+	
+	/**
+	 * rend le nombre de dés de dégats lors d'une attaque critique
+	 * 
+	 * @return bonusDeg
+	 */
+	public int getNbDesDegatsCritique();
+	
+	/**
+	 * rend le bonus de dégats lors d'une attaque critique (en fonction de l'armure de la cible)
+	 * 
+	 * @return bonusDeg
+	 */
+	public int getBonusDegatsCritique(int armureCible);
+	
+	
 
 }
