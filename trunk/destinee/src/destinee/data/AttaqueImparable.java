@@ -42,16 +42,25 @@ public class AttaqueImparable extends AttaqueAbstract implements Attaque
 		return getPerso().getNombreDeDesAttaque();
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDeg(int)
+	 */
 	public int getBonusDeg(int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
+	 */
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
+	 */
 	public int getNbDesDegatsCritique()
 	{
 		return getPerso().getNombreDeDesDegats();

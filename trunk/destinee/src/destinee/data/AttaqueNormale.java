@@ -48,18 +48,27 @@ public class AttaqueNormale extends AttaqueAbstract implements Attaque
 		return getPerso().getNombreDeDesDegats();
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDeg(int)
+	 */
 	public int getBonusDeg(int aArmureCible)
 	{
 		// TODO Auto-generated method stub
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
+	 */
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
 		// TODO Auto-generated method stub
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
+	 */
 	public int getNbDesDegatsCritique()
 	{
 		// TODO Auto-generated method stub

@@ -49,16 +49,25 @@ public class AttaqueRapide extends AttaqueAbstract implements Attaque
 		return (int) (0.5 * getPerso().getNombreDeDesDegats());
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDeg(int)
+	 */
 	public int getBonusDeg(int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
+	 */
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
+	 */
 	public int getNbDesDegatsCritique()
 	{
 		return (int)(1.5 * (int) 0.5 * getPerso().getNombreDeDesDegats());
