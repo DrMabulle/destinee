@@ -36,7 +36,7 @@ public class AttaqueBrutale extends AttaqueAbstract implements Attaque
 	 */
 	public int getNbDesAtt()
 	{
-		return (int) (2 / 3) * getPerso().getNombreDeDesAttaque();
+		return (int) (0.6667 * getPerso().getNombreDeDesAttaque());
 	}
 
 	/*
@@ -46,19 +46,28 @@ public class AttaqueBrutale extends AttaqueAbstract implements Attaque
 	 */
 	public int getNbDesDeg()
 	{
-		return (int) 3 / 2 * getPerso().getNombreDeDesDegats();
+		return (int) (1.5 * getPerso().getNombreDeDesDegats());
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDeg(int)
+	 */
 	public int getBonusDeg(int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
+	 */
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
+	 */
 	public int getNbDesDegatsCritique()
 	{
 		return (int) (2.25 * getPerso().getNombreDeDesDegats());
