@@ -7,7 +7,7 @@ package destinee.data;
  * @author AMOROS
  *
  */
-public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
+public class AttaqueKamikaze extends AttaqueAbstract
 {
 
 	private int bonusDesAttaque;
@@ -99,6 +99,12 @@ public class AttaqueKamikaze extends AttaqueAbstract implements Attaque
 	public int getNbDesDegatsCritique()
 	{
 		return (int) ( 1.5 *(getPerso().getNombreDeDesDegats() + getBonusDesDegats()));
+	}
+
+	@Override
+	public String getTypeAttaque()
+	{
+		return "Kamikaze";
 	}
 
 }

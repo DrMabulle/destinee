@@ -7,7 +7,7 @@ package destinee.data;
  * @author AMOROS
  * 
  */
-public class AttaquePrecise extends AttaqueAbstract implements Attaque
+public class AttaquePrecise extends AttaqueAbstract
 {
 
 	/**
@@ -70,6 +70,14 @@ public class AttaquePrecise extends AttaqueAbstract implements Attaque
 	public int getNbDesDegatsCritique()
 	{
 		return (int) (((int) (0.667 * getPerso().getNombreDeDesDegats()) * 1.5 ));
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getTypeAttaque()
+	 */
+	public String getTypeAttaque()
+	{
+		return "Précise";
 	}
 
 }
