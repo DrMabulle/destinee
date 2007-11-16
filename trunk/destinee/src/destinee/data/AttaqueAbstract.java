@@ -9,15 +9,19 @@ package destinee.data;
  * @author AMOROS
  * 
  */
-public abstract class AttaqueAbstract
+public abstract class AttaqueAbstract implements Attaque
 {
 
+	/**
+	 * Le personnage responsable de l'attaque
+	 */
 	private Perso perso;
 
-	/**
-	 * @return the perso
+
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getPerso()
 	 */
-	protected Perso getPerso()
+	public Perso getPerso()
 	{
 		return perso;
 	}

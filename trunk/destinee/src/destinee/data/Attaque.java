@@ -51,6 +51,13 @@ public interface Attaque
 	 */
 	public int getBonusDegatsCritique(int armureCible);
 	
-	
+	/**
+	 * @return le personnage faisant l'attaque
+	 */
+	public Perso getPerso();
 
+	/**
+	 * @return le type d'attaque
+	 */
+	public String getTypeAttaque();
 }

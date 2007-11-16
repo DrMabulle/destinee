@@ -26,6 +26,7 @@ public class Perso
 	private int bonusDegats;
 	private int nombreDeDesPM;
 	private int bonusPM;
+	private String identifiant;
 
 	/**
 	 * @param aNombreDeDesAttaque
@@ -34,8 +35,9 @@ public class Perso
 	 * @param aBonusDegats
 	 * @param aNombreDeDesPM
 	 * @param aBonusPM
+	 * @param aIdentifiant identifiant du personnage
 	 */
-	public Perso(int aNombreDeDesAttaque, int aBonusAttaque, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM)
+	public Perso(int aNombreDeDesAttaque, int aBonusAttaque, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM, String aIdentifiant)
 	{
 		super();
 		nombreDeDesAttaque = aNombreDeDesAttaque;
@@ -44,6 +46,7 @@ public class Perso
 		bonusDegats = aBonusDegats;
 		nombreDeDesPM = aNombreDeDesPM;
 		bonusPM = aBonusPM;
+		identifiant = aIdentifiant;
 	}
 
 	/**
@@ -55,8 +58,7 @@ public class Perso
 	}
 
 	/**
-	 * @param aNombreDeDesAttaque
-	 *            the nombreDeDesAttaque to set
+	 * @param aNombreDeDesAttaque the nombreDeDesAttaque to set
 	 */
 	public void setNombreDeDesAttaque(int aNombreDeDesAttaque)
 	{
@@ -72,8 +74,7 @@ public class Perso
 	}
 
 	/**
-	 * @param aBonusAttaque
-	 *            the bonusAttaque to set
+	 * @param aBonusAttaque the bonusAttaque to set
 	 */
 	public void setBonusAttaque(int aBonusAttaque)
 	{
@@ -89,8 +90,7 @@ public class Perso
 	}
 
 	/**
-	 * @param aNombreDeDesDegats
-	 *            the nombreDeDesDegats to set
+	 * @param aNombreDeDesDegats the nombreDeDesDegats to set
 	 */
 	public void setNombreDeDesDegats(int aNombreDeDesDegats)
 	{
@@ -106,8 +106,7 @@ public class Perso
 	}
 
 	/**
-	 * @param aBonusDegats
-	 *            the bonusDegats to set
+	 * @param aBonusDegats the bonusDegats to set
 	 */
 	public void setBonusDegats(int aBonusDegats)
 	{
@@ -123,8 +122,7 @@ public class Perso
 	}
 
 	/**
-	 * @param aNombreDeDesPM
-	 *            the nombreDeDesPM to set
+	 * @param aNombreDeDesPM the nombreDeDesPM to set
 	 */
 	public void setNombreDeDesPM(int aNombreDeDesPM)
 	{
@@ -140,12 +138,27 @@ public class Perso
 	}
 
 	/**
-	 * @param aBonusPM
-	 *            the bonusPM to set
+	 * @param aBonusPM the bonusPM to set
 	 */
 	public void setBonusPM(int aBonusPM)
 	{
 		bonusPM = aBonusPM;
+	}
+
+	/**
+	 * @return the identifiant
+	 */
+	public String getIdentifiant()
+	{
+		return identifiant;
+	}
+
+	/**
+	 * @param aIdentifiant the identifiant to set
+	 */
+	public void setIdentifiant(String aIdentifiant)
+	{
+		identifiant = aIdentifiant;
 	}
 
 }

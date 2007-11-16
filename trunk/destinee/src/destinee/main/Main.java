@@ -4,14 +4,8 @@ import java.math.BigDecimal;
 
 import destinee.core.utils.ConversionUtil;
 import destinee.data.Attaque;
-import destinee.data.AttaqueBerserk;
-import destinee.data.AttaqueBrutale;
 import destinee.data.AttaqueImparable;
-import destinee.data.AttaqueKamikaze;
-import destinee.data.AttaqueMagique;
 import destinee.data.AttaqueNormale;
-import destinee.data.AttaquePrecise;
-import destinee.data.AttaqueRapide;
 import destinee.data.Cible;
 import destinee.data.Perso;
 import destinee.probas.Proba;
@@ -40,7 +34,7 @@ public class Main
 		stopTime = System.currentTimeMillis();
 		long time2 = stopTime - startTime;
 
-		Perso noone = new Perso(12,10,8,5,5,-3);
+		Perso noone = new Perso(12,10,8,5,5,-3, null);
 		
 		Cible cible = new Cible(5,3,9);
 		
@@ -57,7 +51,7 @@ public class Main
 		startTime = System.currentTimeMillis();
 		System.out.println("Début du traitement : résolution d'une attaque précise (" + nbDAtt + "D+" + bonusAtt + " contre " + nbDDef + "D+" + bonusDef
 				+ ", reussite critique ");
-		BigDecimal resultat3 = ResolutionAttaque.ResoudreAttaque(attaqueDeux, cible,0);
+		BigDecimal resultat3 = ResolutionAttaque.resoudreAttaque(attaqueDeux, cible,0);
 		stopTime = System.currentTimeMillis();
 		long time3 = stopTime - startTime;
 

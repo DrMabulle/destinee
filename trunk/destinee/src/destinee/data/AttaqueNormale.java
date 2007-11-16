@@ -7,7 +7,7 @@ package destinee.data;
  * @author AMOROS
  * 
  */
-public class AttaqueNormale extends AttaqueAbstract implements Attaque
+public class AttaqueNormale extends AttaqueAbstract
 {
 
 	/**
@@ -53,7 +53,6 @@ public class AttaqueNormale extends AttaqueAbstract implements Attaque
 	 */
 	public int getBonusDeg(int aArmureCible)
 	{
-		// TODO Auto-generated method stub
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
@@ -62,7 +61,6 @@ public class AttaqueNormale extends AttaqueAbstract implements Attaque
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
-		// TODO Auto-generated method stub
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
@@ -71,8 +69,15 @@ public class AttaqueNormale extends AttaqueAbstract implements Attaque
 	 */
 	public int getNbDesDegatsCritique()
 	{
-		// TODO Auto-generated method stub
 		return (int) (1.5 * getPerso().getNombreDeDesDegats());
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getTypeAttaque()
+	 */
+	public String getTypeAttaque()
+	{
+		return "Normale";
 	}
 
 }
