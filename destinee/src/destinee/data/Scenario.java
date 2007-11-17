@@ -79,6 +79,7 @@ public class Scenario
 		probaRealisation = new BigDecimal(1);
 		esperanceDegats = 0;
 		
+		
 		BigDecimal probaTmp = null;
 		double esperanceTmp = 0;
 		
@@ -106,6 +107,27 @@ public class Scenario
 				
 				malusDesDef += 0.5;
 			}
-		}
+			
+			//malus appliqués a la cible
+			cible.setFatigue(cible.getFatigue()+1);
+			cible.setMalusDesDefense((int)malusDesDef);
+			
+			//incrementation de la fatigue du perso en fonction du type d'attaque
+			if (scenarioElemt.getAttaque().getTypeAttaque() == "Berserk")
+			{
+					scenarioElemt.getAttaque().getPerso().setFatigue(scenarioElemt.getAttaque().getPerso().getFatigue() + 4);
+			}
+			else if (scenarioElemt.getAttaque().getTypeAttaque() == "Rapide")
+			{
+					scenarioElemt.getAttaque().getPerso().setFatigue(scenarioElemt.getAttaque().getPerso().getFatigue() + 1);
+			}
+			else if (scenarioElemt.getAttaque().getTypeAttaque() != "Magique")
+			{
+				scenarioElemt.getAttaque().getPerso().setFatigue(scenarioElemt.getAttaque().getPerso().getFatigue() + 2);
+				
+			}
+		}	
+		//TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
+		//TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
 	}
 }

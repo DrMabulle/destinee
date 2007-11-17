@@ -21,32 +21,35 @@ public class Perso
 	// pendant une chaine d'attaques, les caracs n'ont pas a etre bidouillables.
 
 	private int nombreDeDesAttaque;
-	private int bonusAttaque;
+	private int bonusAttaqueInitial;
 	private int nombreDeDesDegats;
 	private int bonusDegats;
 	private int nombreDeDesPM;
 	private int bonusPM;
 	private String identifiant;
+	private int fatigue;
 
 	/**
 	 * @param aNombreDeDesAttaque
-	 * @param aBonusAttaque
+	 * @param aBonusAttaqueInitial
 	 * @param aNombreDeDesDegats
 	 * @param aBonusDegats
 	 * @param aNombreDeDesPM
 	 * @param aBonusPM
 	 * @param aIdentifiant identifiant du personnage
 	 */
-	public Perso(int aNombreDeDesAttaque, int aBonusAttaque, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM, String aIdentifiant)
+	public Perso(int aNombreDeDesAttaque, int aBonusAttaqueInitial, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM,
+			String aIdentifiant)
 	{
 		super();
 		nombreDeDesAttaque = aNombreDeDesAttaque;
-		bonusAttaque = aBonusAttaque;
+		bonusAttaqueInitial = aBonusAttaqueInitial;
 		nombreDeDesDegats = aNombreDeDesDegats;
 		bonusDegats = aBonusDegats;
 		nombreDeDesPM = aNombreDeDesPM;
 		bonusPM = aBonusPM;
 		identifiant = aIdentifiant;
+		fatigue = 0;
 	}
 
 	/**
@@ -66,19 +69,11 @@ public class Perso
 	}
 
 	/**
-	 * @return the bonusAttaque
+	 * @param aBonusAttaqueInitial the bonusAttaqueInitial to set
 	 */
-	public int getBonusAttaque()
+	public void setBonusAttaqueInitial(int aBonusAttaqueInitial)
 	{
-		return bonusAttaque;
-	}
-
-	/**
-	 * @param aBonusAttaque the bonusAttaque to set
-	 */
-	public void setBonusAttaque(int aBonusAttaque)
-	{
-		bonusAttaque = aBonusAttaque;
+		bonusAttaqueInitial = aBonusAttaqueInitial;
 	}
 
 	/**
@@ -161,4 +156,35 @@ public class Perso
 		identifiant = aIdentifiant;
 	}
 
+	/**
+	 * @return the fatigue
+	 */
+	public int getFatigue()
+	{
+		return fatigue;
+	}
+
+	/**
+	 * @param aFatigue the fatigue to set
+	 */
+	public void setFatigue(int aFatigue)
+	{
+		fatigue = aFatigue;
+	}
+
+	/**
+	 * @return the bonusAttaqueInitial
+	 */
+	public int getBonusAttaqueInitial()
+	{
+		return bonusAttaqueInitial;
+	}
+
+	/**
+	 * @return the bonusAttaque
+	 */
+	public int getBonusAttaque()
+	{
+		return bonusAttaqueInitial - fatigue;
+	}
 }
