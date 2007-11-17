@@ -101,7 +101,9 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		return (int) ( 1.5 *(getPerso().getNombreDeDesDegats() + getBonusDesDegats()));
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getTypeAttaque()
+	 */
 	public String getTypeAttaque()
 	{
 		return "Kamikaze";

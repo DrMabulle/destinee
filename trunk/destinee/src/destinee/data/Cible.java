@@ -8,11 +8,14 @@ package destinee.data;
  */
 public class Cible
 {
-	private int nombreDeDesDefense;
-	private int bonusDefense;
+	private int nombreDeDesDefenseInitial;
+	private int bonusDefenseInitial;
 	private int armure;
-	private int compteurAttaques;
-	private int compteurAttaquesCritiques;
+	private int malusDesDefense;
+	private int fatigue;
+	
+	
+	
 
 	/**
 	 * Constructeur par défaut
@@ -27,11 +30,11 @@ public class Cible
 	public Cible(int aNombreDeDesDefense, int aBonusDefense, int aArmure)
 	{
 		super();
-		nombreDeDesDefense = aNombreDeDesDefense;
-		bonusDefense = aBonusDefense;
+		nombreDeDesDefenseInitial = aNombreDeDesDefense;
+		bonusDefenseInitial = aBonusDefense;
 		armure = aArmure;
-		compteurAttaques = 0;
-		compteurAttaquesCritiques = 0;
+		malusDesDefense = 0;
+		fatigue = 0;
 	}
 
 	/**
@@ -39,15 +42,23 @@ public class Cible
 	 */
 	public int getNombreDeDesDefense()
 	{
-		return nombreDeDesDefense;
+		return nombreDeDesDefenseInitial - getMalusDesDefense();
 	}
 
 	/**
-	 * @param aNombreDeDesDefense the nombreDeDesDefense to set
+	 * @return the nombreDeDesDefenseInitial
 	 */
-	public void setNombreDeDesDefense(int aNombreDeDesDefense)
+	public int getNombreDeDesDefenseInitial()
 	{
-		nombreDeDesDefense = aNombreDeDesDefense;
+		return nombreDeDesDefenseInitial;
+	}
+	
+	/**
+	 * @param aNombreDeDesDefenseInitial the nombreDeDesDefense to set
+	 */
+	public void setNombreDeDesDefense(int aNombreDeDesDefenseInitial)
+	{
+		nombreDeDesDefenseInitial = aNombreDeDesDefenseInitial;
 	}
 
 	/**
@@ -55,15 +66,24 @@ public class Cible
 	 */
 	public int getBonusDefense()
 	{
-		return bonusDefense;
+		return bonusDefenseInitial - getFatigue();
 	}
 
 	/**
-	 * @param aBonusDefense the bonusDefense to set
+	 * @return the bonusDefenseInitial
 	 */
-	public void setBonusDefense(int aBonusDefense)
+	public int getBonusDefenseInitial()
 	{
-		bonusDefense = aBonusDefense;
+		return bonusDefenseInitial;
+	}
+
+	
+	/**
+	 * @param aBonusDefense the bonusDefenseInitial to set
+	 */
+	public void setBonusDefenseInitial(int aBonusDefenseInitial)
+	{
+		bonusDefenseInitial = aBonusDefenseInitial;
 	}
 
 	/**
@@ -82,36 +102,45 @@ public class Cible
 		armure = aArmure;
 	}
 
+
 	/**
-	 * @return the compteurAttaques
+	 * @return the fatigue
 	 */
-	public int getCompteurAttaques()
+	public int getFatigue()
 	{
-		return compteurAttaques;
+		return fatigue;
 	}
 
 	/**
-	 * @param aCompteurAttaques the compteurAttaques to set
+	 * @param aFatigue the fatigue to set
 	 */
-	public void setCompteurAttaques(int aCompteurAttaques)
+	public void setFatigue(int aFatigue)
 	{
-		compteurAttaques = aCompteurAttaques;
+		fatigue = aFatigue;
 	}
 
 	/**
-	 * @return the compteurAttaquesCritiques
+	 * @return the malusDesDefense
 	 */
-	public int getCompteurAttaquesCritiques()
+	public int getMalusDesDefense()
 	{
-		return compteurAttaquesCritiques;
+		return malusDesDefense;
 	}
 
 	/**
-	 * @param aCompteurAttaquesCritiques the compteurAttaquesCritiques to set
+	 * @param aMalusDesDefense the malusDesDefense to set
 	 */
-	public void setCompteurAttaquesCritiques(int aCompteurAttaquesCritiques)
+	public void setMalusDesDefense(int aMalusDesDefense)
 	{
-		compteurAttaquesCritiques = aCompteurAttaquesCritiques;
+		malusDesDefense = aMalusDesDefense;
+	}
+
+	/**
+	 * @param aNombreDeDesDefenseInitial the nombreDeDesDefenseInitial to set
+	 */
+	public void setNombreDeDesDefenseInitial(int aNombreDeDesDefenseInitial)
+	{
+		nombreDeDesDefenseInitial = aNombreDeDesDefenseInitial;
 	}
 
 }
