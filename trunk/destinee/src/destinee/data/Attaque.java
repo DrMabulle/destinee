@@ -60,4 +60,9 @@ public interface Attaque
 	 * @return le type d'attaque
 	 */
 	public String getTypeAttaque();
+	
+	/**
+	 * @return le nombre de points de fatigue subi en faisant l'attaque
+	 */
+	public int getAugmentationFatigue();
 }

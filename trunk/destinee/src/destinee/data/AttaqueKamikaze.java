@@ -26,7 +26,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 */
 	public int getBonusAtt()
 	{
-		return getPerso().getBonusAttaque();
+		return getPerso().getBonusAttaqueEffectif();
 	}
 
 	/* (non-Javadoc)
@@ -107,6 +107,14 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	public String getTypeAttaque()
 	{
 		return "Kamikaze";
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getAugmentationFatigue()
+	 */
+	public int getAugmentationFatigue()
+	{
+		return 2;
 	}
 
 }

@@ -34,14 +34,14 @@ public class Main
 		stopTime = System.currentTimeMillis();
 		long time2 = stopTime - startTime;
 
-		Perso noone = new Perso(12,10,8,5,5,-3, null);
+		Perso noone = new Perso(12,10,8,5,5,-3, 0, null);
 		
 		Cible cible = new Cible(5,3,9);
 		
 		int nbDAtt = noone.getNombreDeDesAttaque();
-		int bonusAtt = noone.getBonusAttaque();
+		int bonusAtt = noone.getBonusAttaqueEffectif();
 		
-		int nbDDef = cible.getNombreDeDesDefense();
+		int nbDDef = cible.getNbDesDefenseEffectif();
 		int bonusDef = cible.getBonusDefense();
 
 		Attaque attaqueUn = new AttaqueNormale(noone);

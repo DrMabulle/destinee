@@ -26,7 +26,7 @@ public class AttaqueRapide extends AttaqueAbstract
 	 */
 	public int getBonusAtt()
 	{
-		return getPerso().getBonusAttaque();
+		return getPerso().getBonusAttaqueEffectif();
 	}
 
 	/*
@@ -79,6 +79,14 @@ public class AttaqueRapide extends AttaqueAbstract
 	public String getTypeAttaque()
 	{
 		return "Rapide";
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getAugmentationFatigue()
+	 */
+	public int getAugmentationFatigue()
+	{
+		return 1;
 	}
 
 }
