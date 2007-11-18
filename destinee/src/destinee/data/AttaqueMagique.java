@@ -80,4 +80,12 @@ public class AttaqueMagique extends AttaqueAbstract
 		return "Magique";
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getAugmentationFatigue()
+	 */
+	public int getAugmentationFatigue()
+	{
+		return 2;
+	}
+
 }

@@ -47,7 +47,7 @@ public class ResolutionAttaque
 		{
 			case RESOLUTION_COUP_CRITIQUE: // attaque critique
 				// i correspond a chaque resultat du jet de dés d'attaque
-				for (int i = Math.max(attMin - 1, (bonusDef - bonusAtt)); i <= attMax + 1; i++)
+				for (int i = Math.max(attMin, (bonusDef - bonusAtt)); i <= attMax; i++)
 				{
 					// pas d'attaque critique si le jet d'attaque est negatif
 					temp = Proba.calculerProba(i, nbDesAtt);
@@ -56,7 +56,7 @@ public class ResolutionAttaque
 				}
 				break;
 			case RESOLUTION_COUP_SIMPLE: // attaque reussie
-				for (int i = attMin - 1; i <= attMax + 1; i++)
+				for (int i = attMin; i <= attMax; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
 					borneSup = ProbaMoins.calculerProba((i + bonusAtt - bonusDef), nbDesDef);
@@ -66,7 +66,7 @@ public class ResolutionAttaque
 				}
 				break;
 			case RESOLUTION_ESQUIVE_SIMPLE: // esquive reussie
-				for (int i = attMin - 1; i <= attMax + 1; i++)
+				for (int i = attMin; i <= attMax; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
 					borneSup = ProbaMoins.calculerProba((2 * (i + bonusAtt) - bonusDef), nbDesDef);
@@ -76,7 +76,7 @@ public class ResolutionAttaque
 				}
 				break;
 			case RESOLUTION_ESQUIVE_PARFAITE: // esquive parfaite
-				for (int i = attMin - 1; i <= attMax + 1; i++)
+				for (int i = attMin; i <= attMax; i++)
 				{
 					temp = Proba.calculerProba(i, nbDesAtt);
 					borneInf = ProbaPlus.calculerProba((2 * (i + bonusAtt) - bonusDef - 1), nbDesDef);
@@ -111,7 +111,7 @@ public class ResolutionAttaque
 			}
 		}
 
-		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNombreDeDesDefense(), cible.getBonusDefense(), typeResol);
+		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNbDesDefenseEffectif(), cible.getBonusDefenseEffectif(), typeResol);
 	}
 
 	/**

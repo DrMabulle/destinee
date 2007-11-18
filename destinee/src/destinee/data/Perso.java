@@ -21,35 +21,38 @@ public class Perso
 	// pendant une chaine d'attaques, les caracs n'ont pas a etre bidouillables.
 
 	private int nombreDeDesAttaque;
-	private int bonusAttaqueInitial;
+	private int bonusAttaque;
 	private int nombreDeDesDegats;
 	private int bonusDegats;
 	private int nombreDeDesPM;
 	private int bonusPM;
 	private String identifiant;
 	private int fatigue;
+	private int fatigueIntiale;
 
 	/**
 	 * @param aNombreDeDesAttaque
-	 * @param aBonusAttaqueInitial
+	 * @param aBonusAttaque
 	 * @param aNombreDeDesDegats
 	 * @param aBonusDegats
 	 * @param aNombreDeDesPM
 	 * @param aBonusPM
+	 * @param aFatigueInitiale fatigue initiale du perso
 	 * @param aIdentifiant identifiant du personnage
 	 */
-	public Perso(int aNombreDeDesAttaque, int aBonusAttaqueInitial, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM,
-			String aIdentifiant)
+	public Perso(int aNombreDeDesAttaque, int aBonusAttaque, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM,
+			int aFatigueInitiale, String aIdentifiant)
 	{
 		super();
 		nombreDeDesAttaque = aNombreDeDesAttaque;
-		bonusAttaqueInitial = aBonusAttaqueInitial;
+		bonusAttaque = aBonusAttaque;
 		nombreDeDesDegats = aNombreDeDesDegats;
 		bonusDegats = aBonusDegats;
 		nombreDeDesPM = aNombreDeDesPM;
 		bonusPM = aBonusPM;
 		identifiant = aIdentifiant;
-		fatigue = 0;
+		fatigue = aFatigueInitiale;
+		fatigueIntiale = aFatigueInitiale;
 	}
 
 	/**
@@ -69,11 +72,11 @@ public class Perso
 	}
 
 	/**
-	 * @param aBonusAttaqueInitial the bonusAttaqueInitial to set
+	 * @param aBonusAttaque the bonusAttaque to set
 	 */
-	public void setBonusAttaqueInitial(int aBonusAttaqueInitial)
+	public void setBonusAttaque(int aBonusAttaque)
 	{
-		bonusAttaqueInitial = aBonusAttaqueInitial;
+		bonusAttaque = aBonusAttaque;
 	}
 
 	/**
@@ -175,16 +178,31 @@ public class Perso
 	/**
 	 * @return the bonusAttaqueInitial
 	 */
-	public int getBonusAttaqueInitial()
+	public int getBonusAttaque()
 	{
-		return bonusAttaqueInitial;
+		return bonusAttaque;
 	}
 
 	/**
-	 * @return the bonusAttaque
+	 * @return Le bonus d'attaque effectif : bonus fixe - fatigue
 	 */
-	public int getBonusAttaque()
+	public int getBonusAttaqueEffectif()
 	{
-		return bonusAttaqueInitial - fatigue;
+		return bonusAttaque - fatigue;
+	}
+	
+	/**
+	 * Incrémente la fatigue du joueur en fonction du type d'attaque.
+	 * Règle : incrément de fatigue = PA / 2
+	 * @param aAttaque une attaque
+	 */
+	public void incrementerFatigue(Attaque aAttaque)
+	{
+		fatigue += aAttaque.getAugmentationFatigue();
+	}
+	
+	public void reinitialiserFatigue() 
+	{
+		fatigue = fatigueIntiale;
 	}
 }

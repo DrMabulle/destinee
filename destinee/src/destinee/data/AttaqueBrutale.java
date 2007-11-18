@@ -25,7 +25,7 @@ public class AttaqueBrutale extends AttaqueAbstract
 	 */
 	public int getBonusAtt()
 	{
-		return getPerso().getBonusAttaque();
+		return getPerso().getBonusAttaqueEffectif();
 	}
 
 
@@ -79,6 +79,14 @@ public class AttaqueBrutale extends AttaqueAbstract
 	public String getTypeAttaque()
 	{
 		return "Brutale";
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getAugmentationFatigue()
+	 */
+	public int getAugmentationFatigue()
+	{
+		return 2;
 	}
 
 }

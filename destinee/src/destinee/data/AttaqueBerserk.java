@@ -11,8 +11,7 @@ public class AttaqueBerserk extends AttaqueAbstract
 {
 
 	/**
-	 * @param aPerso
-	 *            un Perso
+	 * @param aPerso un Perso
 	 */
 	public AttaqueBerserk(Perso aPerso)
 	{
@@ -26,7 +25,7 @@ public class AttaqueBerserk extends AttaqueAbstract
 	 */
 	public int getBonusAtt()
 	{
-		return getPerso().getBonusAttaque();
+		return getPerso().getBonusAttaqueEffectif();
 	}
 
 	/*
@@ -79,6 +78,14 @@ public class AttaqueBerserk extends AttaqueAbstract
 	public String getTypeAttaque()
 	{
 		return "Berserk";
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getAugmentationFatigue()
+	 */
+	public int getAugmentationFatigue()
+	{
+		return 4;
 	}
 
 }

@@ -3,15 +3,17 @@
  */
 package destinee.data;
 
+import destinee.probas.ResolutionAttaque;
+
 /**
  * @author AMOROS contient les informations relatives a la cible du combat
  */
 public class Cible
 {
-	private int nombreDeDesDefenseInitial;
-	private int bonusDefenseInitial;
+	private int nombreDeDesDefense;
+	private int bonusDefense;
 	private int armure;
-	private int malusDesDefense;
+	private double malusDesDefense;
 	private int fatigue;
 	
 	
@@ -20,70 +22,58 @@ public class Cible
 	/**
 	 * Constructeur par défaut
 	 * 
-	 * @param aNombreDeDesDefense
-	 *            nombre de dés de défense
-	 * @param aBonusDefense
-	 *            bonus fixe en défense
-	 * @param aArmure
-	 *            quantité d'armure
+	 * @param aNombreDeDesDefense nombre de dés de défense
+	 * @param aBonusDefense bonus fixe en défense
+	 * @param aArmure quantité d'armure
 	 */
 	public Cible(int aNombreDeDesDefense, int aBonusDefense, int aArmure)
 	{
 		super();
-		nombreDeDesDefenseInitial = aNombreDeDesDefense;
-		bonusDefenseInitial = aBonusDefense;
+		nombreDeDesDefense = aNombreDeDesDefense;
+		bonusDefense = aBonusDefense;
 		armure = aArmure;
-		malusDesDefense = 0;
+		malusDesDefense = 0.5;
 		fatigue = 0;
+	}
+
+	/**
+	 * @return Le nombre de dés de défense effectif : défense initiale - malus
+	 */
+	public int getNbDesDefenseEffectif()
+	{
+		return nombreDeDesDefense - ((int) getMalusDesDefense());
 	}
 
 	/**
 	 * @return the nombreDeDesDefense
 	 */
-	public int getNombreDeDesDefense()
+	public int getNbDesDefense()
 	{
-		return nombreDeDesDefenseInitial - getMalusDesDefense();
-	}
-
-	/**
-	 * @return the nombreDeDesDefenseInitial
-	 */
-	public int getNombreDeDesDefenseInitial()
-	{
-		return nombreDeDesDefenseInitial;
+		return nombreDeDesDefense;
 	}
 	
 	/**
-	 * @param aNombreDeDesDefenseInitial the nombreDeDesDefense to set
+	 * @param aNombreDeDesDefense the nombreDeDesDefense to set
 	 */
-	public void setNombreDeDesDefense(int aNombreDeDesDefenseInitial)
+	public void setNombreDeDesDefense(int aNombreDeDesDefense)
 	{
-		nombreDeDesDefenseInitial = aNombreDeDesDefenseInitial;
+		nombreDeDesDefense = aNombreDeDesDefense;
 	}
 
 	/**
-	 * @return the bonusDefense
+	 * @return Bonus de défense fixe - fatigue
+	 */
+	public int getBonusDefenseEffectif()
+	{
+		return bonusDefense - getFatigue();
+	}
+
+	/**
+	 * @return bonus de défense fixe
 	 */
 	public int getBonusDefense()
 	{
-		return bonusDefenseInitial - getFatigue();
-	}
-
-	/**
-	 * @return the bonusDefenseInitial
-	 */
-	public int getBonusDefenseInitial()
-	{
-		return bonusDefenseInitial;
-	}
-
-	
-	/**
-	 * @param aBonusDefense the bonusDefenseInitial to set
-	 */
-	public void setBonusDefenseInitial(int aBonusDefenseInitial)
-	{
-		bonusDefenseInitial = aBonusDefenseInitial;
+		return bonusDefense;
 	}
 
 	/**
@@ -95,16 +85,7 @@ public class Cible
 	}
 
 	/**
-	 * @param aArmure the armure to set
-	 */
-	public void setArmure(int aArmure)
-	{
-		armure = aArmure;
-	}
-
-
-	/**
-	 * @return the fatigue
+	 * @return la fatigue de la cible
 	 */
 	public int getFatigue()
 	{
@@ -122,7 +103,7 @@ public class Cible
 	/**
 	 * @return the malusDesDefense
 	 */
-	public int getMalusDesDefense()
+	public double getMalusDesDefense()
 	{
 		return malusDesDefense;
 	}
@@ -134,13 +115,60 @@ public class Cible
 	{
 		malusDesDefense = aMalusDesDefense;
 	}
-
+	
 	/**
-	 * @param aNombreDeDesDefenseInitial the nombreDeDesDefenseInitial to set
+	 * Méthode permettant d'incrémenter la fatigue de la cible lors d'une attaque subie
 	 */
-	public void setNombreDeDesDefenseInitial(int aNombreDeDesDefenseInitial)
+	public void incrementerFatigue() 
 	{
-		nombreDeDesDefenseInitial = aNombreDeDesDefenseInitial;
+		fatigue++;
+	}
+	
+	/**
+	 * Réinitialiser la fatigue de la cible
+	 */
+	public void reinitialiserFatigue() 
+	{
+		fatigue = 0;
+	}
+	
+	/**
+	 * Incrémente le malus de défence en fonction de l'attaque subie et du type de résolution
+	 * @param aAttaque une attaque
+	 * @param typeResolution un type de résolution
+	 */
+	public void incrementerMalusDefence(Attaque aAttaque, int typeResolution) 
+	{
+		// Il n'y a pas de malus d'esquive sur une attaque imparable
+		// Pour toutes les autres, on a :
+		// -1D en cas de coup critique
+		// -0,5D en cas de coup simple ou esquive simple
+		// rien en cas d'esquive parfaite
+		if (!(aAttaque instanceof AttaqueImparable)) {
+			switch (typeResolution)
+			{
+				case ResolutionAttaque.RESOLUTION_COUP_CRITIQUE: // attaque critique
+					malusDesDefense += 1;
+					break;
+				case ResolutionAttaque.RESOLUTION_COUP_SIMPLE: // attaque reussie
+					malusDesDefense += 0.5;
+					break;
+				case ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE: // esquive reussie
+					malusDesDefense += 0.5;
+					break;
+				case ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE: // esquive parfaite
+					// malusDesDefense += 0;
+					break;
+			}
+		}
 	}
 
-}
+	/**
+	 * Réinitialiser les malus de défence de la cible
+	 */
+	public void reinitialiserMalusDefence() 
+	{
+		malusDesDefense = 0.5;
+	}
+	
+}	

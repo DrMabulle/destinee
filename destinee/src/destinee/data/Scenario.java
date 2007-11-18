@@ -5,9 +5,11 @@ package destinee.data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import destinee.probas.ResolutionAttaque;
+import destinee.utils.CachePersos;
 
 /**
  * @author bkessler
@@ -74,20 +76,26 @@ public class Scenario
 	 * Méthode permettant d'évaluer le scénario, en termes d'espérance de dégâts
 	 * et de probabilité de réalisation
 	 */
+	@SuppressWarnings("unchecked")
 	private void evalerEvenement() {
 		
 		probaRealisation = new BigDecimal(1);
 		esperanceDegats = 0;
 		
+		// Réinitialiser la fatigue et les malus de la cible et des persos
+		cible.reinitialiserFatigue();
+		cible.reinitialiserMalusDefence();
+		for (Iterator iterator = CachePersos.getInstance().getEnsemblePersos().iterator(); iterator.hasNext();)
+		{
+			Perso perso = (Perso) iterator.next();
+			perso.reinitialiserFatigue();
+		}
 		
 		BigDecimal probaTmp = null;
 		double esperanceTmp = 0;
 		
-		double malusDesDef = 0.5;
-		
 		for (ScenarioElement scenarioElemt : listeElements)
 		{
-			// TODO
 			probaTmp = ResolutionAttaque.resoudreAttaque(scenarioElemt.getAttaque(), cible, scenarioElemt.getTypeResolution());
 			esperanceTmp = ResolutionAttaque.esperanceDeDegats(scenarioElemt.getAttaque(), cible, scenarioElemt.getTypeResolution());
 			
@@ -97,37 +105,32 @@ public class Scenario
 			// Additionner l'espérance de dégâts de l'élément scénaristique à l'espérance de dégâts cumulée
 			esperanceDegats += esperanceTmp;
 			
-			// Incrémenter le compteur des malus de défense
-			if (scenarioElemt.getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_CRITIQUE) {
-				
-				malusDesDef += 1;
-				
-			} else if (scenarioElemt.getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_SIMPLE
-					|| scenarioElemt.getTypeResolution() == ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE) {
-				
-				malusDesDef += 0.5;
-			}
+			// Incrémenter les malus de la cible
+			cible.incrementerFatigue();
+			cible.incrementerMalusDefence(scenarioElemt.getAttaque(), scenarioElemt.getTypeResolution());
 			
-			//malus appliqués a la cible
-			cible.setFatigue(cible.getFatigue()+1);
-			cible.setMalusDesDefense((int)malusDesDef);
-			
-			//incrementation de la fatigue du perso en fonction du type d'attaque
-			if (scenarioElemt.getAttaque().getTypeAttaque() == "Berserk")
-			{
-					scenarioElemt.getAttaque().getPerso().setFatigue(scenarioElemt.getAttaque().getPerso().getFatigue() + 4);
-			}
-			else if (scenarioElemt.getAttaque().getTypeAttaque() == "Rapide")
-			{
-					scenarioElemt.getAttaque().getPerso().setFatigue(scenarioElemt.getAttaque().getPerso().getFatigue() + 1);
-			}
-			else if (scenarioElemt.getAttaque().getTypeAttaque() != "Magique")
-			{
-				scenarioElemt.getAttaque().getPerso().setFatigue(scenarioElemt.getAttaque().getPerso().getFatigue() + 2);
-				
-			}
+			// Incrémenter la fatigue du perso
+			scenarioElemt.getAttaque().getPerso().incrementerFatigue(scenarioElemt.getAttaque());
 		}	
 		//TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
 		//TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
+	}
+	
+	/**
+	 * Méthode permettant de récupérer l'identifiant de la chaine d'attaques utilisée dans ce scénario
+	 * @return l'identifiant de la chaine d'attaques utilisée dans ce scénario
+	 */
+	public String getIdentifiantChaineAttaques() 
+	{
+		StringBuffer sb = new StringBuffer("");
+		
+		for (ScenarioElement scenarioElemt : listeElements)
+		{
+			sb.append(scenarioElemt.getAttaque().getPerso().getIdentifiant());
+			sb.append(scenarioElemt.getAttaque().getTypeAttaque());
+			sb.append("-");
+		}
+		
+		return sb.toString();
 	}
 }

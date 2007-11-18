@@ -74,4 +74,12 @@ public class AttaqueImparable extends AttaqueAbstract
 		return "Imparable";
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.data.Attaque#getAugmentationFatigue()
+	 */
+	public int getAugmentationFatigue()
+	{
+		return 2;
+	}
+
 }
