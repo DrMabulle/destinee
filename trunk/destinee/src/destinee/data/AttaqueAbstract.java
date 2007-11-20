@@ -6,7 +6,7 @@ package destinee.data;
 /**
  * classe abstraite des attaques
  * 
- * @author AMOROS
+ * @author Bubulle et No-one
  * 
  */
 public abstract class AttaqueAbstract implements Attaque

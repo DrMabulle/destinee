@@ -14,7 +14,7 @@ import destinee.data.ChaineAttaques;
 import destinee.data.Scenario;
 
 /**
- * @author bkessler
+ * @author Bubulle et No-one
  * 
  */
 public class GestionnaireChainesAttaques

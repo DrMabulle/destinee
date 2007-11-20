@@ -12,7 +12,7 @@ import destinee.probas.ResolutionAttaque;
 import destinee.utils.CachePersos;
 
 /**
- * @author bkessler
+ * @author Bubulle et No-one
  *
  */
 public class Scenario
@@ -132,5 +132,17 @@ public class Scenario
 		}
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * Méthode permettant d'ajouter un élément scénaristique au scénario
+	 * @param aScenarioElmt le ScenarioElement à ajouter
+	 */
+	public void ajouterElement(ScenarioElement aScenarioElmt)
+	{
+		listeElements.add(aScenarioElmt);
+		// réinitialiser les probas et espérances
+		probaRealisation = null;
+		esperanceDegats = 0;
 	}
 }

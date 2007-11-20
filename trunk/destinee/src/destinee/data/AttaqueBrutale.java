@@ -4,7 +4,7 @@
 package destinee.data;
 
 /**
- * @author AMOROS
+ * @author Bubulle et No-one
  * 
  */
 public class AttaqueBrutale extends AttaqueAbstract 

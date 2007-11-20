@@ -12,7 +12,7 @@ import destinee.core.utils.ConversionUtil;
 import destinee.data.*;
 
 /**
- * @author AMOROS
+ * @author Bubulle et No-one
  * 
  */
 public class ResolutionAttaque
