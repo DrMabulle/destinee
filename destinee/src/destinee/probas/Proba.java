@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import destinee.core.utils.CacheProba;
 
 /**
- * @author AMOROS
+ * @author Bubulle et No-one
  *
  * Class utilitaire pour les calculs de probas
  */

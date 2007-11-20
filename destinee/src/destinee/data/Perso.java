@@ -4,7 +4,7 @@
 package destinee.data;
 
 /**
- * @author AMOROS
+ * @author Bubulle et No-one
  * 
  * Perso servira a stocker les caracteristiques de chaque personnage Un
  * personnage est défini par son nolbre de dés d'attaque, son bonus d'attaque

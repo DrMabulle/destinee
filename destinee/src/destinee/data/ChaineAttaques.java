@@ -10,7 +10,7 @@ import java.util.Set;
 import destinee.core.utils.ConversionUtil;
 
 /**
- * @author bkessler
+ * @author Bubulle et No-one
  *
  */
 public class ChaineAttaques

@@ -6,7 +6,8 @@ package destinee.data;
 import destinee.probas.ResolutionAttaque;
 
 /**
- * @author AMOROS contient les informations relatives a la cible du combat
+ * @author Bubulle et No-one 
+ * Class contenant les informations relatives à la cible du combat
  */
 public class Cible
 {

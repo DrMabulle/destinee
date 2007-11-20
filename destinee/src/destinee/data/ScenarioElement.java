@@ -4,7 +4,7 @@
 package destinee.data;
 
 /**
- * @author bkessler
+ * @author Bubulle et No-one
  *
  */
 public class ScenarioElement

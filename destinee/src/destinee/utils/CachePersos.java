@@ -11,7 +11,7 @@ import java.util.Set;
 import destinee.data.Perso;
 
 /**
- * @author bkessler
+ * @author Bubulle et No-one
  * Cache de gestion des Persos utilisés
  */
 public class CachePersos
