@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author AMOROS 
+ * @author Bubulle et No-one 
  * Cache utilisé pour les calculs de Proba, ProbaPlus et ProbaMoins
  */
 public class CacheProba

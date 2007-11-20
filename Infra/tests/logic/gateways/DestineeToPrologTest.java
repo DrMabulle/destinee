@@ -9,7 +9,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 /**
- * @author Bubulle
+ * @author Bubulle et No-one
  *
  */
 public class DestineeToPrologTest extends TestCase

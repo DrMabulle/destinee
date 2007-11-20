@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import junit.framework.TestCase;
 
 /**
- * @author Bubulle
+ * @author Bubulle et No-one
  *
  */
 public class ConversionUtilTest extends TestCase

@@ -4,6 +4,10 @@ package logic.gateways;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Bubulle et No-one
+ *
+ */
 public interface DestineeToLogicGateway
 {
 	/**
