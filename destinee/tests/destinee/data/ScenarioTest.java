@@ -70,5 +70,12 @@ public class ScenarioTest extends TestCase
 		
 		assertTrue(proba.compareTo(probaScenar) == 0);
 	}
+	
+	public void testGetIdentifiant()
+	{
+		String id1 = scenar.getIdentifiantChaineAttaques();
+		
+		assertEquals("AttaquantNormale-", id1);
+	}
 
 }
