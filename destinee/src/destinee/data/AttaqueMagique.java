@@ -3,6 +3,8 @@
  */
 package destinee.data;
 
+import destinee.constantes.ConstantesAttaques;
+
 /**
  * @author Bubulle et No-one
  * 
@@ -48,23 +50,29 @@ public class AttaqueMagique extends AttaqueAbstract
 		return (int) (0.5 * getPerso().getNombreDeDesPM());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
 	public int getBonusDeg(int aArmureCible)
 	{
-		return (int) ( 0.5 * getPerso().getBonusPM() );
+		return (int) (0.5 * getPerso().getBonusPM());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
-		return (int) ( 0.5 * getPerso().getBonusPM() );
+		return (int) (0.5 * getPerso().getBonusPM());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
 	 */
 	public int getNbDesDegatsCritique()
@@ -72,15 +80,19 @@ public class AttaqueMagique extends AttaqueAbstract
 		return (int) (0.5 * getPerso().getNombreDeDesPM());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getTypeAttaque()
 	 */
 	public String getTypeAttaque()
 	{
-		return "Magique";
+		return ConstantesAttaques.ID_ATTAQUE_MAGIQUE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getAugmentationFatigue()
 	 */
 	public int getAugmentationFatigue()

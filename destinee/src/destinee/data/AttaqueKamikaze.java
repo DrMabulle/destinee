@@ -3,9 +3,11 @@
  */
 package destinee.data;
 
+import destinee.constantes.ConstantesAttaques;
+
 /**
  * @author Bubulle et No-one
- *
+ * 
  */
 public class AttaqueKamikaze extends AttaqueAbstract
 {
@@ -21,7 +23,9 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		super(aPerso);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusAtt()
 	 */
 	public int getBonusAtt()
@@ -29,7 +33,9 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		return getPerso().getBonusAttaqueEffectif();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesAtt()
 	 */
 	public int getNbDesAtt()
@@ -37,7 +43,9 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		return (getPerso().getNombreDeDesAttaque() + bonusDesAttaque);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDeg()
 	 */
 	public int getNbDesDeg()
@@ -77,7 +85,9 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		bonusDesDegats = aBonusDesDegats;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
 	public int getBonusDeg(int aArmureCible)
@@ -85,7 +95,9 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
@@ -93,23 +105,29 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
 	 */
 	public int getNbDesDegatsCritique()
 	{
-		return (int) ( 1.5 *(getPerso().getNombreDeDesDegats() + getBonusDesDegats()));
+		return (int) (1.5 * (getPerso().getNombreDeDesDegats() + getBonusDesDegats()));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getTypeAttaque()
 	 */
 	public String getTypeAttaque()
 	{
-		return "Kamikaze";
+		return ConstantesAttaques.ID_ATTAQUE_KAMIKAZE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getAugmentationFatigue()
 	 */
 	public int getAugmentationFatigue()

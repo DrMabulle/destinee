@@ -3,6 +3,8 @@
  */
 package destinee.data;
 
+import destinee.constantes.ConstantesAttaques;
+
 /**
  * @author Bubulle et No-one
  * 
@@ -48,7 +50,9 @@ public class AttaquePrecise extends AttaqueAbstract
 		return (int) (0.667 * getPerso().getNombreDeDesDegats());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
 	public int getBonusDeg(int aArmureCible)
@@ -56,7 +60,9 @@ public class AttaquePrecise extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
@@ -64,23 +70,29 @@ public class AttaquePrecise extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
 	 */
 	public int getNbDesDegatsCritique()
 	{
-		return (int) (((int) (0.667 * getPerso().getNombreDeDesDegats()) * 1.5 ));
+		return (int) (((int) (0.667 * getPerso().getNombreDeDesDegats()) * 1.5));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getTypeAttaque()
 	 */
 	public String getTypeAttaque()
 	{
-		return "Précise";
+		return ConstantesAttaques.ID_ATTAQUE_PRECISE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getAugmentationFatigue()
 	 */
 	public int getAugmentationFatigue()

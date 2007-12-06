@@ -3,6 +3,7 @@
  */
 package destinee.data;
 
+import destinee.constantes.ConstantesAttaques;
 
 /**
  * @author Bubulle et No-one
@@ -49,7 +50,9 @@ public class AttaqueRapide extends AttaqueAbstract
 		return (int) (0.5 * getPerso().getNombreDeDesDegats());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
 	public int getBonusDeg(int aArmureCible)
@@ -57,7 +60,9 @@ public class AttaqueRapide extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
@@ -65,23 +70,29 @@ public class AttaqueRapide extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
 	 */
 	public int getNbDesDegatsCritique()
 	{
-		return (int)(1.5 * (int) 0.5 * getPerso().getNombreDeDesDegats());
+		return (int) (1.5 * (int) 0.5 * getPerso().getNombreDeDesDegats());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getTypeAttaque()
 	 */
 	public String getTypeAttaque()
 	{
-		return "Rapide";
+		return ConstantesAttaques.ID_ATTAQUE_RAPIDE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getAugmentationFatigue()
 	 */
 	public int getAugmentationFatigue()

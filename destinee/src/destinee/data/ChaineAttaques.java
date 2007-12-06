@@ -11,7 +11,7 @@ import destinee.core.utils.ConversionUtil;
 
 /**
  * @author Bubulle et No-one
- *
+ * 
  */
 public class ChaineAttaques
 {
@@ -19,7 +19,7 @@ public class ChaineAttaques
 	private String identifiant;
 	private double esperanceDegatCumulee = 0;
 	private BigDecimal probaRealisationCumulee = new BigDecimal(0);
-	
+
 	/**
 	 * Constructeur par défaut
 	 */
@@ -31,20 +31,21 @@ public class ChaineAttaques
 
 	/**
 	 * Méthode permettant d'ajouter un scénario à la chaine d'attaque, et ainsi cumuler les espérances de dégâts
+	 * 
 	 * @param aScenario le scénario à ajouter
 	 */
-	public void ajouterScenario(Scenario aScenario) 
+	public void ajouterScenario(Scenario aScenario)
 	{
 		// On n'ajoute qu'une seule fois chaque scénario
-		if (!scenarios.contains(aScenario)) 
+		if (!scenarios.contains(aScenario))
 		{
 			// Ajouter le scénario
 			scenarios.add(aScenario);
-			
+
 			// Cumuler l'espérance de dégâts pondérée par la proba de réalisation
-			esperanceDegatCumulee = esperanceDegatCumulee * ConversionUtil.bigdecimalVersDouble(probaRealisationCumulee, 10)
-				+ aScenario.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(aScenario.getProbaRealisation(), 10);
-			
+			esperanceDegatCumulee = esperanceDegatCumulee * ConversionUtil.bigdecimalVersDouble(probaRealisationCumulee, 10) + aScenario.getEsperanceDegats()
+					* ConversionUtil.bigdecimalVersDouble(aScenario.getProbaRealisation(), 10);
+
 			// Cumuler les probas de réalisation de l'ensemble des scénarios
 			probaRealisationCumulee = probaRealisationCumulee.add(aScenario.getProbaRealisation());
 		}
@@ -73,5 +74,5 @@ public class ChaineAttaques
 	{
 		return identifiant;
 	}
-	
+
 }

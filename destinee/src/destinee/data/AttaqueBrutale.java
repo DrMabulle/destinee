@@ -3,11 +3,13 @@
  */
 package destinee.data;
 
+import destinee.constantes.ConstantesAttaques;
+
 /**
  * @author Bubulle et No-one
  * 
  */
-public class AttaqueBrutale extends AttaqueAbstract 
+public class AttaqueBrutale extends AttaqueAbstract
 {
 
 	/**
@@ -27,7 +29,6 @@ public class AttaqueBrutale extends AttaqueAbstract
 	{
 		return getPerso().getBonusAttaqueEffectif();
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -49,7 +50,9 @@ public class AttaqueBrutale extends AttaqueAbstract
 		return (int) (1.5 * getPerso().getNombreDeDesDegats());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
 	public int getBonusDeg(int aArmureCible)
@@ -57,7 +60,9 @@ public class AttaqueBrutale extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
@@ -65,7 +70,9 @@ public class AttaqueBrutale extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
 	 */
 	public int getNbDesDegatsCritique()
@@ -73,15 +80,19 @@ public class AttaqueBrutale extends AttaqueAbstract
 		return (int) (2.25 * getPerso().getNombreDeDesDegats());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getTypeAttaque()
 	 */
 	public String getTypeAttaque()
 	{
-		return "Brutale";
+		return ConstantesAttaques.ID_ATTAQUE_BRUTALE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getAugmentationFatigue()
 	 */
 	public int getAugmentationFatigue()

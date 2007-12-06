@@ -3,9 +3,11 @@
  */
 package destinee.data;
 
+import destinee.constantes.ConstantesAttaques;
+
 /**
  * @author Bubulle et No-one
- *
+ * 
  */
 public class AttaqueImparable extends AttaqueAbstract
 {
@@ -18,7 +20,9 @@ public class AttaqueImparable extends AttaqueAbstract
 		super(aPerso);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusAtt()
 	 */
 	public int getBonusAtt()
@@ -26,7 +30,9 @@ public class AttaqueImparable extends AttaqueAbstract
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesAtt()
 	 */
 	public int getNbDesAtt()
@@ -34,7 +40,9 @@ public class AttaqueImparable extends AttaqueAbstract
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDeg()
 	 */
 	public int getNbDesDeg()
@@ -42,7 +50,9 @@ public class AttaqueImparable extends AttaqueAbstract
 		return getPerso().getNombreDeDesAttaque();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
 	public int getBonusDeg(int aArmureCible)
@@ -50,7 +60,9 @@ public class AttaqueImparable extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
@@ -58,7 +70,9 @@ public class AttaqueImparable extends AttaqueAbstract
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getNbDesDegatsCritique()
 	 */
 	public int getNbDesDegatsCritique()
@@ -66,15 +80,19 @@ public class AttaqueImparable extends AttaqueAbstract
 		return getPerso().getNombreDeDesDegats();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getTypeAttaque()
 	 */
 	public String getTypeAttaque()
 	{
-		return "Imparable";
+		return ConstantesAttaques.ID_ATTAQUE_IMPARABLE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getAugmentationFatigue()
 	 */
 	public int getAugmentationFatigue()
