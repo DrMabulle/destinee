@@ -13,30 +13,30 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ubc.cs.JLog.Foundation.jPrologAPI;
+import java.util.Vector;
 
+import ubc.cs.JLog.Foundation.jPrologAPI;
 
 /**
  * @author Benoit Kessler
  */
-public class LogicToPrologGatewayImpl implements LogicToPrologGateway 
+public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 {
 	// List of facts stored
 	private List<String> itsFacts;
 	// List of rules stored
 	private List<String> itsRules;
 	// input stream used for the prolog system
-    private InputStream itsInputStream; 
-    // the prolog session
-    private jPrologAPI itsPrologAPI;
-    // simple optimisation
+	private InputStream itsInputStream;
+	// the prolog session
+	private jPrologAPI itsPrologAPI;
+	// simple optimisation
 	private boolean hasChanged;
 	// default gateway
 	private static LogicToPrologGatewayImpl itsGateway;
-    // storing temp file
-    private File itsStoringFile;
-	
-	
+	// storing temp file
+	private File itsStoringFile;
+
 	/**
 	 * creates its own instance of PrologInterfaceFactory
 	 */
@@ -48,17 +48,17 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		itsFacts = new ArrayList<String>();
 		itsRules = new ArrayList<String>();
 	}
-	
-	public void addFact(String aFact) 
+
+	public void addFact(String aFact)
 	{
-        if (!itsFacts.contains(aFact))
-        {
-            itsFacts.add(aFact);
-            hasChanged = true;
-        }
+		if (!itsFacts.contains(aFact))
+		{
+			itsFacts.add(aFact);
+			hasChanged = true;
+		}
 	}
 
-	public void addRule(String aRule) 
+	public void addRule(String aRule)
 	{
 		itsRules.add(aRule);
 		hasChanged = true;
@@ -66,88 +66,92 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 
 	public Map<String, String> queryOnce(String aQuery)
 	{
-		if(hasChanged)
+		if (hasChanged)
 		{
 			// create the file with the rules and facts
-			try 
+			try
 			{
-                createTheFile();
-                hasChanged = false;
-                // consult the file
-                if (itsPrologAPI == null)
-                {
-                    itsPrologAPI = new jPrologAPI(itsInputStream);
-                    itsPrologAPI.setFailUnknownPredicate(true);
-                }
-                else itsPrologAPI.consultSource(itsStoringFile.getPath());
-			} 
-			catch (IOException e) 
+				createTheFile();
+				hasChanged = false;
+				// consult the file
+				if (itsPrologAPI == null)
+				{
+					itsPrologAPI = new jPrologAPI(itsInputStream);
+					itsPrologAPI.setFailUnknownPredicate(true);
+				}
+				else
+					itsPrologAPI.consultSource(itsStoringFile.getPath());
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		// query	
+		// query
 		return itsPrologAPI.queryOnce(aQuery);
 	}
 
 	@SuppressWarnings("serial")
-    public List<Map<String, String>> queryAll(String aQuery) 
+	public List<Map<String, Vector<String>>> queryAll(String aQuery)
 	{
-		if(hasChanged)
+		if (hasChanged)
 		{
 			// create the file with the rules and facts
-			try 
+			try
 			{
-                createTheFile();
-                hasChanged = false;
-                // consult the file
-                if (itsPrologAPI == null)
-                {
-                    itsPrologAPI = new jPrologAPI(itsInputStream);
-                    itsPrologAPI.setFailUnknownPredicate(true);
-                }
-                else itsPrologAPI.consultSource(itsStoringFile.getPath());
-			} 
-			catch (IOException e) 
+				createTheFile();
+				hasChanged = false;
+				// consult the file
+				if (itsPrologAPI == null)
+				{
+					itsPrologAPI = new jPrologAPI(itsInputStream);
+					itsPrologAPI.setFailUnknownPredicate(true);
+				}
+				else
+					itsPrologAPI.consultSource(itsStoringFile.getPath());
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		// query	
-        List<Map<String, String>> theResult = new ArrayList<Map<String, String>>();
-        Map<String, String> theQueryResult;
+		// query
+		List<Map<String, Vector<String>>> theResult = new ArrayList<Map<String, Vector<String>>>();
+		Map<String, Vector<String>> theQueryResult;
 
-        theQueryResult = itsPrologAPI.query(aQuery);
+		theQueryResult = itsPrologAPI.query(aQuery);
 
-        while (theQueryResult != null)
-        {
-            theResult.add(theQueryResult);
-            theQueryResult = itsPrologAPI.retry();
-        }
+		while (theQueryResult != null)
+		{
+			theResult.add(theQueryResult);
+			theQueryResult = itsPrologAPI.retry();
+		}
 		return theResult;
 	}
-	
+
 	private void createTheFile() throws IOException
 	{
-        try
-        {
-            itsStoringFile = File.createTempFile("DestineeTemp", ".pl");
-            itsInputStream = new FileInputStream(itsStoringFile);
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        
+		try
+		{
+			itsStoringFile = File.createTempFile("DestineeTemp", ".pl");
+			itsInputStream = new FileInputStream(itsStoringFile);
+		}
+		catch (FileNotFoundException e)
+		{
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
 		String theTempContent = "";
 		if (itsStoringFile.createNewFile())
 		{
 			FileWriter theFileWriter = new FileWriter(itsStoringFile, false);
 			BufferedWriter theWriter = new BufferedWriter(theFileWriter);
-			
+
 			theTempContent = createContents();
-			
+
 			theWriter.write(theTempContent, 0, theTempContent.length());
 			theWriter.close();
 			theFileWriter.close();
@@ -158,9 +162,9 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 			{
 				FileWriter theFileWriter = new FileWriter(itsStoringFile, false);
 				BufferedWriter theWriter = new BufferedWriter(theFileWriter);
-				
+
 				theTempContent = createContents();
-				
+
 				theWriter.write(theTempContent, 0, theTempContent.length());
 				theWriter.close();
 				theFileWriter.close();
@@ -194,32 +198,31 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		}
 		return itsGateway;
 	}
-	
+
 	public void dispose()
 	{
-        if(itsGateway != null)
-		{ 
-            if(itsStoringFile!=null) itsStoringFile.delete();
-            if(itsPrologAPI != null) itsPrologAPI.stop();
-            itsPrologAPI = null;
-            itsGateway = null;
-        }
+		if (itsGateway != null)
+		{
+			if (itsStoringFile != null)
+				itsStoringFile.delete();
+			if (itsPrologAPI != null)
+				itsPrologAPI.stop();
+			itsPrologAPI = null;
+			itsGateway = null;
+		}
 	}
 
-
-	public void flushFacts() 
+	public void flushFacts()
 	{
 		itsFacts = new ArrayList<String>();
 		hasChanged = true;
 	}
 
-
-	public void flushRules() 
+	public void flushRules()
 	{
 		itsRules = new ArrayList<String>();
 		hasChanged = true;
 	}
-
 
 	public void flush()
 	{
