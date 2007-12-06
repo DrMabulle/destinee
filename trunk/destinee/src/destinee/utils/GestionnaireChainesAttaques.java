@@ -33,7 +33,7 @@ public class GestionnaireChainesAttaques
 	/**
 	 * @return default instance
 	 */
-	public GestionnaireChainesAttaques getInstance()
+	public static GestionnaireChainesAttaques getInstance()
 	{
 		return instance;
 	}
@@ -58,8 +58,7 @@ public class GestionnaireChainesAttaques
 	}
 
 	/**
-	 * Méthode permettant de récuperer la liste de toutes les chaines
-	 * d'attaques, ordonnée suivant l'espérance de dégâts décroissante
+	 * Méthode permettant de récuperer la liste de toutes les chaines d'attaques, ordonnée suivant l'espérance de dégâts décroissante
 	 * 
 	 * @return le liste des chaines d'attaque ordonnée
 	 */
@@ -82,7 +81,8 @@ public class GestionnaireChainesAttaques
 			Double espeDeg1 = new Double(aO1.getEsperanceDegatCumulee());
 			Double espeDeg2 = new Double(aO2.getEsperanceDegatCumulee());
 
-			return espeDeg1.compareTo(espeDeg2);
+			// On veut l'ordre décroissant => faire les tests à l'envers
+			return espeDeg2.compareTo(espeDeg1);
 		}
 
 	}
