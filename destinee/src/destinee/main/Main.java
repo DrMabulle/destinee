@@ -26,8 +26,7 @@ public class Main
 	public static void main(String[] args) throws DestineeException
 	{
 		long startTime = System.currentTimeMillis();
-		
-		
+
 		Perso koumi = new Perso(16, 10, 12, 7, 5, 0, 0, "Koumi");
 		Perso noone = new Perso(12, 0, 8, 0, 5, 0, 0, "No-one");
 
@@ -37,7 +36,7 @@ public class Main
 		DestineeToLogicGateway prolog = DestineeToLogicGatewayImpl.getDefaultInstance();
 
 		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_NORMALE);
-		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
+//		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
 		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
 		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
 
@@ -48,6 +47,24 @@ public class Main
 
 		Cible cible = new Cible(10, -5, 15);
 
+		
+		
+		prolog.ajouterPerso(koumi.getIdentifiant(), 
+			koumi.getNombreDeDesAttaque(), koumi.getBonusAttaque(), 
+			koumi.getNombreDeDesDegats(), koumi.getBonusDegats(), 
+			10, 0);
+
+//		prolog.ajouterPerso(noone.getIdentifiant(), 
+//			noone.getNombreDeDesAttaque(), noone.getBonusAttaque(), 
+//			noone.getNombreDeDesDegats(), noone.getBonusDegats(), 
+//			10, 0);
+
+//		String queryString = "generationListeAttaques(L).";
+//		Map<String, Vector<String>> temp = prolog.queryOnce(queryString);
+//		Vector<String> listeInitiale = temp.get("L");
+		
+
+//		queryString = "genererScenarios(" + ConversionUtil.generatePrologListFromSringCollection(listeInitiale) + ", Result).";
 		String queryString = "genererScenarios([att('Koumi','Normale'),att('Koumi','Normale'),att('Koumi','Rapide')], Result).";
 		List<Map<String, Vector<String>>> resultQuery = prolog.query(queryString);
 		DestineeQueryProcessor.processQuery(resultQuery, "Result", cible);
@@ -61,9 +78,8 @@ public class Main
 			System.out.println("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
 			System.out.println("Probabilité de réalisation : " + ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10));
 		}
-		
+
 		System.out.println("-----------------------------");
 		System.out.println("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(System.currentTimeMillis() - startTime) + "ms");
 	}
-
 }

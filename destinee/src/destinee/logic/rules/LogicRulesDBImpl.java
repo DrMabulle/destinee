@@ -116,35 +116,6 @@ private List<String> rulesList;
         		"	changeAtt(Tmp, ListeScenarios).");
         
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Méthode permettant de remplacer une attaque à N PA par une autre à N PA\n" +
-        		"% changeAtt(ListAtts, NewListAtt).\n" +
-        		"changeAtt([], []).\n" +
-        		"changeAtt([att(Nom, Type, Resolution) | SuiteAtts], L) :-\n" +
-        		"	changeAtt(SuiteAtts, Tmp),\n" +
-        		"	insereAtt(att(Nom, Type, Resolution), Tmp, L).\n" +
-        		"changeAtt([att(Nom, Type, Resolution) | SuiteAtts], L) :-\n" +
-        		"	attaque(Nom, Type2),\n" +
-        		"	Type \\== Type2,\n" +
-        		"	Type2 \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
-        		"	Type2 \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
-        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
-        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
-        		"	changeAtt(SuiteAtts, Tmp),\n" +
-        		"	insereAtt(att(Nom, Type2, Resolution), Tmp, L).\n" +
-        		"% Changer une attaque normale en deux rapides\n" +
-        		"changeAtt([att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution) | SuiteAtts], L) :-\n" +
-        		"	changeAtt(SuiteAtts, Tmp),\n" +
-        		"	attaque(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "'),\n" +
-        		"	concat([att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', Resolution), att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', Resolution)], Tmp, L).\n" +
-        		"% Changer deux normales de même résolution et du même perso en une bersek\n" +
-        		"changeAtt([att(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution1), att(Nom2, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution2) | SuiteAtts], L) :-\n" +
-        		"	Nom1 == Nom2,\n" +
-        		"	Resolution1 == Resolution2,\n" +
-        		"	attaque(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "'),\n" +
-        		"	changeAtt(SuiteAtts, Tmp),\n" +
-        		"	insereAtt(att(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "', Resolution1), Tmp, L).");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
     			"% Méthode permettant d'ajouter les types de résolution aux différentes attaques\n" +
     			"ajouterResolution([], []).\n" +
         		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Coup critique') | Tail2]) :-\n" +
@@ -156,6 +127,63 @@ private List<String> rulesList;
         		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Esquive parfaite') | Tail2]) :-\n" +
         		"	ajouterResolution(Tail, Tail2).");
         
+        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
+        		"% Méthode permettant de remplacer une attaque à N PA par une autre à N PA\n" +
+        		"% changeAtt(ListAtts, NewListAtt).\n" +
+        		"changeAtt([], []).\n" +
+        		"changeAtt(Entree, Result) :-\n" +
+        		"	changerNormaleBerserk(Entree, Result1),\n" +
+        		"	changerNormaleRapide(Result1, Result2),\n" +
+        		"	permutterAttaques(Result2, Result3),\n" +
+        		"	modifierType(Result3, Result).");
+        
+        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
+        		"% Méthode permettant de permutter les attaques d'une chaine d'attaque\n" +
+        		"permutterAttaques([], []).\n" +
+        		"permutterAttaques([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
+        		"	permutterAttaques(SuiteAtts, Result1),\n" +
+        		"	insereAtt(att(Nom, Type, Resolution), Result1, Result).");
+
+        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
+        		"% Méthode permettant de modifier le type d'une attaque\n" +
+        		"modifierType([], []).\n" +
+        		"modifierType([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
+        		"	modifierType(SuiteAtts, Result1),\n" +
+        		"	concat([att(Nom, Type, Resolution)], Result1, Result).\n" +
+        		"modifierType([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
+        		"	attaque(Nom, Type2),\n" +
+        		"	Type \\== Type2,\n" +
+        		"	Type2 \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
+        		"	Type2 \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
+        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
+        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
+        		"	modifierType(SuiteAtts, Result1),\n" +
+        		"	concat([att(Nom, Type2, Resolution)], Result1, Result).");
+
+        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
+        		"% Méthode permettant de changer une attaque normale en deux attaques rapides\n" +
+        		"changerNormaleRapide([], []).\n" +
+        		"changerNormaleRapide([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
+        		"	changerNormaleRapide(SuiteAtts, Result1),\n" +
+        		"	concat([att(Nom, Type, Resolution)], Result1, Result).\n" +
+        		"changerNormaleRapide([att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution) | SuiteAtts], Result) :-\n" +
+        		"	attaque(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "'),\n" +
+        		"	changerNormaleRapide(SuiteAtts, Result1),\n" +
+        		"	concat([att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', Resolution), att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', Resolution)], Result1, Result).");
+        
+        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
+        		"% Méthode permettant de changer deux attaques normales en une berserk\n" +
+        		"changerNormaleBerserk([], []).\n" +
+         		"changerNormaleBerserk([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
+        		"	changerNormaleBerserk(SuiteAtts, Result1),\n" +
+        		"	concat([att(Nom, Type, Resolution)], Result1, Result).\n" +
+        		"changerNormaleBerserk([att(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution1), att(Nom2, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution2) | SuiteAtts], Result) :-\n" +
+        		"	Nom1 == Nom2,\n" +
+        		"	Resolution1 == Resolution2,\n" +
+        		"	attaque(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "'),\n" +
+        		"	changerNormaleBerserk(SuiteAtts, Result1),\n" +
+        		"	concat([att(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "', Resolution1)], Result1, Result).");
+
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	\n" +
         		"% Méthode permettant de creer une première liste d'attaques (normales) en fonction des persos et de leurs PA\n" +
         		"generationListeAttaques(L) :- genererListeAtt(L, []).\n" +

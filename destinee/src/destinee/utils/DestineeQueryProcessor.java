@@ -71,7 +71,7 @@ public class DestineeQueryProcessor
 						Attaque attaque = getNouvelleAttaque(typeAttaque, attaquant);
 
 						// Construire un ScenarioElement avec ces données et l'ajouté au scénario
-						ScenarioElement scenarElt = new ScenarioElement(attaque, getTypeResolution(typeResolution));
+						ScenarioElement scenarElt = getScenarioElement(attaque, typeResolution);
 						scenar.ajouterElement(scenarElt);
 					}
 
@@ -89,6 +89,27 @@ public class DestineeQueryProcessor
 		{
 			throw new FonctionnalException("Résultats de la query Prolog vides.");
 		}
+	}
+
+	/**
+	 * @param aAttaque une attaque
+	 * @param aTypeResolution un type de résolution
+	 * @return le ScenarioElement correspondant
+	 * @throws TechnicalException si le type de résolution est erroné
+	 */
+	private static ScenarioElement getScenarioElement(Attaque aAttaque, String aTypeResolution) throws TechnicalException
+	{
+		int typeResol = getTypeResolution(aTypeResolution);
+		String idScenarElt = CacheScenarioElements.getIdentifiantScenarioElement(aAttaque, typeResol);
+		ScenarioElement scenarElt = CacheScenarioElements.getInstance().getScenarioElement(idScenarElt);
+
+		if (scenarElt == null)
+		{
+			scenarElt = new ScenarioElement(aAttaque, typeResol);
+			CacheScenarioElements.getInstance().addScenarioElement(idScenarElt, scenarElt);
+		}
+
+		return scenarElt;
 	}
 
 	/**
@@ -128,42 +149,47 @@ public class DestineeQueryProcessor
 	 */
 	private static Attaque getNouvelleAttaque(String aTypeAttaque, Perso aAttaquant) throws TechnicalException
 	{
-		Attaque attaque = null;
+		String idAttaque = CacheAttaques.getIdentifiantAttaque(aAttaquant, aTypeAttaque);
+		Attaque attaque = CacheAttaques.getInstance().getAttaque(idAttaque);
+		if (attaque == null)
+		{
+			if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
+			{
+				attaque = new AttaqueBerserk(aAttaquant);
+			}
+			else if (ConstantesAttaques.ID_ATTAQUE_BRUTALE.equals(aTypeAttaque))
+			{
+				attaque = new AttaqueBrutale(aAttaquant);
+			}
+			else if (ConstantesAttaques.ID_ATTAQUE_IMPARABLE.equals(aTypeAttaque))
+			{
+				attaque = new AttaqueImparable(aAttaquant);
+			}
+			else if (ConstantesAttaques.ID_ATTAQUE_MAGIQUE.equals(aTypeAttaque))
+			{
+				attaque = new AttaqueMagique(aAttaquant);
+			}
+			else if (ConstantesAttaques.ID_ATTAQUE_NORMALE.equals(aTypeAttaque))
+			{
+				attaque = new AttaqueNormale(aAttaquant);
+			}
+			else if (ConstantesAttaques.ID_ATTAQUE_PRECISE.equals(aTypeAttaque))
+			{
+				attaque = new AttaquePrecise(aAttaquant);
+			}
+			else if (ConstantesAttaques.ID_ATTAQUE_RAPIDE.equals(aTypeAttaque))
+			{
+				attaque = new AttaqueRapide(aAttaquant);
+			}
+			else
+			{
+				throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
+			}
 
-		if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
-		{
-			attaque = new AttaqueBerserk(aAttaquant);
+			// Ajouter l'attaque au cache pour une réutilisation plus rapide (gros problèmes de mémoire !)
+			CacheAttaques.getInstance().addAttaque(idAttaque, attaque);
+			// TODO Attaque kamikaze et charge
 		}
-		else if (ConstantesAttaques.ID_ATTAQUE_BRUTALE.equals(aTypeAttaque))
-		{
-			attaque = new AttaqueBrutale(aAttaquant);
-		}
-		else if (ConstantesAttaques.ID_ATTAQUE_IMPARABLE.equals(aTypeAttaque))
-		{
-			attaque = new AttaqueImparable(aAttaquant);
-		}
-		else if (ConstantesAttaques.ID_ATTAQUE_MAGIQUE.equals(aTypeAttaque))
-		{
-			attaque = new AttaqueMagique(aAttaquant);
-		}
-		else if (ConstantesAttaques.ID_ATTAQUE_NORMALE.equals(aTypeAttaque))
-		{
-			attaque = new AttaqueNormale(aAttaquant);
-		}
-		else if (ConstantesAttaques.ID_ATTAQUE_PRECISE.equals(aTypeAttaque))
-		{
-			attaque = new AttaquePrecise(aAttaquant);
-		}
-		else if (ConstantesAttaques.ID_ATTAQUE_RAPIDE.equals(aTypeAttaque))
-		{
-			attaque = new AttaqueRapide(aAttaquant);
-		}
-		else
-		{
-			throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
-		}
-		// TODO Attaque kamikaze et charge
-
 		return attaque;
 	}
 }
