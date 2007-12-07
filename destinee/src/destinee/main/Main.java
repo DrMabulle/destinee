@@ -37,13 +37,13 @@ public class Main
 
 		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_NORMALE);
 //		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
-		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
-		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
+//		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
+//		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
 
 		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_NORMALE);
-		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
-		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
-		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
+//		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
+//		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
+//		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
 
 		Cible cible = new Cible(10, -5, 15);
 
@@ -54,19 +54,17 @@ public class Main
 			koumi.getNombreDeDesDegats(), koumi.getBonusDegats(), 
 			10, 0);
 
-//		prolog.ajouterPerso(noone.getIdentifiant(), 
-//			noone.getNombreDeDesAttaque(), noone.getBonusAttaque(), 
-//			noone.getNombreDeDesDegats(), noone.getBonusDegats(), 
-//			10, 0);
+		prolog.ajouterPerso(noone.getIdentifiant(), 
+			noone.getNombreDeDesAttaque(), noone.getBonusAttaque(), 
+			noone.getNombreDeDesDegats(), noone.getBonusDegats(), 
+			10, 0);
 
-//		String queryString = "generationListeAttaques(L).";
-//		Map<String, Vector<String>> temp = prolog.queryOnce(queryString);
-//		Vector<String> listeInitiale = temp.get("L");
 		
-
-//		queryString = "genererScenarios(" + ConversionUtil.generatePrologListFromSringCollection(listeInitiale) + ", Result).";
-		String queryString = "genererScenarios([att('Koumi','Normale'),att('Koumi','Normale'),att('Koumi','Rapide')], Result).";
+		String queryString = "generScenar(Result).";
 		List<Map<String, Vector<String>>> resultQuery = prolog.query(queryString);
+		
+		long tempsIntermediaire = System.currentTimeMillis();
+		
 		DestineeQueryProcessor.processQuery(resultQuery, "Result", cible);
 
 		List<ChaineAttaques> chainesAtt = GestionnaireChainesAttaques.getInstance().getListeChainesOrdonnee();
@@ -80,6 +78,9 @@ public class Main
 		}
 
 		System.out.println("-----------------------------");
-		System.out.println("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(System.currentTimeMillis() - startTime) + "ms");
+		long stopTime = System.currentTimeMillis();
+		System.out.println("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
+		System.out.println("Temps Prolog : " + ConversionUtil.longVersStringFormat(tempsIntermediaire - startTime) + " ms");
+		System.out.println("Temps Process : " + ConversionUtil.longVersStringFormat(stopTime - tempsIntermediaire) + " ms");
 	}
 }
