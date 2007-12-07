@@ -7,9 +7,7 @@ import java.util.Vector;
 import logic.gateways.DestineeToLogicGateway;
 import logic.gateways.LogicToPrologGateway;
 import logic.gateways.LogicToPrologGatewayImpl;
-
 import destinee.logic.rules.LogicRulesDBImpl;
-
 
 /**
  * @author Benoit Kessler
@@ -52,15 +50,28 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
+	public Map<String, Vector<String>> queryOnce(String aQuery)
+	{
+		try
+		{
+			return itsGate.queryOnce(aQuery);
+		}
+		catch (RuntimeException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public void ajouterPerso(String aNomPerso, int aNbDesAtt, int aBonusAtt, int aNbDesDeg, int aBonusDeg, int aNbPaCyc1, int aNbPaCyc2)
 	{
 		itsGate.addFact("perso('" + aNomPerso + "', " + aNbDesAtt + ", " + aBonusAtt + ", " + aNbDesDeg + ", " + aBonusDeg + ", " + aNbPaCyc1 + ", "
-				+ aNbPaCyc2 + ").\n");
+				+ aNbPaCyc2 + ").");
 	}
 
 	public void ajouterAttaquePerso(String aNomPerso, String aNomAttaque)
 	{
-		itsGate.addFact("attaque('" + aNomPerso + "', '" + aNomAttaque + "')\n.");
+		itsGate.addFact("attaque('" + aNomPerso + "', '" + aNomAttaque + "').");
 	}
 
 	public void flush()
@@ -80,20 +91,4 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 			itsGate.addRule(rule);
 		}
 	}
-
-	// Tools
-
-	// private String generatePrologListFromSringList(List<String> aList)
-	// {
-	// if (aList.size() == 0)
-	// return "[]";
-	//        
-	// String theResult = "['";
-	// for (int i=0; i<aList.size()-1; i++)
-	// {
-	// theResult += aList.get(i) + "','";
-	// }
-	// theResult += aList.get(aList.size()-1) + "']";
-	// return theResult;
-	// }
 }
