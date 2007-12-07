@@ -31,7 +31,7 @@ public interface LogicToPrologGateway
 	 * @param aQuery The query to be done
 	 * @return a hashtable, containing the bindings generated.
 	 */
-	public Map<String, String> queryOnce(String aQuery);
+	public Map<String, Vector<String>> queryOnce(String aQuery);
 
 	/**
 	 * begins a query on the Prolog system. If there was an active query running, further results lost. The resultant Hashtable contains keys equal to the

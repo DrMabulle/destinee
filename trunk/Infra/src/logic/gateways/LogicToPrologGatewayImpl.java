@@ -64,7 +64,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		hasChanged = true;
 	}
 
-	public Map<String, String> queryOnce(String aQuery)
+	public Map<String, Vector<String>> queryOnce(String aQuery)
 	{
 		if (hasChanged)
 		{
