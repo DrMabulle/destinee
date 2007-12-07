@@ -178,4 +178,20 @@ public class ResolutionAttaque
 		return probaAttaqueCritique * esperanceDeDegats(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE) + probaAttaqueNormale
 				* esperanceDeDegats(aAttaque, aCible, RESOLUTION_COUP_SIMPLE);
 	}
+	
+	/**$
+	 * Retourne l'espérance mathématique de malus de défense pour une cible, suite à une attaque donnée.
+	 * 
+	 * @param aAttaque une attaque
+	 * @param aCible une cible
+	 * @return l'espérance de malus de défense
+	 */
+	public static double esperanceMalusDefense(Attaque aAttaque, Cible aCible)
+	{
+		double probaAttaqueCritique = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE));
+		double probaAttaqueNormale = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_SIMPLE));
+		double probaEsquiveSimple = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_ESQUIVE_SIMPLE));
+		
+		return probaAttaqueCritique + 0.5 * probaAttaqueNormale + 0.5 * probaEsquiveSimple;
+	}
 }
