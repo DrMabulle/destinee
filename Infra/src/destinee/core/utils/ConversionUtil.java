@@ -8,8 +8,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 /**
@@ -104,8 +106,7 @@ public class ConversionUtil
 	 * Convertit une Date en chaîne de caractère au format spécifié par pModele
 	 * 
 	 * @param pDate Date à convertir
-	 * @param pModele chaîne spécifiant le format de la date à convertir (ex:
-	 *        "dd.MM.yyyy")
+	 * @param pModele chaîne spécifiant le format de la date à convertir (ex: "dd.MM.yyyy")
 	 * @return String chaîne formatée au format spécifié par pModele
 	 */
 	public static String dateVersString(Date pDate, String pModele)
@@ -125,8 +126,7 @@ public class ConversionUtil
 	 * Convertit une chaîne de caractères en un Float.
 	 * 
 	 * @param pChaine Chaîne à convertir
-	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne
-	 *         est vide
+	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne est vide
 	 */
 	public static BigDecimal stringVersBigDecimal(String pChaine)
 	{
@@ -159,8 +159,7 @@ public class ConversionUtil
 	 * Convertit une chaîne au format spécifié par pModele en Date
 	 * 
 	 * @param pChaine chaîne à convertir en timestamp
-	 * @param pModele chaîne spécifiant le format de la date utilisée (ex:
-	 *        dd.MM.yyyy)
+	 * @param pModele chaîne spécifiant le format de la date utilisée (ex: dd.MM.yyyy)
 	 * @return Date date correspondant à la chaîne
 	 */
 	public static Date stringVersDate(String pChaine, String pModele)
@@ -239,12 +238,10 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Convertit une Date en chaîne de caractère au format défini dans
-	 * beanUtils.date.pattern
+	 * Convertit une Date en chaîne de caractère au format défini dans beanUtils.date.pattern
 	 * 
 	 * @param pDate Date à convertir
-	 * @return String chaîne formatée au format défini dans
-	 *         beanUtils.date.pattern
+	 * @return String chaîne formatée au format défini dans beanUtils.date.pattern
 	 */
 	public static String dateVersString(Date pDate)
 	{
@@ -262,8 +259,7 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Convertit un Float en Integer, en multipliant au préalable le
-	 * multiplicateur (10.0f , 100.0f ...)
+	 * Convertit un Float en Integer, en multipliant au préalable le multiplicateur (10.0f , 100.0f ...)
 	 * 
 	 * @param pFloat flottant à convertir
 	 * @param pMultiplicateur le multiplicateur
@@ -291,8 +287,7 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Convertit un Float en Long, en multipliant au préalable le flottant par
-	 * 10.
+	 * Convertit un Float en Long, en multipliant au préalable le flottant par 10.
 	 * 
 	 * @param pFloat flottant à convertir
 	 * @return Long correpondant au flottant multiplié par 10
@@ -319,9 +314,8 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'un float en String avec gestion de pointeur null
-	 * et d'exception. Cette méthode permet d'éviter à avoir à tester si un
-	 * objet est à null avant de la convertir en String.
+	 * Méthode de conversion d'un float en String avec gestion de pointeur null et d'exception. Cette méthode permet d'éviter à avoir à tester si un objet est à
+	 * null avant de la convertir en String.
 	 * 
 	 * @param pFloat Le float à convertir en String
 	 * @return String correspondant à l'objet
@@ -342,8 +336,7 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Convertit un Integer en Float, en divisant le diviseur (10.0f , 100.0f ,
-	 * ...).
+	 * Convertit un Integer en Float, en divisant le diviseur (10.0f , 100.0f , ...).
 	 * 
 	 * @param pEntier entier à convertir
 	 * @param pDiviseur le diviseur
@@ -370,9 +363,8 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'un integer en String avec gestion de pointeur
-	 * null et d'exception. Cette méthode permet d'éviter à avoir à tester si un
-	 * objet est à null avant de la convertir en String.
+	 * Méthode de conversion d'un integer en String avec gestion de pointeur null et d'exception. Cette méthode permet d'éviter à avoir à tester si un objet est
+	 * à null avant de la convertir en String.
 	 * 
 	 * @param pInteger Le integer à convertir en String
 	 * @return String correspondant à l'objet
@@ -384,9 +376,8 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'un integer en String avec gestion de pointeur
-	 * null et d'exception. Cette méthode permet d'éviter à avoir à tester si un
-	 * objet est à null avant de la convertir en String.
+	 * Méthode de conversion d'un integer en String avec gestion de pointeur null et d'exception. Cette méthode permet d'éviter à avoir à tester si un objet est
+	 * à null avant de la convertir en String.
 	 * 
 	 * @param pInteger Le integer à convertir en String
 	 * @param valeurDefaut la valeur par défaut
@@ -433,9 +424,8 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'un long en String avec gestion de pointeur null
-	 * et d'exception. Cette méthode permet d'éviter à avoir à tester si un
-	 * objet est à null avant de la convertir en String.
+	 * Méthode de conversion d'un long en String avec gestion de pointeur null et d'exception. Cette méthode permet d'éviter à avoir à tester si un objet est à
+	 * null avant de la convertir en String.
 	 * 
 	 * @param pLong Le long à convertir en String
 	 * @return String correspondant à l'objet
@@ -455,9 +445,8 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'un objet en String avec gestion de pointeur null
-	 * et d'exception. Cette méthode permet d'éviter à avoir à tester si un
-	 * objet est à null avant de la convertir en String.
+	 * Méthode de conversion d'un objet en String avec gestion de pointeur null et d'exception. Cette méthode permet d'éviter à avoir à tester si un objet est à
+	 * null avant de la convertir en String.
 	 * 
 	 * @param pObjet L'objet à convertir en String
 	 * @return String correspondant à l'objet
@@ -482,14 +471,11 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Retourne une valeur décimale sous la forme d'une string. C'est à dire que
-	 * la valeur sera affichée avec un virgule et non un point
+	 * Retourne une valeur décimale sous la forme d'une string. C'est à dire que la valeur sera affichée avec un virgule et non un point
 	 * 
 	 * @param pValeur la valeur à formater
-	 * @param pNbDec Le nombre de chiffre après la virgule. Cela permet
-	 *        uniquement de complèter avec des zeros et non couper ou arrondir
-	 * @param pEspace booleen indiquant s'il faut insérer des espaces par paquet
-	 *        de trois chiffres
+	 * @param pNbDec Le nombre de chiffre après la virgule. Cela permet uniquement de complèter avec des zeros et non couper ou arrondir
+	 * @param pEspace booleen indiquant s'il faut insérer des espaces par paquet de trois chiffres
 	 * @return String.
 	 */
 	public static String pointVersVirgule(String pValeur, int pNbDec, boolean pEspace)
@@ -654,8 +640,7 @@ public class ConversionUtil
 	 * Convertit une chaîne de caractères en un Float.
 	 * 
 	 * @param pChaine Chaîne à convertir
-	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne
-	 *         est vide
+	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne est vide
 	 */
 	public static Float stringVersFloat(String pChaine)
 	{
@@ -679,13 +664,11 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'une chaîne en Integer. L'exception levée par Java
-	 * en cas de chaîne vide ou non convertible en entier est attrapée et null
-	 * est renvoyé dans ce cas.
+	 * Méthode de conversion d'une chaîne en Integer. L'exception levée par Java en cas de chaîne vide ou non convertible en entier est attrapée et null est
+	 * renvoyé dans ce cas.
 	 * 
 	 * @param pString chaîne à convertir
-	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas
-	 *         un entier
+	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
 	public static Integer stringVersInteger(String pString)
 	{
@@ -693,14 +676,12 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'une chaîne en Integer. L'exception levée par Java
-	 * en cas de chaîne vide ou non convertible en entier est attrapée et null
-	 * est renvoyé dans ce cas.
+	 * Méthode de conversion d'une chaîne en Integer. L'exception levée par Java en cas de chaîne vide ou non convertible en entier est attrapée et null est
+	 * renvoyé dans ce cas.
 	 * 
 	 * @param pString chaîne à convertir
 	 * @param pDefaut valeur par défaut si la conversion échoue
-	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas
-	 *         un entier
+	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
 	public static Integer stringVersInteger(String pString, Integer pDefaut)
 	{
@@ -719,16 +700,14 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'une chaîne en Double. L'exception levée par Java
-	 * en cas de chaîne vide ou non convertible en entier est attrapée et null
-	 * est renvoyé dans ce cas.
+	 * Méthode de conversion d'une chaîne en Double. L'exception levée par Java en cas de chaîne vide ou non convertible en entier est attrapée et null est
+	 * renvoyé dans ce cas.
 	 * 
 	 * 
 	 * 
 	 * @param pString chaîne à convertir
 	 * @param pDefaut valeur par défaut si la conversion échoue
-	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas
-	 *         un entier
+	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
 	public static Double stringVersDouble(String pString, Double pDefaut)
 	{
@@ -747,15 +726,13 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'une chaîne en Double. L'exception levée par Java
-	 * en cas de chaîne vide ou non convertible en entier est attrapée et null
-	 * est renvoyé dans ce cas.
+	 * Méthode de conversion d'une chaîne en Double. L'exception levée par Java en cas de chaîne vide ou non convertible en entier est attrapée et null est
+	 * renvoyé dans ce cas.
 	 * 
 	 * 
 	 * 
 	 * @param pString chaîne à convertir
-	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas
-	 *         un entier
+	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
 	public static Double stringVersDouble(String pString)
 	{
@@ -767,13 +744,11 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'une chaîne en Long. L'exception levée par Java en
-	 * cas de chaîne vide ou non convertible en entier est attrapée et null est
+	 * Méthode de conversion d'une chaîne en Long. L'exception levée par Java en cas de chaîne vide ou non convertible en entier est attrapée et null est
 	 * renvoyé dans ce cas.
 	 * 
 	 * @param pString chaîne à convertir
-	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas
-	 *         un entier
+	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
 	public static Long stringVersLong(String pString)
 	{
@@ -781,14 +756,12 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Méthode de conversion d'une chaîne en Long. L'exception levée par Java en
-	 * cas de chaîne vide ou non convertible en entier est attrapée et null est
+	 * Méthode de conversion d'une chaîne en Long. L'exception levée par Java en cas de chaîne vide ou non convertible en entier est attrapée et null est
 	 * renvoyé dans ce cas.
 	 * 
 	 * @param pString chaîne à convertir
 	 * @param pDefaut valeur par défaut si la conversion échoue
-	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas
-	 *         un entier
+	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
 	public static Long stringVersLong(String pString, Long pDefaut)
 	{
@@ -807,8 +780,7 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Transforme une chaîne de caractères représentant un décimal - virgule
-	 * vers point - suppresqion des espace
+	 * Transforme une chaîne de caractères représentant un décimal - virgule vers point - suppresqion des espace
 	 * 
 	 * 
 	 * @param pChaine Chaîne à convertir
@@ -870,8 +842,7 @@ public class ConversionUtil
 	 * Transforme un BigDecimal en Double
 	 * 
 	 * @param aBigDecimal un BigDecimal
-	 * @return le Double équivalent au BigDecimal en paramètre, null si le
-	 *         paramètre est null
+	 * @return le Double équivalent au BigDecimal en paramètre, null si le paramètre est null
 	 */
 	public static Double bigdecimalVersDouble(BigDecimal aBigDecimal)
 	{
@@ -891,8 +862,7 @@ public class ConversionUtil
 	 * 
 	 * @param aBigDecimal un BigDecimal
 	 * @param scale scale
-	 * @return le Double équivalent au BigDecimal en paramètre, null si le
-	 *         paramètre est null
+	 * @return le Double équivalent au BigDecimal en paramètre, null si le paramètre est null
 	 */
 	public static Double bigdecimalVersDouble(BigDecimal aBigDecimal, int scale)
 	{
@@ -911,8 +881,7 @@ public class ConversionUtil
 	 * Transforme un BigDecimal en Long
 	 * 
 	 * @param aBigDecimal un BigDecimal
-	 * @return le Long équivalent au BigDecimal en paramètre, null si le
-	 *         paramètre est null
+	 * @return le Long équivalent au BigDecimal en paramètre, null si le paramètre est null
 	 */
 	public static Long bigDecimalVersLong(BigDecimal aBigDecimal)
 	{
@@ -976,8 +945,7 @@ public class ConversionUtil
 	}
 
 	/**
-	 * Conversion d'un Double en String, avec formatage correct et précision
-	 * ajustable
+	 * Conversion d'un Double en String, avec formatage correct et précision ajustable
 	 * 
 	 * @param decimal le Double à convertir
 	 * @param scale précision du double
@@ -1180,8 +1148,7 @@ public class ConversionUtil
 	}
 
 	/**
-	 * pad a string S with a size of N with char C on the left (True) or on the
-	 * right(flase)
+	 * pad a string S with a size of N with char C on the left (True) or on the right(flase)
 	 * 
 	 * @param s the string
 	 * @param n the size
@@ -1248,5 +1215,33 @@ public class ConversionUtil
 		}
 
 		return longFormat;
+	}
+
+	/**
+	 * Permet de générer une liste au format Prolog à partir d'une Collection Java de String
+	 * 
+	 * @param aCollection une collection
+	 * @return une liste au format Prolog
+	 */
+	public static String generatePrologListFromSringCollection(Collection<String> aCollection)
+	{
+		if (aCollection == null || aCollection.size() == 0)
+		{
+			return "[]";
+		}
+		
+		String theResult = "['";
+		for (Iterator<String> iter = aCollection.iterator(); iter.hasNext();)
+		{
+			theResult += iter.next();
+			
+			if (iter.hasNext())
+			{
+				theResult += "','";
+			}
+		}
+		theResult += "']";
+		
+		return theResult;
 	}
 }

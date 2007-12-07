@@ -19,6 +19,14 @@ public interface DestineeToLogicGateway
 	public List<Map<String, Vector<String>>> query(String aQuery);
 
 	/**
+	 * Permet d'exécuter une Query Prolog mais en ne récupérant que le premier résultat
+	 * 
+	 * @param aQuery une Query
+	 * @return le premier résultat
+	 */
+	public Map<String, Vector<String>> queryOnce(String aQuery);
+
+	/**
 	 * Permet d'ajouter un personnage et ses caractéristiques
 	 * 
 	 * @param aNomPerso un nom de personnage
