@@ -63,6 +63,12 @@ public class DestineeQueryProcessorDegrade extends Thread
 		// Démarrer 2 Threads de traitement des scénarios
 		Thread t1 = new TraitementChainesAttaques();
 		Thread t2 = new TraitementChainesAttaques();
+		Thread t3 = new TraitementChainesAttaques();
+		Thread t4 = new TraitementChainesAttaques();
+		Thread t5 = new TraitementChainesAttaques();
+		Thread t6 = new TraitementChainesAttaques();
+		Thread t7 = new TraitementChainesAttaques();
+		Thread t8 = new TraitementChainesAttaques();
 
 		try
 		{
@@ -82,6 +88,12 @@ public class DestineeQueryProcessorDegrade extends Thread
 		{
 			t1.join();
 			t2.join();
+			t3.join();
+			t4.join();
+			t5.join();
+			t6.join();
+			t7.join();
+			t8.join();
 		}
 		catch (InterruptedException e)
 		{
