@@ -10,7 +10,7 @@ import java.util.Vector;
 import logic.gateways.DestineeToLogicGateway;
 import destinee.algorithmes.degrade.cm.threads.DestineeQueryProcessorDegrade;
 import destinee.algorithmes.degrade.data.ChaineAttaquesD;
-import destinee.algorithmes.degrade.data.GestionnaireChainesAttaquesD;
+import destinee.algorithmes.degrade.utils.GestionnaireChainesAttaquesD;
 import destinee.commun.constantes.ConstantesAttaques;
 import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;

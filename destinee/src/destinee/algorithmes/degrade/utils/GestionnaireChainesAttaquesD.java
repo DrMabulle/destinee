@@ -1,7 +1,7 @@
 /**
  * 
  */
-package destinee.algorithmes.degrade.data;
+package destinee.algorithmes.degrade.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import destinee.algorithmes.degrade.data.ChaineAttaquesD;
 
 /**
  * @author Bubulle et No-one

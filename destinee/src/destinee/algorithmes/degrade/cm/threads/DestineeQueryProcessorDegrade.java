@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import destinee.algorithmes.degrade.data.ChaineAttaquesD;
-import destinee.algorithmes.degrade.data.GestionnaireChainesAttaquesD;
+import destinee.algorithmes.degrade.utils.GestionnaireChainesAttaquesD;
 import destinee.commun.constantes.ConstantesAttaques;
 import destinee.commun.data.Attaque;
 import destinee.commun.data.AttaqueBerserk;

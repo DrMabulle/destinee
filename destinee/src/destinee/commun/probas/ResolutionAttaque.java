@@ -8,11 +8,7 @@ import java.math.BigDecimal;
 import destinee.commun.data.Attaque;
 import destinee.commun.data.AttaqueImparable;
 import destinee.commun.data.Cible;
-import destinee.commun.probas.Proba;
-import destinee.commun.probas.ProbaMoins;
-import destinee.commun.probas.ProbaPlus;
 import destinee.core.utils.ConversionUtil;
-import destinee.data.*;
 
 /**
  * @author Bubulle et No-one
@@ -27,8 +23,7 @@ public class ResolutionAttaque
 	public static final int RESOLUTION_ESQUIVE_PARFAITE = 3;
 
 	/**
-	 * Méthode servant à calculer les probabilités respectives des 4 resolutions
-	 * possible pour certaines caractéristiques d'attaque
+	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour certaines caractéristiques d'attaque
 	 * 
 	 * @param nbDesAtt nombre de dés d'attaque
 	 * @param bonusAtt bonus fixe en attaque
@@ -92,8 +87,7 @@ public class ResolutionAttaque
 	}
 
 	/**
-	 * Méthode servant à calculer les probabilités respectives des 4 resolutions
-	 * possible pour une attaque, face à une cible
+	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour une attaque, face à une cible
 	 * 
 	 * @param attaque une attaque
 	 * @param cible une cible
@@ -119,6 +113,7 @@ public class ResolutionAttaque
 
 	/**
 	 * Retourne l'esperance de dégats d'une attaque donnée avec un résultat (type de résolution) connu a l'avance
+	 * 
 	 * @param aAttaque une attaque
 	 * @param aCible une cible
 	 * @param typeResol type de resolution
@@ -166,8 +161,7 @@ public class ResolutionAttaque
 	}
 
 	/**
-	 * Retourne l'éspérance mathématique de dégats d'une attaque donnée, le type
-	 * de résolution etant inconnu
+	 * Retourne l'éspérance mathématique de dégats d'une attaque donnée, le type de résolution etant inconnu
 	 * 
 	 * @param aAttaque une attaque
 	 * @param aCible une cible
@@ -181,9 +175,9 @@ public class ResolutionAttaque
 		return probaAttaqueCritique * esperanceDeDegats(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE) + probaAttaqueNormale
 				* esperanceDeDegats(aAttaque, aCible, RESOLUTION_COUP_SIMPLE);
 	}
-	
-	/**$
-	 * Retourne l'espérance mathématique de malus de défense pour une cible, suite à une attaque donnée.
+
+	/**
+	 * $ Retourne l'espérance mathématique de malus de défense pour une cible, suite à une attaque donnée.
 	 * 
 	 * @param aAttaque une attaque
 	 * @param aCible une cible
@@ -194,7 +188,7 @@ public class ResolutionAttaque
 		double probaAttaqueCritique = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE));
 		double probaAttaqueNormale = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_SIMPLE));
 		double probaEsquiveSimple = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_ESQUIVE_SIMPLE));
-		
+
 		return probaAttaqueCritique + 0.5 * probaAttaqueNormale + 0.5 * probaEsquiveSimple;
 	}
 }

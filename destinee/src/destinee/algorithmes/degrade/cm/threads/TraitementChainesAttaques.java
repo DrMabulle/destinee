@@ -4,7 +4,7 @@
 package destinee.algorithmes.degrade.cm.threads;
 
 import destinee.algorithmes.degrade.data.ChaineAttaquesD;
-import destinee.algorithmes.degrade.data.GestionnaireChainesAttaquesD;
+import destinee.algorithmes.degrade.utils.GestionnaireChainesAttaquesD;
 
 /**
  * @author Bubulle
