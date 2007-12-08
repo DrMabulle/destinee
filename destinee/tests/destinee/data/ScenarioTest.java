@@ -5,7 +5,13 @@ package destinee.data;
 
 import java.math.BigDecimal;
 
-import destinee.probas.ResolutionAttaque;
+import destinee.algorithmes.normal.data.Scenario;
+import destinee.algorithmes.normal.data.ScenarioElement;
+import destinee.commun.data.Attaque;
+import destinee.commun.data.AttaqueNormale;
+import destinee.commun.data.Cible;
+import destinee.commun.data.Perso;
+import destinee.commun.probas.ResolutionAttaque;
 import junit.framework.TestCase;
 
 /**
@@ -50,7 +56,7 @@ public class ScenarioTest extends TestCase
 	}
 
 	/**
-	 * Test method for {@link destinee.data.Scenario#getEsperanceDegats()}.
+	 * Test method for {@link destinee.algorithmes.normal.data.Scenario#getEsperanceDegats()}.
 	 */
 	public void testGetEsperanceDegats()
 	{
@@ -61,7 +67,7 @@ public class ScenarioTest extends TestCase
 	}
 
 	/**
-	 * Test method for {@link destinee.data.Scenario#getProbaRealisation()}.
+	 * Test method for {@link destinee.algorithmes.normal.data.Scenario#getProbaRealisation()}.
 	 */
 	public void testGetProbaRealisation()
 	{

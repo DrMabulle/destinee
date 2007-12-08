@@ -6,7 +6,7 @@ package destinee.logic.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import destinee.constantes.ConstantesAttaques;
+import destinee.commun.constantes.ConstantesAttaques;
 
 import logic.rules.LogicRulesDB;
 
@@ -183,9 +183,12 @@ private List<String> rulesList;
 //        		"	changerNormaleBerserk(SuiteAtts, Result1),\n" +
 //        		"	concat([att(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "', Resolution1)], Result1, Result).");
 
-        rulesList.add("generScenar(Result) :-\n" +
+        rulesList.add("generationScenarios(Result) :-\n" +
         		"	generationListeAttaques(Tmp),\n" +
         		"	ajouterResolution(Tmp, Result).");
+        
+        rulesList.add("generationChainesAttaques(Result) :-\n" +
+    		"	generationListeAttaques(Result).");
         		
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	\n" +
         		"% Méthode permettant de creer une première liste d'attaques (normales) en fonction des persos et de leurs PA\n" +
