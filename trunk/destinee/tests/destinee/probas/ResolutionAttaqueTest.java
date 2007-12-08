@@ -5,11 +5,12 @@ package destinee.probas;
 
 import java.math.BigDecimal;
 
+import destinee.commun.data.Attaque;
+import destinee.commun.data.AttaqueNormale;
+import destinee.commun.data.Cible;
+import destinee.commun.data.Perso;
+import destinee.commun.probas.ResolutionAttaque;
 import destinee.core.utils.ConversionUtil;
-import destinee.data.Attaque;
-import destinee.data.AttaqueNormale;
-import destinee.data.Cible;
-import destinee.data.Perso;
 
 import junit.framework.TestCase;
 
@@ -37,7 +38,7 @@ public class ResolutionAttaqueTest extends TestCase
 	}
 
 	/**
-	 * Test method for {@link destinee.probas.ResolutionAttaque#resoudreAttaque(Attaque, Cible, int)}.
+	 * Test method for {@link destinee.commun.probas.ResolutionAttaque#resoudreAttaque(Attaque, Cible, int)}.
 	 */
 	public void testResoudreAttaqueMalusDef()
 	{
@@ -83,7 +84,7 @@ public class ResolutionAttaqueTest extends TestCase
 
 
 	/**
-	 * Test method for {@link destinee.probas.ResolutionAttaque#resoudreAttaque(int, int, int, int, int, int, int, int)}.
+	 * Test method for {@link destinee.commun.probas.ResolutionAttaque#resoudreAttaque(int, int, int, int, int, int, int, int)}.
 	 */
 	public void testResoudreAttaqueFatigueAttaquant()
 	{

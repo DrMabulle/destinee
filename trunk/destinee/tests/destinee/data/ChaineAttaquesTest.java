@@ -3,7 +3,14 @@
  */
 package destinee.data;
 
-import destinee.probas.ResolutionAttaque;
+import destinee.algorithmes.normal.data.ChaineAttaques;
+import destinee.algorithmes.normal.data.Scenario;
+import destinee.algorithmes.normal.data.ScenarioElement;
+import destinee.commun.data.Attaque;
+import destinee.commun.data.AttaqueNormale;
+import destinee.commun.data.Cible;
+import destinee.commun.data.Perso;
+import destinee.commun.probas.ResolutionAttaque;
 import junit.framework.TestCase;
 
 /**
@@ -55,7 +62,7 @@ public class ChaineAttaquesTest extends TestCase
 	}
 
 	/**
-	 * Test method for {@link destinee.data.ChaineAttaques#ajouterScenario(destinee.data.Scenario)}.
+	 * Test method for {@link destinee.algorithmes.normal.data.ChaineAttaques#ajouterScenario(destinee.algorithmes.normal.data.Scenario)}.
 	 */
 	public void testAjouterScenario()
 	{
@@ -63,7 +70,7 @@ public class ChaineAttaquesTest extends TestCase
 	}
 
 	/**
-	 * Test method for {@link destinee.data.ChaineAttaques#getEsperanceDegatCumulee()}.
+	 * Test method for {@link destinee.algorithmes.normal.data.ChaineAttaques#getEsperanceDegatCumulee()}.
 	 */
 	public void testGetEsperanceDegatCumulee()
 	{
@@ -71,7 +78,7 @@ public class ChaineAttaquesTest extends TestCase
 	}
 
 	/**
-	 * Test method for {@link destinee.data.ChaineAttaques#getProbaRealisationCumulee()}.
+	 * Test method for {@link destinee.algorithmes.normal.data.ChaineAttaques#getProbaRealisationCumulee()}.
 	 */
 	public void testGetProbaRealisationCumulee()
 	{
@@ -79,7 +86,7 @@ public class ChaineAttaquesTest extends TestCase
 	}
 
 	/**
-	 * Test method for {@link destinee.data.ChaineAttaques#getIdentifiant()}.
+	 * Test method for {@link destinee.algorithmes.normal.data.ChaineAttaques#getIdentifiant()}.
 	 */
 	public void testGetIdentifiant()
 	{
