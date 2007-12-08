@@ -4,12 +4,11 @@
 package destinee.core.utils;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 /**
- * @author Bubulle et No-one 
- * Cache utilisé pour les calculs de Proba, ProbaPlus et ProbaMoins
+ * @author Bubulle et No-one Cache utilisé pour les calculs de Proba, ProbaPlus et ProbaMoins
  */
 public class CacheProba
 {
@@ -28,7 +27,7 @@ public class CacheProba
 	 */
 	private CacheProba()
 	{
-		cache = new HashMap<String, BigDecimal>(20000, 0.8F);
+		cache = new Hashtable<String, BigDecimal>(20000, 0.8F);
 	}
 
 	/**
@@ -54,7 +53,7 @@ public class CacheProba
 	public void stockerDonnees(String cle, BigDecimal valeur)
 	{
 		cache.put(cle, valeur);
-//		System.out.println("" + cache.size() + " données dans le cache.");
+		// System.out.println("" + cache.size() + " données dans le cache.");
 	}
 
 	/**
@@ -67,20 +66,21 @@ public class CacheProba
 	{
 		return cache.get(cle);
 	}
-	
+
 	/**
 	 * Méthode permettant de connaitre le nombre de données stockées en cache actuellement
+	 * 
 	 * @return la taille actuelle du cache
 	 */
-	public int size() 
+	public int size()
 	{
 		return cache.size();
 	}
-	
+
 	/**
 	 * Méthode permettant de vider toutes les données stockées dans le cache
 	 */
-	public void viderCache() 
+	public void viderCache()
 	{
 		cache.clear();
 	}
