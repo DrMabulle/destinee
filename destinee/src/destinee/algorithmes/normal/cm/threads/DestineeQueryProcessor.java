@@ -66,6 +66,12 @@ public class DestineeQueryProcessor extends Thread
 		// Démarrer 4 Threads de traitement des scénarios
 		Thread t1 = new TraitementScenarios();
 		Thread t2 = new TraitementScenarios();
+		Thread t3 = new TraitementScenarios();
+		Thread t4 = new TraitementScenarios();
+		Thread t5 = new TraitementScenarios();
+		Thread t6 = new TraitementScenarios();
+		Thread t7 = new TraitementScenarios();
+		Thread t8 = new TraitementScenarios();
 
 		try
 		{
@@ -85,6 +91,12 @@ public class DestineeQueryProcessor extends Thread
 		{
 			t1.join();
 			t2.join();
+			t3.join();
+			t4.join();
+			t5.join();
+			t6.join();
+			t7.join();
+			t8.join();
 		}
 		catch (InterruptedException e)
 		{
