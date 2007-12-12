@@ -130,8 +130,18 @@ public class ConversionUtil
 	 */
 	public static BigDecimal stringVersBigDecimal(String pChaine)
 	{
+		return stringVersBigDecimal(pChaine, null);
+	}
+	/**
+	 * Convertit une chaîne de caractères en un Float.
+	 * 
+	 * @param pChaine Chaîne à convertir
+	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne est vide
+	 */
+	public static BigDecimal stringVersBigDecimal(String pChaine, BigDecimal defaultValue)
+	{
 
-		BigDecimal retour = null;
+		BigDecimal retour = defaultValue;
 
 		if (pChaine != null)
 		{
