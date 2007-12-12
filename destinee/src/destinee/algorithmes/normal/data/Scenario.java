@@ -123,6 +123,8 @@ public class Scenario
 		}
 		// TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
 		// TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
+		
+		System.out.println("scenario " + toString() + ": " + probaRealisation);
 	}
 
 	/**
@@ -206,4 +208,19 @@ public class Scenario
 		}
 		return cible.hashCode() + hashcode;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		String result = "";
+		for (ScenarioElement scenarElem : listeElements)
+		{
+			result += scenarElem.toString() + " - ";
+		}
+		return result;
+	}
+	
 }

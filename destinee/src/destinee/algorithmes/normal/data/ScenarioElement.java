@@ -90,25 +90,24 @@ public class ScenarioElement
 	@Override
 	public String toString()
 	{
-		String result = "ScenarioElement [" + getAttaque().toString() + ", ";
+		String result = getAttaque().toString() + "_";
 
 		if (getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_CRITIQUE)
 		{
-			result += "Coup critique";
+			result += "CpCrit";
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_SIMPLE)
 		{
-			result += "Coup simple";
+			result += "CpSimp";
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE)
 		{
-			result += "Esquive simple";
+			result += "EsqSimp";
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE)
 		{
-			result += "Esquive parfaite";
+			result += "EsqPft";
 		}
-		result += "]";
 		return result;
 	}
 }
