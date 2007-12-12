@@ -175,7 +175,7 @@ public class Cible implements Cloneable
 	/**
 	 * Réinitialiser les malus de défence de la cible
 	 */
-	public void reinitialiserMalusDefence()
+	public void reinitialiserMalusDefense()
 	{
 		malusDesDefense = 0.5;
 	}
