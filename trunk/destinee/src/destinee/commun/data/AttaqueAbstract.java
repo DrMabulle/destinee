@@ -80,6 +80,6 @@ public abstract class AttaqueAbstract implements Attaque
 	@Override
 	public String toString()
 	{
-		return "Attaque " + getTypeAttaque() + " effectuée par " + getPerso().toString();
+		return getPerso().toString() + "_" + getTypeAttaque();
 	}
 }
