@@ -12,6 +12,8 @@ import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 import destinee.commun.probas.ResolutionAttaque;
 import destinee.commun.utils.CachePersos;
+import destinee.core.properties.PropertiesFactory;
+import destinee.core.utils.ConversionUtil;
 
 /**
  * @author Bubulle et No-one
@@ -37,7 +39,10 @@ public class Scenario
 	 * La cible des attaques
 	 */
 	private Cible cible;
-
+	 
+	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
+	private static final String CLE_VALEUR_MIN= "destinee.scenario.evaluation.valeurMin";
+	
 	public Scenario(Cible aCible)
 	{
 
@@ -91,7 +96,7 @@ public class Scenario
 
 		// Réinitialiser la fatigue et les malus de la cible et des persos
 		cible.reinitialiserFatigue();
-		cible.reinitialiserMalusDefence();
+		cible.reinitialiserMalusDefense();
 		for (Iterator<Perso> iterator = CachePersos.getInstance().getEnsemblePersos().iterator(); iterator.hasNext();)
 		{
 			Perso perso = iterator.next();
@@ -101,6 +106,10 @@ public class Scenario
 		BigDecimal probaTmp = null;
 		double esperanceTmp = 0;
 
+		String valeurMinTemp = PropertiesFactory.getOptionalString(CLE_VALEUR_MIN);
+		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal (0.1));
+		valeurMin.pow(listeElements.size() + 1 );
+		
 		for (ScenarioElement scenarioElemt : listeElements)
 		{
 			probaTmp = ResolutionAttaque.resoudreAttaque(scenarioElemt.getAttaque(), cible, scenarioElemt.getTypeResolution());
@@ -109,7 +118,18 @@ public class Scenario
 			// Multiplier la proba de réalisation globale par la proba de
 			// réalisation de l'élément scénaristique
 			probaRealisation = probaRealisation.multiply(probaTmp);
-
+			
+			// Arrêter l'evaluation du scenario si la probailité passe sous le seuil défini
+			if (Boolean.TRUE.equals(PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT)))
+			{
+				if (probaRealisation.compareTo(valeurMin) < 0)
+				{
+					probaRealisation = BigDecimal.ZERO;
+					esperanceDegats = 0;
+					return;
+				}
+			}
+			
 			// Additionner l'espérance de dégâts de l'élément scénaristique à
 			// l'espérance de dégâts cumulée
 			esperanceDegats += esperanceTmp;

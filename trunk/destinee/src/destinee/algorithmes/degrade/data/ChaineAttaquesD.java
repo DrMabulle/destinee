@@ -53,7 +53,7 @@ public class ChaineAttaquesD
 	{
 		// Réinitialiser la fatigue et les malus de la cible et des persos
 		cible.reinitialiserFatigue();
-		cible.reinitialiserMalusDefence();
+		cible.reinitialiserMalusDefense();
 		for (Iterator<Perso> iterator = CachePersos.getInstance().getEnsemblePersos().iterator(); iterator.hasNext();)
 		{
 			Perso perso = iterator.next();
