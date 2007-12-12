@@ -43,7 +43,7 @@ public class ResolutionAttaqueTest extends TestCase
 	public void testResoudreAttaqueMalusDef()
 	{
 		// Tests mettant en oeuvre les malus de défense de la cible
-		cible.incrementerMalusDefence(attaque, ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
+		cible.incrementerMalusDefense(attaque, ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
 		
 		// Coup critique
 		BigDecimal proba1 = ResolutionAttaque.resoudreAttaque(attaque, cible, ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);

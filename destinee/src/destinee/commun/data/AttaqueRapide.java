@@ -27,7 +27,7 @@ public class AttaqueRapide extends AttaqueAbstract
 	 */
 	public int getBonusAtt()
 	{
-		return getPerso().getBonusAttaqueEffectif();
+		return getPerso().getBonusAttaqueEffectif() / 2;
 	}
 
 	/*
@@ -57,7 +57,7 @@ public class AttaqueRapide extends AttaqueAbstract
 	 */
 	public int getBonusDeg(int aArmureCible)
 	{
-		return (getPerso().getBonusDegats() - aArmureCible);
+		return ((getPerso().getBonusDegats() / 2) - aArmureCible);
 	}
 
 	/*
@@ -67,7 +67,7 @@ public class AttaqueRapide extends AttaqueAbstract
 	 */
 	public int getBonusDegatsCritique(int aArmureCible)
 	{
-		return (getPerso().getBonusDegats() - aArmureCible);
+		return ((getPerso().getBonusDegats() / 2) - aArmureCible);
 	}
 
 	/*
