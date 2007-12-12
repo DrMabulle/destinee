@@ -37,7 +37,7 @@ public class TraitementScenarios extends Thread
 			Scenario scenar = GestionnaireChainesAttaques.getInstance().getNextScenarioATraiter();
 			if (scenar != null)
 			{
-				System.out.println("Thread " + id + " : début traitement d'un scénario.");
+//				System.out.println("Thread " + id + " : début traitement d'un scénario.");
 				// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation du scénario
 				scenar.getEsperanceDegats();
 				// Ajouter le scénario une fois traité

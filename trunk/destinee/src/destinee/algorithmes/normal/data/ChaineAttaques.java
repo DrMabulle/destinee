@@ -15,7 +15,7 @@ import destinee.core.utils.ConversionUtil;
  */
 public class ChaineAttaques
 {
-	private Set<Scenario> scenarios = new HashSet<Scenario>();
+	private Set<String> scenarios = new HashSet<String>();
 	private String identifiant;
 	private double esperanceDegatCumulee = 0;
 	private BigDecimal probaRealisationCumulee = new BigDecimal(0);
@@ -34,17 +34,17 @@ public class ChaineAttaques
 	 * 
 	 * @param aScenario le scénario à ajouter
 	 */
-	public void ajouterScenario(Scenario aScenario)
+	public synchronized void ajouterScenario(Scenario aScenario)
 	{
 		// On n'ajoute qu'une seule fois chaque scénario
-		if (!scenarios.contains(aScenario))
+		if (!scenarios.contains(aScenario.toString()))
 		{
 			// Ajouter le scénario
-			scenarios.add(aScenario);
+			scenarios.add(aScenario.toString());
 
 			// Cumuler l'espérance de dégâts pondérée par la proba de réalisation
-			esperanceDegatCumulee = esperanceDegatCumulee * ConversionUtil.bigdecimalVersDouble(probaRealisationCumulee, 10) + aScenario.getEsperanceDegats()
-					* ConversionUtil.bigdecimalVersDouble(aScenario.getProbaRealisation(), 10);
+			esperanceDegatCumulee = esperanceDegatCumulee + 
+				aScenario.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(aScenario.getProbaRealisation(), 20);
 
 			// Cumuler les probas de réalisation de l'ensemble des scénarios
 			probaRealisationCumulee = probaRealisationCumulee.add(aScenario.getProbaRealisation());

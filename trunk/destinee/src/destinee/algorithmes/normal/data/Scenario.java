@@ -136,7 +136,7 @@ public class Scenario
 
 			// Incrémenter les malus de la cible
 			cible.incrementerFatigue();
-			cible.incrementerMalusDefence(scenarioElemt.getAttaque(), scenarioElemt.getTypeResolution());
+			cible.incrementerMalusDefense(scenarioElemt.getAttaque(), scenarioElemt.getTypeResolution());
 
 			// Incrémenter la fatigue du perso
 			scenarioElemt.getAttaque().getPerso().incrementerFatigue(scenarioElemt.getAttaque());
@@ -144,7 +144,7 @@ public class Scenario
 		// TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
 		// TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
 		
-		System.out.println("scenario " + toString() + ": " + probaRealisation);
+		System.out.println("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15));
 	}
 
 	/**

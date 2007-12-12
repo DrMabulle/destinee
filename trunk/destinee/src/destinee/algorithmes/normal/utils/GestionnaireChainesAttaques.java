@@ -67,7 +67,7 @@ public class GestionnaireChainesAttaques
 	public synchronized void ajouterScenarioATraiter(Scenario aScenario)
 	{
 		scenariosATraiter.add(aScenario);
-		System.out.println("Ajout d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+//		System.out.println("Ajout d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
 		notifyAll();
 	}
 
@@ -90,7 +90,7 @@ public class GestionnaireChainesAttaques
 			if (!scenariosATraiter.isEmpty())
 			{
 				scenario = scenariosATraiter.remove(0);
-				System.out.println("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+//				System.out.println("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
 			}
 		}
 		catch (InterruptedException e)

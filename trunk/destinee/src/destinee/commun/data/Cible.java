@@ -135,7 +135,7 @@ public class Cible implements Cloneable
 	 * @param aAttaque une attaque
 	 * @param typeResolution un type de résolution
 	 */
-	public void incrementerMalusDefence(Attaque aAttaque, int typeResolution)
+	public void incrementerMalusDefense(Attaque aAttaque, int typeResolution)
 	{
 		// Il n'y a pas de malus d'esquive sur une attaque imparable
 		// Pour toutes les autres, on a :
