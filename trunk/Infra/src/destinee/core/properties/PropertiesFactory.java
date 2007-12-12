@@ -11,12 +11,12 @@ import java.util.Properties;
 import destinee.core.exception.TechnicalException;
 
 /**
- * @author AMOROS
+ * @author Bubulle et No-one
  *
  */
 public class PropertiesFactory
 {
-	private static final String chemin = "destinee/application.properties";
+	private static final String chemin = "./properties/destinee/properties/application.properties";
 	private static Properties props = null;
 	
 	private static void init(){

@@ -28,14 +28,4 @@ public class ConversionUtilTest extends TestCase
 		result = ConversionUtil.bigDecimalVersString(decimal, 10);
 		assertEquals("0,0000035784", result);
 	}
-
-	public void testTest()
-	{
-		
-		
-	}
-	public void testTest2()
-	{
-		
-	}
 }
