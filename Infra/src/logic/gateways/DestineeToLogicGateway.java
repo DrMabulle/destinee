@@ -27,6 +27,18 @@ public interface DestineeToLogicGateway
 	public Map<String, Vector<String>> queryOnce(String aQuery);
 
 	/**
+	 * Permet de récupérer le résultat suivant après un premier appel à queryOnce()
+	 * 
+	 * @return le résultat suivant
+	 */
+	public Map<String, Vector<String>> next();
+
+	/**
+	 * Permet de fermer la Query une fois les résultats voulus obtenus. A appeler après l'utilisation d'un queryOnce
+	 */
+	public void stop();
+
+	/**
 	 * Permet d'ajouter un personnage et ses caractéristiques
 	 * 
 	 * @param aNomPerso un nom de personnage
