@@ -39,10 +39,10 @@ public class Scenario
 	 * La cible des attaques
 	 */
 	private Cible cible;
-	 
+
 	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
-	private static final String CLE_VALEUR_MIN= "destinee.scenario.evaluation.valeurMin";
-	
+	private static final String CLE_VALEUR_MIN = "destinee.scenario.evaluation.valeurMin";
+
 	public Scenario(Cible aCible)
 	{
 
@@ -107,9 +107,9 @@ public class Scenario
 		double esperanceTmp = 0;
 
 		String valeurMinTemp = PropertiesFactory.getOptionalString(CLE_VALEUR_MIN);
-		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal (0.1));
-		valeurMin.pow(listeElements.size() + 1 );
-		
+		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal(0.00001));
+		// valeurMin.pow(listeElements.size() + 1);
+
 		for (ScenarioElement scenarioElemt : listeElements)
 		{
 			probaTmp = ResolutionAttaque.resoudreAttaque(scenarioElemt.getAttaque(), cible, scenarioElemt.getTypeResolution());
@@ -118,7 +118,7 @@ public class Scenario
 			// Multiplier la proba de réalisation globale par la proba de
 			// réalisation de l'élément scénaristique
 			probaRealisation = probaRealisation.multiply(probaTmp);
-			
+
 			// Arrêter l'evaluation du scenario si la probailité passe sous le seuil défini
 			if (Boolean.TRUE.equals(PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT)))
 			{
@@ -129,7 +129,7 @@ public class Scenario
 					return;
 				}
 			}
-			
+
 			// Additionner l'espérance de dégâts de l'élément scénaristique à
 			// l'espérance de dégâts cumulée
 			esperanceDegats += esperanceTmp;
@@ -143,7 +143,7 @@ public class Scenario
 		}
 		// TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
 		// TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
-		
+
 		System.out.println("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15));
 	}
 
@@ -229,7 +229,9 @@ public class Scenario
 		return cible.hashCode() + hashcode;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -242,5 +244,5 @@ public class Scenario
 		}
 		return result;
 	}
-	
+
 }

@@ -22,7 +22,7 @@ public class GestionnaireChainesAttaques
 	private Map<String, ChaineAttaques> chaines = new Hashtable<String, ChaineAttaques>(15000);
 	private static GestionnaireChainesAttaques instance = new GestionnaireChainesAttaques();
 
-	private List<Scenario> scenariosATraiter = new ArrayList<Scenario>();
+	private List<Scenario> scenariosATraiter = new ArrayList<Scenario>(400);
 
 	/**
 	 * Constructeur par défaut
@@ -66,8 +66,21 @@ public class GestionnaireChainesAttaques
 	 */
 	public synchronized void ajouterScenarioATraiter(Scenario aScenario)
 	{
+		try
+		{
+			// On limite la taille du buffer à 300 scénarios à traiter
+			while (scenariosATraiter.size() >= 300)
+			{
+				wait();
+			}
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+
 		scenariosATraiter.add(aScenario);
-//		System.out.println("Ajout d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+		// System.out.println("Ajout d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
 		notifyAll();
 	}
 
@@ -90,13 +103,14 @@ public class GestionnaireChainesAttaques
 			if (!scenariosATraiter.isEmpty())
 			{
 				scenario = scenariosATraiter.remove(0);
-//				System.out.println("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+				// System.out.println("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
 			}
 		}
 		catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
+		notifyAll();
 
 		return scenario;
 	}

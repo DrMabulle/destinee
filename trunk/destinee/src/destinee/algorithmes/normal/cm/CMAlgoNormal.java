@@ -4,8 +4,6 @@
 package destinee.algorithmes.normal.cm;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import logic.gateways.DestineeToLogicGateway;
 import destinee.algorithmes.normal.cm.threads.DestineeQueryProcessor;
@@ -34,39 +32,44 @@ public class CMAlgoNormal
 	{
 		long startTime = System.currentTimeMillis();
 
-		Perso koumi = new Perso(16, 10, 12, 7, 5, 0, 0, "Koumi");
-		Perso noone = new Perso(12, 0, 8, 0, 5, 0, 0, "No-one");
+		Perso noone = new Perso(16, 0, 10, 0, 5, 0, 0, "No-one");
+		Perso koumi = new Perso(14, 0, 10, 0, 5, 0, 0, "Koumi");
+		Perso laporte = new Perso(12, 0, 10, 0, 5, 0, 0, "LaPorte");
 
-		CachePersos.getInstance().addPerso(koumi.getIdentifiant(), koumi);
-		CachePersos.getInstance().addPerso(noone.getIdentifiant(), noone);
+		CachePersos.getInstance().addPerso(noone.getIdentifiant(), koumi);
+		CachePersos.getInstance().addPerso(koumi.getIdentifiant(), noone);
+		CachePersos.getInstance().addPerso(laporte.getIdentifiant(), laporte);
 
 		DestineeToLogicGateway prolog = DestineeToLogicGatewayImpl.getDefaultInstance();
 
-		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_NORMALE);
-//		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
-//		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_PRECISE);
-		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
-//		 prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
-
 		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_NORMALE);
-//		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
+		// prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
 		prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
+		// prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
+
+		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_NORMALE);
+		// prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
+		// prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_PRECISE);
+		prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
+		// prolog.ajouterAttaquePerso(koumi.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
+
+		// prolog.ajouterAttaquePerso(laporte.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_NORMALE);
+		// prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BRUTALE);
+		prolog.ajouterAttaquePerso(laporte.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_BERSERK);
 		// prolog.ajouterAttaquePerso(noone.getIdentifiant(), ConstantesAttaques.ID_ATTAQUE_RAPIDE);
 
 		Cible cible = new Cible(10, 0, 15);
 
-		prolog.ajouterPerso(koumi.getIdentifiant(), koumi.getNombreDeDesAttaque(), koumi.getBonusAttaque(), koumi.getNombreDeDesDegats(), koumi
-				.getBonusDegats(), 10, 0);
-
 		prolog.ajouterPerso(noone.getIdentifiant(), noone.getNombreDeDesAttaque(), noone.getBonusAttaque(), noone.getNombreDeDesDegats(), noone
 				.getBonusDegats(), 10, 0);
-
-		String queryString = "generationScenarios(Result).";
-		List<Map<String, Vector<String>>> resultQuery = prolog.query(queryString);
+		prolog.ajouterPerso(koumi.getIdentifiant(), koumi.getNombreDeDesAttaque(), koumi.getBonusAttaque(), koumi.getNombreDeDesDegats(), koumi
+				.getBonusDegats(), 10, 0);
+		prolog.ajouterPerso(laporte.getIdentifiant(), laporte.getNombreDeDesAttaque(), laporte.getBonusAttaque(), laporte.getNombreDeDesDegats(), laporte
+				.getBonusDegats(), 10, 0);
 
 		long tempsIntermediaire = System.currentTimeMillis();
 
-		DestineeQueryProcessor.processQuery(resultQuery, "Result", cible);
+		DestineeQueryProcessor.processQuery(prolog, cible);
 
 		List<ChaineAttaques> chainesAtt = GestionnaireChainesAttaques.getInstance().getListeChainesOrdonnee();
 

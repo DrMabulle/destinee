@@ -20,7 +20,6 @@ import destinee.commun.data.AttaquePrecise;
 import destinee.commun.data.AttaqueRapide;
 import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
-import destinee.commun.utils.CacheAttaques;
 import destinee.commun.utils.CachePersos;
 import destinee.core.exception.DestineeException;
 import destinee.core.exception.TechnicalException;
@@ -163,46 +162,38 @@ public class DestineeQueryProcessorDegrade extends Thread
 	 */
 	private static Attaque getNouvelleAttaque(String aTypeAttaque, Perso aAttaquant) throws TechnicalException
 	{
-		String idAttaque = CacheAttaques.getIdentifiantAttaque(aAttaquant, aTypeAttaque);
-		Attaque attaque = CacheAttaques.getInstance().getAttaque(idAttaque);
-		if (attaque == null)
+		Attaque attaque;
+		if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
 		{
-			if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueBerserk(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_BRUTALE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueBrutale(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_IMPARABLE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueImparable(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_MAGIQUE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueMagique(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_NORMALE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueNormale(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_PRECISE.equals(aTypeAttaque))
-			{
-				attaque = new AttaquePrecise(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_RAPIDE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueRapide(aAttaquant);
-			}
-			else
-			{
-				throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
-			}
-
-			// Ajouter l'attaque au cache pour une réutilisation plus rapide (gros problèmes de mémoire !)
-			// CacheAttaques.getInstance().addAttaque(idAttaque, attaque); // FIXME pour le moment, on n'utilise pas le cache
-			// TODO Attaque kamikaze et charge
+			attaque = new AttaqueBerserk(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_BRUTALE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueBrutale(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_IMPARABLE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueImparable(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_MAGIQUE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueMagique(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_NORMALE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueNormale(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_PRECISE.equals(aTypeAttaque))
+		{
+			attaque = new AttaquePrecise(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_RAPIDE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueRapide(aAttaquant);
+		}
+		else
+		{
+			throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
 		}
 		return attaque;
 	}

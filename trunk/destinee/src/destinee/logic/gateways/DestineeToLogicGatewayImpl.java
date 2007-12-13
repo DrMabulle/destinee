@@ -63,6 +63,31 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
+	public Map<String, Vector<String>> next()
+	{
+		try
+		{
+			return itsGate.next();
+		}
+		catch (RuntimeException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void stop()
+	{
+		try
+		{
+			itsGate.stop();
+		}
+		catch (RuntimeException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public void ajouterPerso(String aNomPerso, int aNbDesAtt, int aBonusAtt, int aNbDesDeg, int aBonusDeg, int aNbPaCyc1, int aNbPaCyc2)
 	{
 		itsGate.addFact("perso('" + aNomPerso + "', " + aNbDesAtt + ", " + aBonusAtt + ", " + aNbDesDeg + ", " + aBonusDeg + ", " + aNbPaCyc1 + ", "
