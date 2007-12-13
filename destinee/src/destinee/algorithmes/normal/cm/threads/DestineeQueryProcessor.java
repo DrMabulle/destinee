@@ -3,13 +3,12 @@
  */
 package destinee.algorithmes.normal.cm.threads;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import logic.gateways.DestineeToLogicGateway;
 import destinee.algorithmes.normal.data.Scenario;
 import destinee.algorithmes.normal.data.ScenarioElement;
-import destinee.algorithmes.normal.utils.CacheScenarioElements;
 import destinee.algorithmes.normal.utils.GestionnaireChainesAttaques;
 import destinee.commun.constantes.ConstantesAttaques;
 import destinee.commun.data.Attaque;
@@ -23,7 +22,6 @@ import destinee.commun.data.AttaqueRapide;
 import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 import destinee.commun.probas.ResolutionAttaque;
-import destinee.commun.utils.CacheAttaques;
 import destinee.commun.utils.CachePersos;
 import destinee.core.exception.DestineeException;
 import destinee.core.exception.TechnicalException;
@@ -38,30 +36,30 @@ import destinee.core.exception.TechnicalException;
 public class DestineeQueryProcessor extends Thread
 {
 
-	private List<Map<String, Vector<String>>> queryResults;
-	private String scenarioVariableName;
 	private Cible cible;
+	private DestineeToLogicGateway prologGateway;
+
+	private static final String QUERY = "generationScenarios(Result).";
 
 	/**
 	 * Constructeur par defaut
 	 * 
-	 * @param results Résultats de la query Prolog à traiter
+	 * @param aGateway une DestineeToLogicGateway
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 * @param aCible Cible des attaques
 	 */
-	public DestineeQueryProcessor(List<Map<String, Vector<String>>> results, String aScenarioVariableName, Cible aCible)
+	public DestineeQueryProcessor(DestineeToLogicGateway aGateway, Cible aCible)
 	{
-		queryResults = results;
-		scenarioVariableName = aScenarioVariableName;
+		prologGateway = aGateway;
 		cible = aCible;
 
 		start();
 	}
 
-	public static void processQuery(List<Map<String, Vector<String>>> results, String scenarioVariableName, Cible aCible) throws DestineeException
+	public static void processQuery(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
 	{
 
-		Thread processor = new DestineeQueryProcessor(results, scenarioVariableName, aCible);
+		Thread processor = new DestineeQueryProcessor(aGateway, aCible);
 
 		// Démarrer 4 Threads de traitement des scénarios
 		Thread t1 = new TraitementScenarios();
@@ -106,63 +104,59 @@ public class DestineeQueryProcessor extends Thread
 
 	public void run()
 	{
-		if (queryResults != null)
+		Map<String, Vector<String>> result = prologGateway.queryOnce(QUERY);
+
+		while (result != null && !result.isEmpty())
 		{
-			for (Map<String, Vector<String>> theMap : queryResults)
+			Vector<String> vector = result.get("Result");
+			/*
+			 * On a une String de la forme [att(Perso1,Type1,Resolution1), ..., att(PersoN,TypeN,ResolutionN)]
+			 */
+
+			CachePersos.getInstance().getNouvellesInstances();
+			Scenario scenar = new Scenario(cible.clone());
+
+			try
 			{
-				Vector<String> vector = theMap.get(scenarioVariableName);
 				/*
-				 * On a une String de la forme [att(Perso1,Type1,Resolution1), ..., att(PersoN,TypeN,ResolutionN)]
+				 * Parser la String représentant le scénario
 				 */
-
-				// if (vector == null)
-				// {
-				// throw new FonctionnalException("Mauvais identifiant de variable Prolog.");
-				// }
-				CachePersos.getInstance().getNouvellesInstances();
-				Scenario scenar = new Scenario(cible.clone());
-
-				try
+				// Découper les attaques une à une
+				for (String attaqueS : vector)
 				{
-					/*
-					 * Parser la String représentant le scénario
-					 */
-					// Découper les attaques une à une
-					for (String attaqueS : vector)
-					{
-						// attaqueS est du type att(Perso,Type,Resolution)
-						attaqueS = attaqueS.substring("att(".length(), attaqueS.length() - 1);
+					// attaqueS est du type att(Perso,Type,Resolution)
+					attaqueS = attaqueS.substring("att(".length(), attaqueS.length() - 1);
 
-						// Il ne reste plus que Perso,Type,Resolution
-						String[] details = attaqueS.split(",");
-						String persoId = details[0];
-						String typeAttaque = details[1];
-						String typeResolution = details[2];
+					// Il ne reste plus que Perso,Type,Resolution
+					String[] details = attaqueS.split(",");
+					String persoId = details[0];
+					String typeAttaque = details[1];
+					String typeResolution = details[2];
 
-						Perso attaquant = CachePersos.getInstance().getPerso(persoId);
-						Attaque attaque = getNouvelleAttaque(typeAttaque, attaquant);
+					Perso attaquant = CachePersos.getInstance().getPerso(persoId);
+					Attaque attaque = getNouvelleAttaque(typeAttaque, attaquant);
 
-						// Construire un ScenarioElement avec ces données et l'ajouté au scénario
-						ScenarioElement scenarElt = getScenarioElement(attaque, typeResolution);
-						scenar.ajouterElement(scenarElt);
-					}
-
-				}
-				catch (Exception e)
-				{
-					// throw new TechnicalException("erreur lors du parsing des résultats de la query Prolog", e);
-					e.printStackTrace();
+					// Construire un ScenarioElement avec ces données et l'ajouté au scénario
+					ScenarioElement scenarElt = getScenarioElement(attaque, typeResolution);
+					scenar.ajouterElement(scenarElt);
 				}
 
-				// Le scénario étant complet, l'ajouté au gestionnaire de chaines d'attaques
-				GestionnaireChainesAttaques.getInstance().ajouterScenarioATraiter(scenar);
+			}
+			catch (Exception e)
+			{
+				// throw new TechnicalException("erreur lors du parsing des résultats de la query Prolog", e);
+				e.printStackTrace();
 			}
 
+			// Le scénario étant complet, l'ajouté au gestionnaire de chaines d'attaques
+			GestionnaireChainesAttaques.getInstance().ajouterScenarioATraiter(scenar);
+
+			// préparer la prochaine itération
+			result = prologGateway.next();
 		}
-		else
-		{
-			// throw new FonctionnalException("Résultats de la query Prolog vides.");
-		}
+
+		// Une fois tous les résultats récupérés, fermer la Query Prolog
+		prologGateway.stop();
 	}
 
 	/**
@@ -174,17 +168,7 @@ public class DestineeQueryProcessor extends Thread
 	private static ScenarioElement getScenarioElement(Attaque aAttaque, String aTypeResolution) throws TechnicalException
 	{
 		int typeResol = getTypeResolution(aTypeResolution);
-		String idScenarElt = CacheScenarioElements.getIdentifiantScenarioElement(aAttaque, typeResol);
-		ScenarioElement scenarElt = CacheScenarioElements.getInstance().getScenarioElement(idScenarElt);
-
-		if (scenarElt == null)
-		{
-			scenarElt = new ScenarioElement(aAttaque, typeResol);
-			// CacheScenarioElements.getInstance().addScenarioElement(idScenarElt, scenarElt);
-			// FIXME pour le moment on n'utilise pas le cache
-		}
-
-		return scenarElt;
+		return new ScenarioElement(aAttaque, typeResol);
 	}
 
 	/**
@@ -224,47 +208,40 @@ public class DestineeQueryProcessor extends Thread
 	 */
 	private static Attaque getNouvelleAttaque(String aTypeAttaque, Perso aAttaquant) throws TechnicalException
 	{
-		String idAttaque = CacheAttaques.getIdentifiantAttaque(aAttaquant, aTypeAttaque);
-		Attaque attaque = CacheAttaques.getInstance().getAttaque(idAttaque);
-		if (attaque == null)
+		Attaque attaque = null;
+		if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
 		{
-			if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueBerserk(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_BRUTALE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueBrutale(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_IMPARABLE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueImparable(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_MAGIQUE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueMagique(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_NORMALE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueNormale(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_PRECISE.equals(aTypeAttaque))
-			{
-				attaque = new AttaquePrecise(aAttaquant);
-			}
-			else if (ConstantesAttaques.ID_ATTAQUE_RAPIDE.equals(aTypeAttaque))
-			{
-				attaque = new AttaqueRapide(aAttaquant);
-			}
-			else
-			{
-				throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
-			}
-
-			// Ajouter l'attaque au cache pour une réutilisation plus rapide (gros problèmes de mémoire !)
-			// CacheAttaques.getInstance().addAttaque(idAttaque, attaque); // FIXME pour le moment, on n'utilise pas le cache
-			// TODO Attaque kamikaze et charge
+			attaque = new AttaqueBerserk(aAttaquant);
 		}
+		else if (ConstantesAttaques.ID_ATTAQUE_BRUTALE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueBrutale(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_IMPARABLE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueImparable(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_MAGIQUE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueMagique(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_NORMALE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueNormale(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_PRECISE.equals(aTypeAttaque))
+		{
+			attaque = new AttaquePrecise(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_RAPIDE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueRapide(aAttaquant);
+		}
+		else
+		{
+			throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
+		}
+
 		return attaque;
 	}
 }

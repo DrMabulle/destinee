@@ -157,7 +157,7 @@ public class ResolutionAttaque
 			result = result.add(proba.multiply(resultatDuDeBigDecimal));
 		}
 
-		return ConversionUtil.bigdecimalVersDouble(result);
+		return ConversionUtil.bigdecimalVersDouble(result, 5);
 	}
 
 	/**
@@ -185,9 +185,9 @@ public class ResolutionAttaque
 	 */
 	public static double esperanceMalusDefense(Attaque aAttaque, Cible aCible)
 	{
-		double probaAttaqueCritique = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE));
-		double probaAttaqueNormale = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_SIMPLE));
-		double probaEsquiveSimple = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_ESQUIVE_SIMPLE));
+		double probaAttaqueCritique = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE), 10);
+		double probaAttaqueNormale = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_SIMPLE), 10);
+		double probaEsquiveSimple = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_ESQUIVE_SIMPLE), 10);
 
 		return probaAttaqueCritique + 0.5 * probaAttaqueNormale + 0.5 * probaEsquiveSimple;
 	}
