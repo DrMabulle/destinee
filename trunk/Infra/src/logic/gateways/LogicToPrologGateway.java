@@ -24,7 +24,7 @@ public interface LogicToPrologGateway
 	public void addRule(String aRule);
 
 	/**
-	 * begins a query on the Prolog system. If there was an active query running, further results lost. The resultant Hashtable contains keys equal to the
+	 * Begins a query on the Prolog system. If there was an active query running, further results lost. The resultant Hashtable contains keys equal to the
 	 * unbound variables in the query, and values equal to their binding. If null is returned, no bindings could satisfy the query ("no"). If there were no
 	 * unbound variables, an empty Hashtable is returned to signify "yes".
 	 * 
@@ -32,6 +32,18 @@ public interface LogicToPrologGateway
 	 * @return a hashtable, containing the bindings generated.
 	 */
 	public Map<String, Vector<String>> queryOnce(String aQuery);
+
+	/**
+	 * Retries the previous query.
+	 * 
+	 * @return a hashtable, containing the bindings generated.
+	 */
+	public Map<String, Vector<String>> next();
+
+	/**
+	 * Stops the current query, once all desired results have been retrieved. Use only with queryOnce and next
+	 */
+	public void stop();
 
 	/**
 	 * begins a query on the Prolog system. If there was an active query running, further results lost. The resultant Hashtable contains keys equal to the

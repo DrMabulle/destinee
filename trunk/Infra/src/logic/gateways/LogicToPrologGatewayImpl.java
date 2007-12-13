@@ -88,7 +88,17 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 			}
 		}
 		// query
-		return itsPrologAPI.queryOnce(aQuery);
+		return itsPrologAPI.query(aQuery);
+	}
+
+	public Map<String, Vector<String>> next()
+	{
+		return itsPrologAPI.retry();
+	}
+
+	public void stop()
+	{
+		itsPrologAPI.stop();
 	}
 
 	@SuppressWarnings("serial")
