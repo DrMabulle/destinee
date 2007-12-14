@@ -4,14 +4,11 @@
 package destinee.algorithmes.degrade.data;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import destinee.commun.data.Attaque;
 import destinee.commun.data.Cible;
-import destinee.commun.data.Perso;
 import destinee.commun.probas.ResolutionAttaque;
-import destinee.commun.utils.CachePersos;
 
 /**
  * @author Bubulle et No-one
@@ -54,10 +51,9 @@ public class ChaineAttaquesD
 		// Réinitialiser la fatigue et les malus de la cible et des persos
 		cible.reinitialiserFatigue();
 		cible.reinitialiserMalusDefense();
-		for (Iterator<Perso> iterator = CachePersos.getInstance().getEnsemblePersos().iterator(); iterator.hasNext();)
+		for (Attaque attaque : chaineAttaque)
 		{
-			Perso perso = iterator.next();
-			perso.reinitialiserFatigue();
+			attaque.getPerso().reinitialiserFatigue();
 		}
 
 		// Evaluer l'espérance de dégâts

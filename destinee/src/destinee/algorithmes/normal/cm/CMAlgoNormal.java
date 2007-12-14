@@ -64,8 +64,8 @@ public class CMAlgoNormal
 				.getBonusDegats(), 10, 0);
 		prolog.ajouterPerso(koumi.getIdentifiant(), koumi.getNombreDeDesAttaque(), koumi.getBonusAttaque(), koumi.getNombreDeDesDegats(), koumi
 				.getBonusDegats(), 10, 0);
-		prolog.ajouterPerso(laporte.getIdentifiant(), laporte.getNombreDeDesAttaque(), laporte.getBonusAttaque(), laporte.getNombreDeDesDegats(), laporte
-				.getBonusDegats(), 10, 0);
+		// prolog.ajouterPerso(laporte.getIdentifiant(), laporte.getNombreDeDesAttaque(), laporte.getBonusAttaque(), laporte.getNombreDeDesDegats(), laporte
+		// .getBonusDegats(), 10, 0);
 
 		long tempsIntermediaire = System.currentTimeMillis();
 
