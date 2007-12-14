@@ -57,6 +57,8 @@ public class GestionnaireChainesAttaques
 
 		// Ajouter le scénario à la chaine d'attaque
 		chaineAtt.ajouterScenario(aSceanrio);
+
+		notifyAll();
 	}
 
 	/**
@@ -68,8 +70,8 @@ public class GestionnaireChainesAttaques
 	{
 		try
 		{
-			// On limite la taille du buffer à 300 scénarios à traiter
-			while (scenariosATraiter.size() >= 300)
+			// On limite la taille du buffer à 200 scénarios à traiter
+			while (scenariosATraiter.size() >= 200)
 			{
 				wait();
 			}
@@ -99,16 +101,16 @@ public class GestionnaireChainesAttaques
 			{
 				wait();
 			}
-
-			if (!scenariosATraiter.isEmpty())
-			{
-				scenario = scenariosATraiter.remove(0);
-				// System.out.println("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
-			}
 		}
 		catch (InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+
+		if (!scenariosATraiter.isEmpty())
+		{
+			scenario = scenariosATraiter.remove(0);
+			// System.out.println("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
 		}
 		notifyAll();
 

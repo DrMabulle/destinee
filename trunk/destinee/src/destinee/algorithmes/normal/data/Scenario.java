@@ -5,13 +5,10 @@ package destinee.algorithmes.normal.data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import destinee.commun.data.Cible;
-import destinee.commun.data.Perso;
 import destinee.commun.probas.ResolutionAttaque;
-import destinee.commun.utils.CachePersos;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
@@ -97,10 +94,9 @@ public class Scenario
 		// Réinitialiser la fatigue et les malus de la cible et des persos
 		cible.reinitialiserFatigue();
 		cible.reinitialiserMalusDefense();
-		for (Iterator<Perso> iterator = CachePersos.getInstance().getEnsemblePersos().iterator(); iterator.hasNext();)
+		for (ScenarioElement scenarioElemt : listeElements)
 		{
-			Perso perso = iterator.next();
-			perso.reinitialiserFatigue();
+			scenarioElemt.getAttaque().getPerso().reinitialiserFatigue();
 		}
 
 		BigDecimal probaTmp = null;
