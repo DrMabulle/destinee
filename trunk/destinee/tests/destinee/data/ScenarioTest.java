@@ -4,9 +4,12 @@
 package destinee.data;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import destinee.algorithmes.normal.data.Scenario;
 import destinee.algorithmes.normal.data.ScenarioElement;
+import destinee.commun.constantes.ConstantesAttaques;
 import destinee.commun.data.Attaque;
 import destinee.commun.data.AttaqueNormale;
 import destinee.commun.data.Cible;
@@ -48,7 +51,12 @@ public class ScenarioTest extends TestCase
 	{
 		super.setUp();
 		cible = new Cible(10, 5, 5);
-		attaquant = new Perso(15, 15, 10, 5, 5, 0, 0, "Attaquant");
+		Map<String, Double> maitrises = new HashMap<String, Double>();
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, 0.8);
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_PRECISE, 0.8);
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_RAPIDE, 0.8);
+		attaquant = new Perso(15, 15, 10, 5, 5, 0, 0, "Attaquant", maitrises);
 		attaque = new AttaqueNormale(attaquant);
 		ScenarioElement scenarElmt = new ScenarioElement(attaque, ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 		scenar = new Scenario(cible);

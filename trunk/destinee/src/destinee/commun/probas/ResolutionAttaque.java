@@ -21,6 +21,7 @@ public class ResolutionAttaque
 	public static final int RESOLUTION_COUP_SIMPLE = 1;
 	public static final int RESOLUTION_ESQUIVE_SIMPLE = 2;
 	public static final int RESOLUTION_ESQUIVE_PARFAITE = 3;
+	public static final int RESOLUTION_ECHEC_COMPETENCE = 4;
 
 	/**
 	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour certaines caractéristiques d'attaque
@@ -29,10 +30,11 @@ public class ResolutionAttaque
 	 * @param bonusAtt bonus fixe en attaque
 	 * @param nbDesDef nombre de dés de défense
 	 * @param bonusDef bonus fixe en défense
+	 * @param maitriseCompetence pourcentage de maitrise de la compétence
 	 * @param typeResol type de résolution
 	 * @return la probabilité d'obtenir la résolution choisie
 	 */
-	public static BigDecimal resoudreAttaque(int nbDesAtt, int bonusAtt, int nbDesDef, int bonusDef, int typeResol)
+	public static BigDecimal resoudreAttaque(int nbDesAtt, int bonusAtt, int nbDesDef, int bonusDef, double maitriseCompetence, int typeResol)
 	{
 		BigDecimal result = new BigDecimal(0);
 		BigDecimal temp = null;
@@ -52,6 +54,7 @@ public class ResolutionAttaque
 					temp = temp.multiply(ProbaMoins.calculerProba((int) (0.5 * (i + 1 + bonusAtt) - bonusDef), nbDesDef));
 					result = result.add(temp);
 				}
+				result = result.multiply(new BigDecimal(maitriseCompetence));
 				break;
 			case RESOLUTION_COUP_SIMPLE: // attaque reussie
 				for (int i = attMin; i <= attMax; i++)
@@ -62,6 +65,7 @@ public class ResolutionAttaque
 					temp = temp.multiply(borneSup.subtract(borneInf));
 					result = result.add(temp);
 				}
+				result = result.multiply(new BigDecimal(maitriseCompetence));
 				break;
 			case RESOLUTION_ESQUIVE_SIMPLE: // esquive reussie
 				for (int i = attMin; i <= attMax; i++)
@@ -72,6 +76,7 @@ public class ResolutionAttaque
 					temp = temp.multiply(borneSup.subtract(borneInf));
 					result = result.add(temp);
 				}
+				result = result.multiply(new BigDecimal(maitriseCompetence));
 				break;
 			case RESOLUTION_ESQUIVE_PARFAITE: // esquive parfaite
 				for (int i = attMin; i <= attMax; i++)
@@ -81,7 +86,11 @@ public class ResolutionAttaque
 					temp = temp.multiply(borneInf);
 					result = result.add(temp);
 				}
+				result = result.multiply(new BigDecimal(maitriseCompetence));
 				break;
+			case RESOLUTION_ECHEC_COMPETENCE: // échec de la compétence
+				result = new BigDecimal(1 - maitriseCompetence).setScale(2, BigDecimal.ROUND_HALF_UP); 
+				break;	
 		}
 		return result;
 	}
@@ -108,7 +117,8 @@ public class ResolutionAttaque
 			}
 		}
 
-		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNbDesDefenseEffectif(), cible.getBonusDefenseEffectif(), typeResol);
+		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNbDesDefenseEffectif(), cible.getBonusDefenseEffectif(), 
+				attaque.getPerso().getMaitriseAttaque(attaque.getTypeAttaque()) , typeResol);
 	}
 
 	/**
@@ -127,12 +137,17 @@ public class ResolutionAttaque
 		int bonusDeg = 0;
 
 		// Cas spéciaux
-		if (aAttaque instanceof AttaqueImparable && typeResol != RESOLUTION_COUP_SIMPLE)
+		if (typeResol == RESOLUTION_ECHEC_COMPETENCE)
+		{
+			// Pas de dégâts en cas d'échec de la compétence
+			return 0;
+		}
+		else if (aAttaque instanceof AttaqueImparable && typeResol != RESOLUTION_COUP_SIMPLE)
 		{
 			// Le résultat d'une attaque imparable est toujours un coup normal
 			return esperanceDeDegats(aAttaque, aCible, RESOLUTION_COUP_SIMPLE);
 		}
-		else if (typeResol == RESOLUTION_ESQUIVE_PARFAITE || typeResol == RESOLUTION_ESQUIVE_SIMPLE)
+		else if (typeResol == RESOLUTION_ESQUIVE_PARFAITE || typeResol == RESOLUTION_ESQUIVE_SIMPLE )
 		{
 			// Pas de dégâts en cas d'esquive
 			return 0;

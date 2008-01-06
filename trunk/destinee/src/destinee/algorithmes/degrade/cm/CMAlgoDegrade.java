@@ -3,6 +3,7 @@
  */
 package destinee.algorithmes.degrade.cm;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -33,9 +34,21 @@ public class CMAlgoDegrade
 	public static void main(String[] args) throws DestineeException
 	{
 		long startTime = System.currentTimeMillis();
+		
+		Map<String, Double> maitrisesNoOne = new HashMap<String, Double>();
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, 0.8);
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_PRECISE, 0.8);
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_RAPIDE, 0.8);
+		
+		Map<String, Double> maitrisesKoumi = new HashMap<String, Double>();
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, 0.8);
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_PRECISE, 0.8);
+		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_RAPIDE, 0.8);
 
-		Perso koumi = new Perso(16, 10, 12, 7, 5, 0, 0, "Koumi");
-		Perso noone = new Perso(12, 0, 8, 0, 5, 0, 0, "No-one");
+		Perso koumi = new Perso(16, 10, 12, 7, 5, 0, 0, "Koumi", maitrisesKoumi);
+		Perso noone = new Perso(12, 0, 8, 0, 5, 0, 0, "No-one", maitrisesNoOne);
 
 		CachePersos.getInstance().addPerso(koumi.getIdentifiant(), koumi);
 		CachePersos.getInstance().addPerso(noone.getIdentifiant(), noone);

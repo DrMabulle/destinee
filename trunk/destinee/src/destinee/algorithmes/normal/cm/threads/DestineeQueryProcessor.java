@@ -194,6 +194,10 @@ public class DestineeQueryProcessor extends Thread
 		{
 			return ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE;
 		}
+		else if ("Echec competence".equals(aTypeResolution))
+		{
+			return ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE;
+		}
 		else
 		{
 			throw new TechnicalException("Type de résolution incorrect : " + aTypeResolution);

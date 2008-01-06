@@ -1,51 +1,73 @@
 /**
  * 
  */
-package destinee.algorithmes.normal.data;
+package destinee.algorithmes.voisinages.data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import destinee.commun.data.Attaque;
 import destinee.commun.data.Cible;
 import destinee.commun.probas.ResolutionAttaque;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
+
 /**
  * @author Bubulle et No-one
- * 
+ *
  */
-public class Scenario
+public class ScenarioV
 {
-	/**
-	 * Espérance de dégâts
-	 */
 	private double esperanceDegats;
-	/**
-	 * Probabilité de réalisation
-	 */
 	private BigDecimal probaRealisation = null;
-
-	/**
-	 * Liste des éléments scénaristiques
-	 */
-	private List<ScenarioElement> listeElements;
-
-	/**
-	 * La cible des attaques
-	 */
-	private Cible cible;
-
+	private List<Integer> listeResultats;
+	private ChaineAttaquesV chaine;
+	
 	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
 	private static final String CLE_VALEUR_MIN = "destinee.scenario.evaluation.valeurMin";
-
-	public Scenario(Cible aCible)
+	
+	public ScenarioV(ChaineAttaquesV aChaineAtt)
 	{
-
 		super();
-		listeElements = new ArrayList<ScenarioElement>();
-		cible = aCible;
+		chaine = aChaineAtt;
+		listeResultats = new ArrayList<Integer>(aChaineAtt.size());
+	}
+	
+	
+	public ScenarioV(ChaineAttaquesV aChaineAtt, List<Integer> resolutions)
+	{
+		super();
+		chaine = aChaineAtt;
+		listeResultats = new ArrayList<Integer>(resolutions);
+	}
+	
+	/**
+	 * Méthode permettant d'ajouter un type de résolution au scénario
+	 * 
+	 * @param aTypeResolution un type de résolution
+	 */
+	public void ajouterElementResolution(int aTypeResolution)
+	{
+		listeResultats.add(aTypeResolution);
+		// réinitialiser les probas et espérances
+		probaRealisation = null;
+		esperanceDegats = 0;
+	}
+	
+	/**
+	 * Méthode permettant de modifier un type de résolution du scénario
+	 * 
+	 * @param aPosition position du type de résolution à modifier
+	 * @param aTypeResolution un type de résolution
+	 */
+	public void changerTypeResolution(int aPosition, int aTypeResolution)
+	{
+		listeResultats.set(aPosition, aTypeResolution);
+		// réinitialiser les probas et espérances
+		probaRealisation = null;
+		esperanceDegats = 0;
 	}
 
 	/**
@@ -90,12 +112,13 @@ public class Scenario
 		probaRealisation = new BigDecimal(1);
 		esperanceDegats = 0;
 
+		Cible cible = chaine.getCible();
 		// Réinitialiser la fatigue et les malus de la cible et des persos
 		cible.reinitialiserFatigue();
 		cible.reinitialiserMalusDefense();
-		for (ScenarioElement scenarioElemt : listeElements)
+		for (Attaque att : chaine.getListeAttaques())
 		{
-			scenarioElemt.getAttaque().getPerso().reinitialiserFatigue();
+			att.getPerso().reinitialiserFatigue();
 		}
 
 		BigDecimal probaTmp = null;
@@ -105,10 +128,18 @@ public class Scenario
 		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal(0.00001));
 		// valeurMin.pow(listeElements.size() + 1);
 
-		for (ScenarioElement scenarioElemt : listeElements)
+		/*
+		 * Lors de la recherche du scenario initial, la liste des types de résolution n'est pas entièrement remplie.
+		 * On itère uniquement sur les résolutions afin de trouver la meilleure combinaison.
+		 */
+		List<Attaque> attaques = chaine.getListeAttaques();
+		for (int i = 0; i < listeResultats.size(); i++)
 		{
-			probaTmp = ResolutionAttaque.resoudreAttaque(scenarioElemt.getAttaque(), cible, scenarioElemt.getTypeResolution());
-			esperanceTmp = ResolutionAttaque.esperanceDeDegats(scenarioElemt.getAttaque(), cible, scenarioElemt.getTypeResolution());
+			Attaque att = attaques.get(i);
+			int typeResolution = listeResultats.get(i);
+			
+			probaTmp = ResolutionAttaque.resoudreAttaque(att, cible, typeResolution);
+			esperanceTmp = ResolutionAttaque.esperanceDeDegats(att, cible, typeResolution);
 
 			// Multiplier la proba de réalisation globale par la proba de
 			// réalisation de l'élément scénaristique
@@ -121,7 +152,6 @@ public class Scenario
 				{
 					probaRealisation = BigDecimal.ZERO;
 					esperanceDegats = 0;
-					System.out.println("scenario " + toString() + ": abandon");
 					return;
 				}
 			}
@@ -132,47 +162,16 @@ public class Scenario
 
 			// Incrémenter les malus de la cible
 			cible.incrementerFatigue();
-			cible.incrementerMalusDefense(scenarioElemt.getAttaque(), scenarioElemt.getTypeResolution());
+			cible.incrementerMalusDefense(att, typeResolution);
 
 			// Incrémenter la fatigue du perso
-			scenarioElemt.getAttaque().getPerso().incrementerFatigue(scenarioElemt.getAttaque());
+			att.getPerso().incrementerFatigue(att);
 		}
-		// TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
-		// TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
-
-		System.out.println("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15));
 	}
-
-	/**
-	 * Méthode permettant de récupérer l'identifiant de la chaine d'attaques utilisée dans ce scénario
-	 * 
-	 * @return l'identifiant de la chaine d'attaques utilisée dans ce scénario
-	 */
-	public String getIdentifiantChaineAttaques()
+	
+	public List<Integer> getListeTypesResolution()
 	{
-		StringBuffer sb = new StringBuffer("");
-
-		for (ScenarioElement scenarioElemt : listeElements)
-		{
-			sb.append(scenarioElemt.getAttaque().getPerso().getIdentifiant());
-			sb.append(scenarioElemt.getAttaque().getTypeAttaque());
-			sb.append("-");
-		}
-
-		return sb.toString();
-	}
-
-	/**
-	 * Méthode permettant d'ajouter un élément scénaristique au scénario
-	 * 
-	 * @param aScenarioElmt le ScenarioElement à ajouter
-	 */
-	public void ajouterElement(ScenarioElement aScenarioElmt)
-	{
-		listeElements.add(aScenarioElmt);
-		// réinitialiser les probas et espérances
-		probaRealisation = null;
-		esperanceDegats = 0;
+		return listeResultats;
 	}
 
 	/*
@@ -184,19 +183,19 @@ public class Scenario
 	public boolean equals(Object aArg0)
 	{
 		/*
-		 * Deux Scénarios sont considérés égaux s'ils ont la même chaine de ScenarioElement et la même cible
+		 * Deux Scénarios sont considérés égaux s'ils ont la même chaine d'attaque, les même résolutions
 		 */
-		if (aArg0 != null && aArg0 instanceof Scenario)
+		if (aArg0 != null && aArg0 instanceof ScenarioV)
 		{
-			Scenario scenar = (Scenario) aArg0;
+			ScenarioV scenar = (ScenarioV) aArg0;
 			// Même cible, même nombre d'éléments
-			if (cible.equals(scenar.cible) && listeElements.size() == scenar.listeElements.size())
+			if (listeResultats.size() == scenar.listeResultats.size() && this.chaine.equals(scenar.chaine))
 			{
 				boolean chainesEgales = true;
 				// Comparer les éléments de chaque chaine
-				for (int i = 0; i < listeElements.size() && chainesEgales; i++)
+				for (int i = 0; i < listeResultats.size() && chainesEgales; i++)
 				{
-					chainesEgales &= listeElements.get(i).equals(scenar.listeElements.get(i));
+					chainesEgales &= listeResultats.get(i).equals(scenar.listeResultats.get(i));
 				}
 
 				if (chainesEgales)
@@ -218,11 +217,11 @@ public class Scenario
 	public int hashCode()
 	{
 		int hashcode = 0;
-		for (ScenarioElement elt : listeElements)
+		for (Integer elt : listeResultats)
 		{
 			hashcode += elt.hashCode();
 		}
-		return cible.hashCode() + hashcode;
+		return chaine.hashCode() + hashcode;
 	}
 
 	/*
@@ -234,11 +233,10 @@ public class Scenario
 	public String toString()
 	{
 		String result = "";
-		for (ScenarioElement scenarElem : listeElements)
+		for (Integer elt : listeResultats)
 		{
-			result += scenarElem.toString() + " - ";
+			result += elt.toString() + " - ";
 		}
 		return result;
 	}
-
 }
