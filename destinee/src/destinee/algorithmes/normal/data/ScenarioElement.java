@@ -108,6 +108,10 @@ public class ScenarioElement
 		{
 			result += "EsqPft";
 		}
+		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE)
+		{
+			result += "Echec";
+		}
 		return result;
 	}
 }

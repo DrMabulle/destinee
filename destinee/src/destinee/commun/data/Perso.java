@@ -3,6 +3,10 @@
  */
 package destinee.commun.data;
 
+import java.util.Map;
+
+import destinee.commun.constantes.ConstantesAttaques;
+
 
 /**
  * @author Bubulle et No-one
@@ -27,6 +31,7 @@ public class Perso
 	private String identifiant;
 	private int fatigue;
 	private int fatigueIntiale;
+	private Map<String, Double> maitrisesAtt;
 
 	/**
 	 * @param aNombreDeDesAttaque
@@ -39,7 +44,7 @@ public class Perso
 	 * @param aIdentifiant identifiant du personnage
 	 */
 	public Perso(int aNombreDeDesAttaque, int aBonusAttaque, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM, int aFatigueInitiale,
-			String aIdentifiant)
+			String aIdentifiant, Map<String, Double> aMaitrisesAtt)
 	{
 		super();
 		nombreDeDesAttaque = aNombreDeDesAttaque;
@@ -51,6 +56,8 @@ public class Perso
 		identifiant = aIdentifiant;
 		fatigue = aFatigueInitiale;
 		fatigueIntiale = aFatigueInitiale;
+		maitrisesAtt = aMaitrisesAtt;
+		maitrisesAtt.put(ConstantesAttaques.ID_ATTAQUE_NORMALE, 1.00);
 	}
 
 	// /**
@@ -199,6 +206,21 @@ public class Perso
 	{
 		return bonusAttaque - fatigue;
 	}
+	
+	/**
+	 * Retourne le pourcentage de maitrise de la compétence d'attaque du perso
+	 * @param aNomAttaque un identifiant d'attaque
+	 * @return le pourcentage de maitrise de la compétence d'attaque du perso
+	 */
+	public double getMaitriseAttaque(String aNomAttaque)
+	{
+		Double result = maitrisesAtt.get(aNomAttaque);
+		if (result == null)
+		{
+			result = new Double(0.0);
+		}
+		return result.doubleValue();
+	}
 
 	/**
 	 * Incrémente la fatigue du joueur en fonction du type d'attaque. Règle : incrément de fatigue = PA / 2
@@ -232,7 +254,7 @@ public class Perso
 	 */
 	public Perso clone()
 	{
-		return new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale, identifiant);
+		return new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale, identifiant, maitrisesAtt);
 	}
 
 	/*

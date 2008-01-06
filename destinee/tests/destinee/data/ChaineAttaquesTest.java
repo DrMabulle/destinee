@@ -3,9 +3,13 @@
  */
 package destinee.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import destinee.algorithmes.normal.data.ChaineAttaques;
 import destinee.algorithmes.normal.data.Scenario;
 import destinee.algorithmes.normal.data.ScenarioElement;
+import destinee.commun.constantes.ConstantesAttaques;
 import destinee.commun.data.Attaque;
 import destinee.commun.data.AttaqueNormale;
 import destinee.commun.data.Cible;
@@ -22,27 +26,27 @@ public class ChaineAttaquesTest extends TestCase
 	/**
 	 * La cible des attaques
 	 */
-	Cible cible;
+	private Cible cible;
 	/**
 	 * Le scénario testé
 	 */
-	Scenario scenar;
+	private Scenario scenar;
 	/**
 	 * L'attaquant
 	 */
-	Perso attaquant;
+	private Perso attaquant;
 	/**
 	 * L'attaque effectuée en premier
 	 */
-	Attaque attaque1;
+	private Attaque attaque1;
 	/**
 	 * L'attaque effectuée en second
 	 */
-	Attaque attaque2;
+	private Attaque attaque2;
 	/**
 	 * La chaine d'attaque testée
 	 */
-	ChaineAttaques chaineAtt;
+	private ChaineAttaques chaineAtt;
 
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
@@ -51,7 +55,12 @@ public class ChaineAttaquesTest extends TestCase
 	{
 		super.setUp();
 		cible = new Cible(10, 5, 5);
-		attaquant = new Perso(15, 15, 10, 5, 5, 0, 0, "Attaquant");
+		Map<String, Double> maitrises = new HashMap<String, Double>();
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, 0.8);
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_PRECISE, 0.8);
+		maitrises.put(ConstantesAttaques.ID_ATTAQUE_RAPIDE, 0.8);
+		attaquant = new Perso(15, 15, 10, 5, 5, 0, 0, "Attaquant", maitrises);
 		attaque1 = new AttaqueNormale(attaquant);
 		ScenarioElement scenarElmt1 = new ScenarioElement(attaque1, ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 		attaque2 = new AttaqueNormale(attaquant);

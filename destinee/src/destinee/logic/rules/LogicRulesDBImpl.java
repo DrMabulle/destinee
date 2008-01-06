@@ -54,65 +54,9 @@ private List<String> rulesList;
         		"concat([X|Y],Z,[X|W]):-\n" +
         		"    concat(Y,Z,W).");
         
-//        rulesList.add("% Le prédicat member/2\n" +
-//        		"member(X,[X|_]).\n" +
-//        		"member(X,[_|Xs]) :- member(X,Xs).");
-        
-//        rulesList.add("% Le prédicat insere/3\n" +
-//        		"insere(X, [], [X]).\n" +
-//        		"insere(X, [Y|Z], L) :- concat([X], [Y|Z], L).\n" +
-//        		"insere(X, [Y|Z], L) :- insere(X,Z,M), concat([Y], M, L).");
-        
-//        rulesList.add("% Le prédicat insereAtt/3\n" +
-//        		"insereAtt(att(Perso,Type,Resolution), [], [att(Perso,Type,Resolution)]).\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	concat([att(Perso1,Type1,Resolution1)], [att(Perso2,Type2,Resolution2) | Tail], Result),\n" +
-//        		"	Perso1 \\== Perso2,\n" +
-//        		"	Type1 \\== Type2,\n" +
-//        		"	Resolution1 \\== Resolution2.\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	concat([att(Perso1,Type1,Resolution1)], [att(Perso2,Type2,Resolution2) | Tail], Result),\n" +
-//        		"	Perso1 == Perso2,\n" +
-//        		"	Type1 \\== Type2,\n" +
-//        		"	Resolution1 \\== Resolution2.\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	concat([att(Perso1,Type1,Resolution1)], [att(Perso2,Type2,Resolution2) | Tail], Result),\n" +
-//        		"	Perso1 \\== Perso2,\n" +
-//        		"	Type1 == Type2,\n" +
-//        		"	Resolution1 \\== Resolution2.\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	concat([att(Perso1,Type1,Resolution1)], [att(Perso2,Type2,Resolution2) | Tail], Result),\n" +
-//        		"	Perso1 == Perso2,\n" +
-//        		"	Type1 == Type2,\n" +
-//        		"	Resolution1 \\== Resolution2.\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	concat([att(Perso1,Type1,Resolution1)], [att(Perso2,Type2,Resolution2) | Tail], Result),\n" +
-//        		"	Perso1 \\== Perso2,\n" +
-//        		"	Type1 \\== Type2,\n" +
-//        		"	Resolution1 == Resolution2.\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	concat([att(Perso1,Type1,Resolution1)], [att(Perso2,Type2,Resolution2) | Tail], Result),\n" +
-//        		"	Perso1 == Perso2,\n" +
-//        		"	Type1 \\== Type2,\n" +
-//        		"	Resolution1 == Resolution2.\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	concat([att(Perso1,Type1,Resolution1)], [att(Perso2,Type2,Resolution2) | Tail], Result),\n" +
-//        		"	Perso1 \\== Perso2,\n" +
-//        		"	Type1 == Type2,\n" +
-//        		"	Resolution1 == Resolution2.\n" +
-//        		"insereAtt(att(Perso1,Type1,Resolution1), [att(Perso2,Type2,Resolution2) | Tail], Result) :-\n" +
-//        		"	insere(att(Perso1,Type1,Resolution1), Tail, Tmp),\n" +
-//        		"	concat([att(Perso2,Type2,Resolution2)], Tmp, Result).");
-        
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
         		"% Méthodes propres à DESTINEE\n" +
         		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	");
-        
-//        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-//        		"% Méthode permettant de générer une liste de scénarios à partir d'une liste d'attaques normales initiale\n" +
-//        		"genererScenarios(ListeAttaques, ListeScenarios) :-\n" +
-//        		"	ajouterResolution(ListeAttaques, Tmp),\n" +
-//        		"	changeAtt(Tmp, ListeScenarios).");
         
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
     			"% Méthode permettant d'ajouter les types de résolution aux différentes attaques\n" +
@@ -124,65 +68,10 @@ private List<String> rulesList;
         		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Esquive simple') | Tail2]) :-\n" +
         		"	ajouterResolution(Tail, Tail2).\n" +
         		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Esquive parfaite') | Tail2]) :-\n" +
+        		"	ajouterResolution(Tail, Tail2).\n" +
+        		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Echec competence') | Tail2]) :-\n" +
         		"	ajouterResolution(Tail, Tail2).");
         
-//        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-//        		"% Méthode permettant de remplacer une attaque à N PA par une autre à N PA\n" +
-//        		"% changeAtt(ListAtts, NewListAtt).\n" +
-//        		"changeAtt([], []).\n" +
-//        		"changeAtt(Entree, Result) :-\n" +
-//        		"	changerNormaleBerserk(Entree, Result1),\n" +
-//        		"	changerNormaleRapide(Result1, Result2),\n" +
-//        		"	permutterAttaques(Result2, Result3),\n" +
-//        		"	modifierType(Result3, Result).");
-        
-//        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-//        		"% Méthode permettant de permutter les attaques d'une chaine d'attaque\n" +
-//        		"permutterAttaques([], []).\n" +
-//        		"permutterAttaques([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
-//        		"	permutterAttaques(SuiteAtts, Result1),\n" +
-//        		"	insereAtt(att(Nom, Type, Resolution), Result1, Result).");
-
-//        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-//        		"% Méthode permettant de modifier le type d'une attaque\n" +
-//        		"modifierType([], []).\n" +
-//        		"modifierType([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
-//        		"	modifierType(SuiteAtts, Result1),\n" +
-//        		"	concat([att(Nom, Type, Resolution)], Result1, Result).\n" +
-//        		"modifierType([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
-//        		"	attaque(Nom, Type2),\n" +
-//        		"	Type \\== Type2,\n" +
-//        		"	Type2 \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
-//        		"	Type2 \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
-//        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
-//        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
-//        		"	modifierType(SuiteAtts, Result1),\n" +
-//        		"	concat([att(Nom, Type2, Resolution)], Result1, Result).");
-
-//        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-//        		"% Méthode permettant de changer une attaque normale en deux attaques rapides\n" +
-//        		"changerNormaleRapide([], []).\n" +
-//        		"changerNormaleRapide([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
-//        		"	changerNormaleRapide(SuiteAtts, Result1),\n" +
-//        		"	concat([att(Nom, Type, Resolution)], Result1, Result).\n" +
-//        		"changerNormaleRapide([att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution) | SuiteAtts], Result) :-\n" +
-//        		"	attaque(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "'),\n" +
-//        		"	changerNormaleRapide(SuiteAtts, Result1),\n" +
-//        		"	concat([att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', Resolution), att(Nom, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', Resolution)], Result1, Result).");
-        
-//        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-//        		"% Méthode permettant de changer deux attaques normales en une berserk\n" +
-//        		"changerNormaleBerserk([], []).\n" +
-//         		"changerNormaleBerserk([att(Nom, Type, Resolution) | SuiteAtts], Result) :-\n" +
-//        		"	changerNormaleBerserk(SuiteAtts, Result1),\n" +
-//        		"	concat([att(Nom, Type, Resolution)], Result1, Result).\n" +
-//        		"changerNormaleBerserk([att(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution1), att(Nom2, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', Resolution2) | SuiteAtts], Result) :-\n" +
-//        		"	Nom1 == Nom2,\n" +
-//        		"	Resolution1 == Resolution2,\n" +
-//        		"	attaque(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "'),\n" +
-//        		"	changerNormaleBerserk(SuiteAtts, Result1),\n" +
-//        		"	concat([att(Nom1, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "', Resolution1)], Result1, Result).");
-
         rulesList.add("generationScenarios(Result) :-\n" +
         		"	generationListeAttaques(Tmp),\n" +
         		"	ajouterResolution(Tmp, Result).");
@@ -249,7 +138,6 @@ private List<String> rulesList;
         		"	Perso1 \\== Perso2,\n" +
         		"	paUtilises(Perso1, Suite, PaUtilisesSuite),\n" +
         		"	PaUtilises is PaUtilisesSuite.");
-
         
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
         		"% Données sur les attaques\n" +
