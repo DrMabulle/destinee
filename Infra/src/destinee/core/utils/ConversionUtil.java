@@ -62,7 +62,10 @@ public class ConversionUtil
 
 				// , au lieu de .
 				str = str.replaceAll("\\.", ",");
-				str = str.substring(0, scale + 2);
+				if (str.length() >= scale + 2)
+				{
+					str = str.substring(0, scale + 2);
+				}
 			}
 			else
 			{
