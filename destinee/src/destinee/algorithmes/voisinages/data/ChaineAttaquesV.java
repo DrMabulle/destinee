@@ -19,7 +19,7 @@ import destinee.core.utils.ConversionUtil;
 
 /**
  * @author Bubulle et No-one
- *
+ * 
  */
 public class ChaineAttaquesV
 {
@@ -27,24 +27,23 @@ public class ChaineAttaquesV
 	private Cible cible;
 	private double esperanceDegatCumulee = 0;
 	private BigDecimal probaRealisationCumulee = null;
-	
 
 	private static final String CLE_PROBA_MIN_UNITAIRE = "destinee.chaineAttaquesV.evaluation.valeurMinUnitaire";
 	private static final String CLE_PROBA_CUMULEE_CIBLE = "destinee.chaineAttaquesV.evaluation.probaCumuleeCible";
 	private static final String CLE_NB_VOISINAGES_MAX = "destinee.chaineAttaquesV.evaluation.nombreVoisinagesMax";
-	
+
 	public ChaineAttaquesV(Cible aCible, List<Attaque> aListeAttaques)
 	{
 		super();
 		cible = aCible;
 		chaine = aListeAttaques;
 	}
-	
+
 	public int size()
 	{
 		return chaine.size();
 	}
-	
+
 	public String getIdentifiant()
 	{
 		StringBuffer sb = new StringBuffer("");
@@ -68,25 +67,24 @@ public class ChaineAttaquesV
 	{
 		return chaine;
 	}
-	
-	
+
 	protected ScenarioV getScenarioInital()
 	{
 		ScenarioV scenar = new ScenarioV(this);
-		
+
 		List<Integer> typesResol = new ArrayList<Integer>();
 		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
 		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 		typesResol.add(ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
 		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE);
 		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE);
-		
-		for(int i = 0; i < chaine.size(); i++)
+
+		for (int i = 0; i < chaine.size(); i++)
 		{
 			scenar.ajouterElementResolution(ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
 			int typeResolPlusProbable = ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE;
 			BigDecimal probaMaxTmp = BigDecimal.ZERO;
-			
+
 			for (Integer resolution : typesResol)
 			{
 				scenar.changerTypeResolution(i, resolution);
@@ -99,11 +97,11 @@ public class ChaineAttaquesV
 			}
 			scenar.changerTypeResolution(i, typeResolPlusProbable);
 		}
-		
+
 		return scenar;
 	}
-	
-	public BigDecimal getProbaCumulee()
+
+	public BigDecimal getProbaRealisationCumulee()
 	{
 		if (probaRealisationCumulee == null)
 		{
@@ -111,8 +109,8 @@ public class ChaineAttaquesV
 		}
 		return probaRealisationCumulee;
 	}
-	
-	public double getEsperanceDegatsCumules()
+
+	public double getEsperanceDegatCumulee()
 	{
 		if (probaRealisationCumulee == null)
 		{
@@ -120,14 +118,14 @@ public class ChaineAttaquesV
 		}
 		return esperanceDegatCumulee;
 	}
-	
+
 	protected void evaluer()
 	{
 		ScenarioV scenarI = getScenarioInital();
-		
+
 		List<ScenarioV> scenariosPrincipaux = new ArrayList<ScenarioV>();
 		List<ScenarioV> voisinages = new ArrayList<ScenarioV>();
-		
+
 		// Récupération de la proba cumulée cible, à partir du application.properties
 		String tmp = PropertiesFactory.getOptionalString(CLE_PROBA_CUMULEE_CIBLE);
 		BigDecimal probaCumuleeCible = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal(0.95));
@@ -139,13 +137,12 @@ public class ChaineAttaquesV
 		// Récupération de la proba minimum pour un scenario principal, à partir du application.properties
 		tmp = PropertiesFactory.getOptionalString(CLE_NB_VOISINAGES_MAX);
 		int nbVoisinageMax = ConversionUtil.stringVersInteger(tmp, 5);
-		
+
 		ScenarioV scenar = scenarI;
 		scenariosPrincipaux.add(scenar);
 		probaRealisationCumulee = BigDecimal.ZERO;
-		
-		while(scenariosPrincipaux.size() <= nbVoisinageMax 
-				&& probaCumuleeCible.compareTo(probaRealisationCumulee) >= 0
+
+		while (scenariosPrincipaux.size() <= nbVoisinageMax && probaCumuleeCible.compareTo(probaRealisationCumulee) >= 0
 				&& probaMinUnitaire.compareTo(scenar.getProbaRealisation()) <= 0)
 		{
 			Set<ScenarioV> voisinage = getVoisinage(scenar);
@@ -165,13 +162,15 @@ public class ChaineAttaquesV
 			calculerProbaCumulee(scenariosPrincipaux, voisinages);
 			calculerEsperanceDegats(scenariosPrincipaux, voisinages);
 		}
-		
+
+		System.out.println("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
+				+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués.");
 	}
 
 	private void calculerProbaCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
 	{
 		probaRealisationCumulee = BigDecimal.ZERO;
-		
+
 		for (ScenarioV scenarioV : aScenariosPrincipaux)
 		{
 			probaRealisationCumulee = probaRealisationCumulee.add(scenarioV.getProbaRealisation());
@@ -186,7 +185,7 @@ public class ChaineAttaquesV
 	private void calculerEsperanceDegats(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
 	{
 		esperanceDegatCumulee = 0;
-		
+
 		for (ScenarioV scenarioV : aScenariosPrincipaux)
 		{
 			esperanceDegatCumulee += scenarioV.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
@@ -202,17 +201,17 @@ public class ChaineAttaquesV
 	{
 		Set<ScenarioV> voisinage = new HashSet<ScenarioV>();
 		List<Integer> listeResolutions = aScenar.getListeTypesResolution();
-		
-		for(int i = 0; i < listeResolutions.size(); i++)
+
+		for (int i = 0; i < listeResolutions.size(); i++)
 		{
 			int resolution = listeResolutions.get(i);
 			List<Integer> tmp = new ArrayList<Integer>(listeResolutions);
 			ScenarioV scenarTmp;
-			
+
 			switch (resolution)
 			{
 				case ResolutionAttaque.RESOLUTION_COUP_CRITIQUE:
-					
+
 					// Coup simple
 					tmp.set(i, ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 					scenarTmp = new ScenarioV(this, tmp);
@@ -222,9 +221,9 @@ public class ChaineAttaquesV
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					break;
-					
+
 				case ResolutionAttaque.RESOLUTION_COUP_SIMPLE:
 
 					// Coup critique
@@ -236,14 +235,14 @@ public class ChaineAttaquesV
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					// Echec compétence
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					break;
-					
+
 				case ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE:
 
 					// Coup simple
@@ -255,35 +254,35 @@ public class ChaineAttaquesV
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					// Echec compétence
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					break;
-					
+
 				case ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE:
 
 					// Esquive simple
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					// Echec compétence
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					break;
-					
+
 				case ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE:
 
 					// Coup critique
 					tmp.set(i, ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					// Coup simple
 					tmp.set(i, ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 					scenarTmp = new ScenarioV(this, tmp);
@@ -293,23 +292,25 @@ public class ChaineAttaquesV
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					// Esquive parfaite
 					tmp.set(i, ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE);
 					scenarTmp = new ScenarioV(this, tmp);
 					voisinage.add(scenarTmp);
-					
+
 					break;
-					
+
 				default:
 					break;
 			}
 		}
-		
+
 		return voisinage;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -328,7 +329,7 @@ public class ChaineAttaquesV
 				{
 					egales &= this.chaine.get(i).equals(chaineTmp.chaine.get(i));
 				}
-				
+
 				if (egales)
 				{
 					return true;
@@ -337,8 +338,7 @@ public class ChaineAttaquesV
 		}
 		return super.equals(aObj);
 	}
-	
-	
+
 	private class ScenarioVComparator implements Comparator<ScenarioV>
 	{
 		@Override
@@ -346,6 +346,6 @@ public class ChaineAttaquesV
 		{
 			return aArg1.getProbaRealisation().compareTo(aArg0.getProbaRealisation());
 		}
-		
+
 	}
 }

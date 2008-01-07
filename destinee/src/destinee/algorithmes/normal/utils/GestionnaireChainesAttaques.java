@@ -68,6 +68,8 @@ public class GestionnaireChainesAttaques
 	 */
 	public synchronized void ajouterScenarioATraiter(Scenario aScenario)
 	{
+		notifyAll();
+
 		try
 		{
 			// On limite la taille du buffer à 200 scénarios à traiter
@@ -93,6 +95,8 @@ public class GestionnaireChainesAttaques
 	 */
 	public synchronized Scenario getNextScenarioATraiter()
 	{
+		notifyAll();
+
 		Scenario scenario = null;
 		try
 		{
@@ -122,6 +126,7 @@ public class GestionnaireChainesAttaques
 	 */
 	public synchronized boolean hasNextScenarioATraiter()
 	{
+		notifyAll();
 		return !scenariosATraiter.isEmpty();
 	}
 

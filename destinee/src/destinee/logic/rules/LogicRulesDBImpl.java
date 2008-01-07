@@ -71,7 +71,7 @@ private List<String> rulesList;
         		"	ajouterResolution(Tail, Tail2).\n" +
         		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Echec competence') | Tail2]) :-\n" +
         		"	ajouterResolution(Tail, Tail2).");
-        
+
         rulesList.add("generationScenarios(Result) :-\n" +
         		"	generationListeAttaques(Tmp),\n" +
         		"	ajouterResolution(Tmp, Result).");
@@ -94,18 +94,18 @@ private List<String> rulesList;
         		"% Methode permettant de récupérer la prochaine attaque possible\n" +
         		"getNextAttaque(Atts, Attaque) :-\n" +
         		"	peutAttaquerBerserk(Perso, Atts),\n" +
-        		"	attaque(Perso, 'Berserk'),\n" +
-        		"	Attaque = att(Perso, 'Berserk').\n" +
+        		"	attaque(Perso, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "'),\n" +
+        		"	Attaque = att(Perso, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "').\n" +
         		"getNextAttaque(Atts, Attaque) :-\n" +
         		"	peutAttaquer(Perso, Atts),\n" +
         		"	attaque(Perso, Type),\n" +
-        		"	Type \\== 'Rapide',\n" +
-        		"	Type \\== 'Berserk',\n" +
+        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
+        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
         		"	Attaque = att(Perso, Type).\n" +
         		"getNextAttaque(Atts, Attaque) :-\n" +
         		"	peutAttaquerRapide(Perso, Atts),\n" +
-        		"	attaque(Perso, 'Rapide'),\n" +
-        		"	Attaque = att(Perso, 'Rapide').");
+        		"	attaque(Perso, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "'),\n" +
+        		"	Attaque = att(Perso, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "').");
         
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
         		"% Méthode permettant de trouver une personne qui peut encore attaquer (possède assez de PA)\n" +
@@ -138,6 +138,7 @@ private List<String> rulesList;
         		"	Perso1 \\== Perso2,\n" +
         		"	paUtilises(Perso1, Suite, PaUtilisesSuite),\n" +
         		"	PaUtilises is PaUtilisesSuite.");
+
         
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
         		"% Données sur les attaques\n" +
