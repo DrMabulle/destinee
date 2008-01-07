@@ -94,19 +94,19 @@ public class ScenarioElement
 
 		if (getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_CRITIQUE)
 		{
-			result += "CpCrit";
+			result += "CC";
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_SIMPLE)
 		{
-			result += "CpSimp";
+			result += "CS";
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE)
 		{
-			result += "EsqSimp";
+			result += "ES";
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE)
 		{
-			result += "EsqPft";
+			result += "EP";
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE)
 		{

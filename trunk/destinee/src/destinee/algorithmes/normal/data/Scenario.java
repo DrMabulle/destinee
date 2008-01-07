@@ -87,6 +87,7 @@ public class Scenario
 	 */
 	private void evalerEvenement()
 	{
+
 		probaRealisation = new BigDecimal(1);
 		esperanceDegats = 0;
 
@@ -236,7 +237,7 @@ public class Scenario
 		String result = "";
 		for (ScenarioElement scenarElem : listeElements)
 		{
-			result += scenarElem.toString() + " - ";
+			result += scenarElem.toString() + "-";
 		}
 		return result;
 	}

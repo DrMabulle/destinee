@@ -1,16 +1,16 @@
 /**
  * 
  */
-package destinee.algorithmes.normal.cm;
+package destinee.algorithmes.voisinages.cm;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import logic.gateways.DestineeToLogicGateway;
-import destinee.algorithmes.normal.cm.threads.DestineeQueryProcessor;
-import destinee.algorithmes.normal.data.ChaineAttaques;
-import destinee.algorithmes.normal.utils.GestionnaireChainesAttaques;
+import destinee.algorithmes.voisinages.cm.threads.DestineeQueryProcessorVoisinage;
+import destinee.algorithmes.voisinages.data.ChaineAttaquesV;
+import destinee.algorithmes.voisinages.utils.GestionnaireChainesAttaquesV;
 import destinee.commun.constantes.ConstantesAttaques;
 import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
@@ -23,7 +23,7 @@ import destinee.logic.gateways.DestineeToLogicGatewayImpl;
  * @author Bubulle
  * 
  */
-public class CMAlgoNormal
+public class CMAlgoVoisinage
 {
 
 	/**
@@ -84,14 +84,14 @@ public class CMAlgoNormal
 				.getBonusDegats(), 10, 0);
 		prolog.ajouterPerso(koumi.getIdentifiant(), koumi.getNombreDeDesAttaque(), koumi.getBonusAttaque(), koumi.getNombreDeDesDegats(), koumi
 				.getBonusDegats(), 10, 0);
-		// prolog.ajouterPerso(laporte.getIdentifiant(), laporte.getNombreDeDesAttaque(), laporte.getBonusAttaque(), laporte.getNombreDeDesDegats(), laporte
-		// .getBonusDegats(), 10, 0);
+		prolog.ajouterPerso(laporte.getIdentifiant(), laporte.getNombreDeDesAttaque(), laporte.getBonusAttaque(), laporte.getNombreDeDesDegats(), laporte
+				.getBonusDegats(), 10, 0);
 
-		DestineeQueryProcessor.processQuery(prolog, cible);
+		DestineeQueryProcessorVoisinage.processQuery(prolog, cible);
 
-		List<ChaineAttaques> chainesAtt = GestionnaireChainesAttaques.getInstance().getListeChainesOrdonnee();
+		List<ChaineAttaquesV> chainesAtt = GestionnaireChainesAttaquesV.getInstance().getListeChainesOrdonnee();
 
-		for (ChaineAttaques theChaineAttaques : chainesAtt)
+		for (ChaineAttaquesV theChaineAttaques : chainesAtt)
 		{
 			System.out.println("-----------------------------");
 			System.out.println("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
@@ -103,4 +103,5 @@ public class CMAlgoNormal
 		long stopTime = System.currentTimeMillis();
 		System.out.println("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
 	}
+
 }

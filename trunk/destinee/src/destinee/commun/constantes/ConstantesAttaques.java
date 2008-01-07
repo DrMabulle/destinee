@@ -9,13 +9,13 @@ package destinee.commun.constantes;
  */
 public class ConstantesAttaques
 {
-	public static final String ID_ATTAQUE_BERSERK = "Berserk";
-	public static final String ID_ATTAQUE_BRUTALE = "Brutale";
-	public static final String ID_ATTAQUE_CHARGE = "Charge";
-	public static final String ID_ATTAQUE_IMPARABLE = "Imparable";
-	public static final String ID_ATTAQUE_KAMIKAZE = "Kamikaze";
-	public static final String ID_ATTAQUE_MAGIQUE = "Magique";
-	public static final String ID_ATTAQUE_NORMALE = "Normale";
-	public static final String ID_ATTAQUE_PRECISE = "Précise";
-	public static final String ID_ATTAQUE_RAPIDE = "Rapide";
+	public static final String ID_ATTAQUE_BERSERK = "Bers";
+	public static final String ID_ATTAQUE_BRUTALE = "Brut";
+	public static final String ID_ATTAQUE_CHARGE = "Ch";
+	public static final String ID_ATTAQUE_IMPARABLE = "Imp";
+	public static final String ID_ATTAQUE_KAMIKAZE = "Kami";
+	public static final String ID_ATTAQUE_MAGIQUE = "Mag";
+	public static final String ID_ATTAQUE_NORMALE = "Norm";
+	public static final String ID_ATTAQUE_PRECISE = "Préc";
+	public static final String ID_ATTAQUE_RAPIDE = "Rap";
 }

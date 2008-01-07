@@ -21,11 +21,11 @@ import destinee.core.utils.ConversionUtil;
 
 /**
  * @author bkessler
- *
+ * 
  */
 public class ChaineAttaquesVTest extends TestCase
 {
-	
+
 	private ChaineAttaquesV chaine;
 	private Cible cible;
 	private Perso attaquant;
@@ -34,13 +34,15 @@ public class ChaineAttaquesVTest extends TestCase
 	private Attaque attaque3;
 	private Attaque attaque4;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		
+
 		cible = new Cible(10, 5, 5);
 		Map<String, Double> maitrises = new HashMap<String, Double>();
 		maitrises.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
@@ -57,7 +59,7 @@ public class ChaineAttaquesVTest extends TestCase
 		listeAtt.add(attaque2);
 		listeAtt.add(attaque3);
 		listeAtt.add(attaque4);
-		
+
 		chaine = new ChaineAttaquesV(cible, listeAtt);
 	}
 
@@ -67,7 +69,7 @@ public class ChaineAttaquesVTest extends TestCase
 	public void testGetScenarioInital()
 	{
 		ScenarioV scenar = chaine.getScenarioInital();
-		
+
 		List<Integer> result = scenar.getListeTypesResolution();
 		assertTrue(result != null && !result.isEmpty());
 		assertTrue(result.size() == 2);
@@ -76,8 +78,8 @@ public class ChaineAttaquesVTest extends TestCase
 
 	public void testEvaluer()
 	{
-		BigDecimal result = chaine.getProbaCumulee();
-		
+		BigDecimal result = chaine.getProbaRealisationCumulee();
+
 		assertTrue(result != null);
 		assertTrue(result.compareTo(BigDecimal.ZERO) > 0);
 	}
