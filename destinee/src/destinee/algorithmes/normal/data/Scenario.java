@@ -87,6 +87,7 @@ public class Scenario
 	 */
 	private void evalerEvenement()
 	{
+		long startTime = System.currentTimeMillis();
 
 		probaRealisation = new BigDecimal(1);
 		esperanceDegats = 0;
@@ -105,6 +106,7 @@ public class Scenario
 		String valeurMinTemp = PropertiesFactory.getOptionalString(CLE_VALEUR_MIN);
 		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal(0.00001));
 		// valeurMin.pow(listeElements.size() + 1);
+		Boolean arretPossible = PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT);
 
 		for (ScenarioElement scenarioElemt : listeElements)
 		{
@@ -116,13 +118,13 @@ public class Scenario
 			probaRealisation = probaRealisation.multiply(probaTmp);
 
 			// Arrêter l'evaluation du scenario si la probailité passe sous le seuil défini
-			if (Boolean.TRUE.equals(PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT)))
+			if (Boolean.TRUE.equals(arretPossible))
 			{
 				if (probaRealisation.compareTo(valeurMin) < 0)
 				{
 					probaRealisation = BigDecimal.ZERO;
 					esperanceDegats = 0;
-					System.out.println("scenario " + toString() + ": abandon");
+					// System.out.println("scenario " + toString() + ": abandon. " + (System.currentTimeMillis() - startTime) + " ms");
 					return;
 				}
 			}
@@ -141,7 +143,8 @@ public class Scenario
 		// TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
 		// TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
 
-		System.out.println("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15));
+		System.out.println("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15) + ". "
+				+ (System.currentTimeMillis() - startTime) + " ms");
 	}
 
 	/**

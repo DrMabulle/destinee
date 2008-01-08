@@ -35,7 +35,7 @@ public class ChaineAttaquesV
 	public ChaineAttaquesV(Cible aCible, List<Attaque> aListeAttaques)
 	{
 		super();
-		cible = aCible;
+		cible = aCible.clone();
 		chaine = aListeAttaques;
 	}
 
@@ -70,35 +70,68 @@ public class ChaineAttaquesV
 
 	protected ScenarioV getScenarioInital()
 	{
+		long startTime = System.currentTimeMillis();
+
 		ScenarioV scenar = new ScenarioV(this);
 
 		List<Integer> typesResol = new ArrayList<Integer>();
-		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
-		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 		typesResol.add(ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
-		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE);
+		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE);
+		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
+		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE);
 
 		for (int i = 0; i < chaine.size(); i++)
 		{
+			// Remettre les persos et la cible en situation
+			initPersosCible(chaine, scenar.getListeTypesResolution(), i);
+
 			scenar.ajouterElementResolution(ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
 			int typeResolPlusProbable = ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE;
 			BigDecimal probaMaxTmp = BigDecimal.ZERO;
+			BigDecimal probaTmp = null;
 
 			for (Integer resolution : typesResol)
 			{
 				scenar.changerTypeResolution(i, resolution);
-				BigDecimal probaTmp = scenar.getProbaRealisation();
+				probaTmp = ResolutionAttaque.resoudreAttaque(chaine.get(i), cible, resolution);
 				if (probaTmp.compareTo(probaMaxTmp) > 0)
 				{
 					probaMaxTmp = probaTmp;
 					typeResolPlusProbable = resolution;
 				}
+
+				if (probaTmp.compareTo(new BigDecimal(0.5).setScale(2, BigDecimal.ROUND_HALF_UP)) >= 0)
+				{
+					// La proba de cette résolution est supérieure à 50% => on peut arrêter là
+					break;
+				}
 			}
 			scenar.changerTypeResolution(i, typeResolPlusProbable);
 		}
 
+		System.out.println("Calcul du scénario initial effectué en " + (System.currentTimeMillis() - startTime) + " ms");
 		return scenar;
+	}
+
+	private void initPersosCible(List<Attaque> aListeAttaques, List<Integer> aListeResolutions, int aIndice)
+	{
+		// Réinitialiser la cible et les persos
+		cible.reinitialiserFatigue();
+		cible.reinitialiserMalusDefense();
+		for (Attaque att : chaine)
+		{
+			att.getPerso().reinitialiserFatigue();
+		}
+
+		// Appliquer aux persos et à la cible chaque attaque, jusqu'à l'indice - 1
+		for (int i = 0; i < aIndice; i++)
+		{
+			cible.incrementerFatigue();
+			cible.incrementerMalusDefense(aListeAttaques.get(i), aListeResolutions.get(i));
+
+			aListeAttaques.get(i).getPerso().incrementerFatigue(aListeAttaques.get(i));
+		}
 	}
 
 	public BigDecimal getProbaRealisationCumulee()
@@ -121,6 +154,8 @@ public class ChaineAttaquesV
 
 	protected void evaluer()
 	{
+		long startTime = System.currentTimeMillis();
+
 		ScenarioV scenarI = getScenarioInital();
 
 		List<ScenarioV> scenariosPrincipaux = new ArrayList<ScenarioV>();
@@ -155,19 +190,23 @@ public class ChaineAttaquesV
 				}
 			}
 			voisinages.removeAll(scenariosPrincipaux);
+
+			// Mise à jour des probas de réalisation cumulée et espérance de dégâts cumulée
+			calculerProbaRealisationCumulee(scenariosPrincipaux, voisinages);
+			calculerEsperanceDegatsCumulee(scenariosPrincipaux, voisinages);
+
+			// Récupérer le scénario de plus haute probabilité pour l'itération suivante
 			Collections.sort(voisinages, new ScenarioVComparator());
 			// Si le voisinage calculé est vide, c'est que l'on a déjà tout calculé et donc les cas d'arrêts sont atteints
 			scenar = voisinages.remove(0);
 			scenariosPrincipaux.add(scenar);
-			calculerProbaCumulee(scenariosPrincipaux, voisinages);
-			calculerEsperanceDegats(scenariosPrincipaux, voisinages);
 		}
 
 		System.out.println("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
-				+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués.");
+				+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués. Temps = " + (System.currentTimeMillis() - startTime) + " ms.");
 	}
 
-	private void calculerProbaCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
+	private void calculerProbaRealisationCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
 	{
 		probaRealisationCumulee = BigDecimal.ZERO;
 
@@ -182,7 +221,7 @@ public class ChaineAttaquesV
 		}
 	}
 
-	private void calculerEsperanceDegats(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
+	private void calculerEsperanceDegatsCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
 	{
 		esperanceDegatCumulee = 0;
 

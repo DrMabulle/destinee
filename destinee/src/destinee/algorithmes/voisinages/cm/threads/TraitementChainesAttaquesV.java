@@ -37,7 +37,6 @@ public class TraitementChainesAttaquesV extends Thread
 			ChaineAttaquesV chaine = GestionnaireChainesAttaquesV.getInstance().getNextChaineATraiter();
 			if (chaine != null)
 			{
-				// System.out.println("Thread " + id + " : début traitement d'un scénario.");
 				// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation de la chaine d'attaques
 				chaine.getProbaRealisationCumulee();
 				// Ajouter la chaine d'attaques une fois traitée

@@ -61,7 +61,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 
 		Thread processor = new DestineeQueryProcessorVoisinage(aGateway, aCible);
 
-		// Démarrer 4 Threads de traitement des scénarios
+		// Démarrer X Threads de traitement des scénarios
 		Thread t1 = new TraitementChainesAttaquesV();
 		Thread t2 = new TraitementChainesAttaquesV();
 		Thread t3 = new TraitementChainesAttaquesV();
@@ -139,7 +139,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 					// Construire un ScenarioElement avec ces données et l'ajouté au scénario
 					listeAttaques.add(attaque);
 				}
-				chaine = new ChaineAttaquesV(cible.clone(), listeAttaques);
+				chaine = new ChaineAttaquesV(cible, listeAttaques);
 
 			}
 			catch (Exception e)
