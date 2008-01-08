@@ -13,10 +13,9 @@ import destinee.commun.probas.ResolutionAttaque;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
-
 /**
  * @author Bubulle et No-one
- *
+ * 
  */
 public class ScenarioV
 {
@@ -24,25 +23,24 @@ public class ScenarioV
 	private BigDecimal probaRealisation = null;
 	private List<Integer> listeResultats;
 	private ChaineAttaquesV chaine;
-	
+
 	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
 	private static final String CLE_VALEUR_MIN = "destinee.scenario.evaluation.valeurMin";
-	
+
 	public ScenarioV(ChaineAttaquesV aChaineAtt)
 	{
 		super();
 		chaine = aChaineAtt;
 		listeResultats = new ArrayList<Integer>(aChaineAtt.size());
 	}
-	
-	
+
 	public ScenarioV(ChaineAttaquesV aChaineAtt, List<Integer> resolutions)
 	{
 		super();
 		chaine = aChaineAtt;
 		listeResultats = new ArrayList<Integer>(resolutions);
 	}
-	
+
 	/**
 	 * Méthode permettant d'ajouter un type de résolution au scénario
 	 * 
@@ -55,7 +53,7 @@ public class ScenarioV
 		probaRealisation = null;
 		esperanceDegats = 0;
 	}
-	
+
 	/**
 	 * Méthode permettant de modifier un type de résolution du scénario
 	 * 
@@ -109,6 +107,8 @@ public class ScenarioV
 	 */
 	private void evalerEvenement()
 	{
+		// long startTime = System.currentTimeMillis();
+
 		probaRealisation = new BigDecimal(1);
 		esperanceDegats = 0;
 
@@ -125,19 +125,20 @@ public class ScenarioV
 		double esperanceTmp = 0;
 
 		String valeurMinTemp = PropertiesFactory.getOptionalString(CLE_VALEUR_MIN);
-		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal(0.00001));
+		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal(0.0005));
 		// valeurMin.pow(listeElements.size() + 1);
+		Boolean arretPossible = PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT);
 
 		/*
-		 * Lors de la recherche du scenario initial, la liste des types de résolution n'est pas entièrement remplie.
-		 * On itère uniquement sur les résolutions afin de trouver la meilleure combinaison.
+		 * Lors de la recherche du scenario initial, la liste des types de résolution n'est pas entièrement remplie. On itère uniquement sur les résolutions
+		 * afin de trouver la meilleure combinaison.
 		 */
 		List<Attaque> attaques = chaine.getListeAttaques();
 		for (int i = 0; i < listeResultats.size(); i++)
 		{
 			Attaque att = attaques.get(i);
 			int typeResolution = listeResultats.get(i);
-			
+
 			probaTmp = ResolutionAttaque.resoudreAttaque(att, cible, typeResolution);
 			esperanceTmp = ResolutionAttaque.esperanceDeDegats(att, cible, typeResolution);
 
@@ -146,7 +147,7 @@ public class ScenarioV
 			probaRealisation = probaRealisation.multiply(probaTmp);
 
 			// Arrêter l'evaluation du scenario si la probailité passe sous le seuil défini
-			if (Boolean.TRUE.equals(PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT)))
+			if (Boolean.TRUE.equals(arretPossible))
 			{
 				if (probaRealisation.compareTo(valeurMin) < 0)
 				{
@@ -167,8 +168,10 @@ public class ScenarioV
 			// Incrémenter la fatigue du perso
 			att.getPerso().incrementerFatigue(att);
 		}
+
+		// System.out.println("Scénario évalué en " + (System.currentTimeMillis() - startTime) + " ms");
 	}
-	
+
 	public List<Integer> getListeTypesResolution()
 	{
 		return listeResultats;
