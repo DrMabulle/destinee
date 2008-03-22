@@ -51,8 +51,8 @@ public class ConversionUtil
 			// - decimal est très petit (proche de 0)
 			// - decimal n'est pas très petit (cas 'normal')
 			BigDecimal abs = decimal.abs();
-			BigDecimal zero = new BigDecimal(0);
-			BigDecimal un = new BigDecimal(1);
+			BigDecimal zero = BigDecimal.ZERO;
+			BigDecimal un = BigDecimal.ONE;
 
 			if (zero.equals(zero.min(abs)) && un.equals(un.max(abs)))
 			{
@@ -135,6 +135,7 @@ public class ConversionUtil
 	{
 		return stringVersBigDecimal(pChaine, null);
 	}
+
 	/**
 	 * Convertit une chaîne de caractères en un Float.
 	 * 
@@ -1242,19 +1243,19 @@ public class ConversionUtil
 		{
 			return "[]";
 		}
-		
+
 		String theResult = "['";
 		for (Iterator<String> iter = aCollection.iterator(); iter.hasNext();)
 		{
 			theResult += iter.next();
-			
+
 			if (iter.hasNext())
 			{
 				theResult += "','";
 			}
 		}
 		theResult += "']";
-		
+
 		return theResult;
 	}
 }
