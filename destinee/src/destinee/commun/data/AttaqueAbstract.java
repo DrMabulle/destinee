@@ -3,7 +3,6 @@
  */
 package destinee.commun.data;
 
-
 /**
  * classe abstraite des attaques
  * 
@@ -18,8 +17,9 @@ public abstract class AttaqueAbstract implements Attaque
 	 */
 	private Perso perso;
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.data.Attaque#getPerso()
 	 */
 	public Perso getPerso()
@@ -44,37 +44,51 @@ public abstract class AttaqueAbstract implements Attaque
 		perso = aPerso;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object aObj)
 	{
+		// Vérification de l'égalité des références
+		if (this == aObj)
+		{
+			return true;
+		}
+
 		/*
 		 * Deux attaques sont considérées comme égales si elles sont du même type et son effectuées par le même perso
 		 */
 		if (aObj != null && aObj instanceof Attaque)
 		{
 			Attaque att = (Attaque) aObj;
-			if (getTypeAttaque().equals(att.getTypeAttaque())
-					&& getPerso().equals(att.getPerso()))
+			if (getTypeAttaque().equals(att.getTypeAttaque()) && getPerso().equals(att.getPerso()))
 			{
 				return true;
 			}
 		}
-		return super.equals(aObj);
+		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode()
 	{
-		return (getTypeAttaque().hashCode() * getPerso().hashCode()) + 1 ;
+		int hashcode = 31;
+		hashcode = hashcode * 211 + getTypeAttaque().hashCode();
+		hashcode = hashcode * 211 + getPerso().hashCode();
+		return hashcode;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

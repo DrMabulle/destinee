@@ -198,6 +198,12 @@ public class Cible implements Cloneable
 	@Override
 	public boolean equals(Object aObj)
 	{
+		// Vérification de l'égalité des références
+		if (this == aObj)
+		{
+			return true;
+		}
+
 		if (aObj != null && aObj instanceof Cible)
 		{
 			Cible cible = (Cible) aObj;
@@ -206,7 +212,22 @@ public class Cible implements Cloneable
 				return true;
 			}
 		}
-		return super.equals(aObj);
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		int hashcode = 211;
+		hashcode = 5 * hashcode + getArmure();
+		hashcode = 5 * hashcode + getBonusDefense();
+		hashcode = 5 * hashcode + getNbDesDefense();
+		return hashcode;
 	}
 
 }

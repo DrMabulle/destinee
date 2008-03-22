@@ -4,6 +4,7 @@
 package destinee.algorithmes.voisinages.cm.threads;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -25,6 +26,7 @@ import destinee.commun.data.Perso;
 import destinee.commun.utils.CachePersos;
 import destinee.core.exception.DestineeException;
 import destinee.core.exception.TechnicalException;
+import destinee.core.properties.PropertiesFactory;
 
 /**
  * @author Bubulle et No-one
@@ -36,10 +38,12 @@ import destinee.core.exception.TechnicalException;
 public class DestineeQueryProcessorVoisinage extends Thread
 {
 
+	private static List<Thread> listeThreads = new ArrayList<Thread>(16);
 	private Cible cible;
 	private DestineeToLogicGateway prologGateway;
 
 	private static final String QUERY = "generationChainesAttaques(Result).";
+	private static final String CLE_UTILISATION_HEURISTIQUE = "destinee.voisinage.utiliser.heuristique";
 
 	/**
 	 * Constructeur par defaut
@@ -58,22 +62,82 @@ public class DestineeQueryProcessorVoisinage extends Thread
 
 	public static void processQuery(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
 	{
+		Boolean utiliseHeuristique = PropertiesFactory.getOptionalBoolean(CLE_UTILISATION_HEURISTIQUE);
 
+		if (Boolean.TRUE.equals(utiliseHeuristique))
+		{
+			traitementHeuristique(aGateway, aCible);
+		}
+		else
+		{
+			traitementNormal(aGateway, aCible);
+		}
+	}
+
+	/**
+	 * Traitement par heuristique : seuls les chaines d'attaques les plus intéressantes sont traitées
+	 * 
+	 * @param aGateway une DestineeToLogicGateway
+	 * @param aScenarioVariableName nom de la variable Prolog utilisée
+	 */
+	private static void traitementHeuristique(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
+	{
 		Thread processor = new DestineeQueryProcessorVoisinage(aGateway, aCible);
+		int nbVoisinages = 1;
+		int nbPersos = CachePersos.getInstance().getNombrePersos();
+		int facteurIncrement = nbPersos * 3;
 
+		// Traiter le premier voisinage
+		traiterXVoisinages(processor, nbVoisinages);
+
+		List<ChaineAttaquesV> chainesAtt;
+		List<ChaineAttaquesV> premiereMoitie;
+		List<ChaineAttaquesV> secondeMoitie;
+
+		for (int j = 0; j < 5 * nbPersos; j++)
+		{
+			// Récupérer la liste des Chaines d'attaques et conjecturer le résultat
+			chainesAtt = GestionnaireChainesAttaquesV.getInstance().getListeChainesAttaques();
+			for (Iterator<ChaineAttaquesV> iter = chainesAtt.iterator(); iter.hasNext();)
+			{
+				ChaineAttaquesV theChaineAttaquesV = iter.next();
+				theChaineAttaquesV.conjecturerResultatFinal();
+			}
+			// Récupérer la liste des chaines d'attaques ordonnées suivant les résultats de la conjecture
+			chainesAtt = GestionnaireChainesAttaquesV.getInstance().getListeChainesOrdonneeConj();
+			// Ne garder que la première moitié. La seconde moitié doit être vidée.
+			premiereMoitie = new ArrayList<ChaineAttaquesV>((int) (chainesAtt.size() * 2 / 3) + 1);
+			secondeMoitie = new ArrayList<ChaineAttaquesV>((int) (chainesAtt.size() * 1 / 3) + 1);
+			int indDiscard = (int) chainesAtt.size() * 2 / 3;
+
+			for (int i = chainesAtt.size() - 1; i >= indDiscard; i--)
+			{
+				secondeMoitie.add(chainesAtt.remove(i));
+			}
+			premiereMoitie = chainesAtt;
+
+			// Ajouter la première moitié aux chaines d'attaque à traiter
+			for (Iterator<ChaineAttaquesV> iter = premiereMoitie.iterator(); iter.hasNext();)
+			{
+				ChaineAttaquesV chaine = iter.next();
+				GestionnaireChainesAttaquesV.getInstance().ajouterChaineATraiter(chaine);
+				GestionnaireChainesAttaquesV.getInstance().retirerChaineAttaques(chaine);
+			}
+
+			// Traiter les nouvelles chaines avec un nombre d'étape plus grand
+			traiterXVoisinages(processor, nbVoisinages * facteurIncrement);
+		}
+
+	}
+
+	private static void traiterXVoisinages(Thread aProcessor, int aNbVoisinages) throws DestineeException
+	{
 		// Démarrer X Threads de traitement des scénarios
-		Thread t1 = new TraitementChainesAttaquesV();
-		Thread t2 = new TraitementChainesAttaquesV();
-		Thread t3 = new TraitementChainesAttaquesV();
-		Thread t4 = new TraitementChainesAttaquesV();
-		Thread t5 = new TraitementChainesAttaquesV();
-		Thread t6 = new TraitementChainesAttaquesV();
-		Thread t7 = new TraitementChainesAttaquesV();
-		Thread t8 = new TraitementChainesAttaquesV();
+		instancierThreadsTraitement(aNbVoisinages);
 
 		try
 		{
-			processor.join();
+			aProcessor.join();
 		}
 		catch (InterruptedException e1)
 		{
@@ -85,21 +149,55 @@ public class DestineeQueryProcessorVoisinage extends Thread
 			TraitementChainesAttaquesV.arreterTraitements();
 		}
 
+		joinTreadsTraitement();
+
+		System.out.println("====================================================================");
+		System.out.println("====================================================================");
+	}
+
+	/**
+	 * Instancie les Threads de traitement des Chaines d'attaques.
+	 */
+	private static void instancierThreadsTraitement(int aNbVoisinages)
+	{
+		int nbCores = Runtime.getRuntime().availableProcessors();
+		int nbThreads = nbCores * 2;
+		for (int i = 0; i < nbThreads; i++)
+		{
+			listeThreads.add(new TraitementChainesAttaquesV(aNbVoisinages));
+		}
+	}
+
+	/**
+	 * Join threads traitement
+	 * 
+	 * @throws TechnicalException e
+	 */
+	private static void joinTreadsTraitement() throws TechnicalException
+	{
 		try
 		{
-			t1.join();
-			t2.join();
-			t3.join();
-			t4.join();
-			t5.join();
-			t6.join();
-			t7.join();
-			t8.join();
+			for (Thread thread : listeThreads)
+			{
+				thread.join();
+			}
 		}
 		catch (InterruptedException e)
 		{
 			throw new TechnicalException("erreur lors du traitements des chaines d'attaques", e);
 		}
+	}
+
+	/**
+	 * Traitement normal de l'ensemble des chaines d'attaques
+	 * 
+	 * @param aGateway une DestineeToLogicGateway
+	 * @param aScenarioVariableName nom de la variable Prolog utilisée
+	 */
+	private static void traitementNormal(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
+	{
+		Thread processor = new DestineeQueryProcessorVoisinage(aGateway, aCible);
+		traiterXVoisinages(processor, 0);
 	}
 
 	public void run()

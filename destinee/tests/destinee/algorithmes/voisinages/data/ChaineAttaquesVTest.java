@@ -17,6 +17,7 @@ import destinee.commun.data.AttaqueNormale;
 import destinee.commun.data.AttaquePrecise;
 import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
+import destinee.core.exception.TechnicalException;
 import destinee.core.utils.ConversionUtil;
 
 /**
@@ -65,8 +66,10 @@ public class ChaineAttaquesVTest extends TestCase
 
 	/**
 	 * Test method for {@link destinee.algorithmes.voisinages.data.ChaineAttaquesV#getScenarioInital()}.
+	 * 
+	 * @throws TechnicalException e
 	 */
-	public void testGetScenarioInital()
+	public void testGetScenarioInital() throws TechnicalException
 	{
 		ScenarioV scenar = chaine.getScenarioInital();
 
@@ -76,11 +79,32 @@ public class ChaineAttaquesVTest extends TestCase
 		assertTrue(ConversionUtil.bigdecimalVersDouble(scenar.getProbaRealisation(), 4) > 0);
 	}
 
-	public void testEvaluer()
+	public void testEvaluer() throws TechnicalException
 	{
 		BigDecimal result = chaine.getProbaRealisationCumulee();
 
 		assertTrue(result != null);
 		assertTrue(result.compareTo(BigDecimal.ZERO) > 0);
+	}
+
+	public void testIndiceBourrinisme1()
+	{
+		ScenarioV scenar = chaine.getScenarioInital();
+		chaine.scenariosPrincipaux.add(scenar);
+		double indBourrScenar = scenar.getIndiceBourrinisme();
+		double indBourrChaine = chaine.getIndiceBourrinisme();
+		assertEquals(indBourrChaine, indBourrScenar);
+	}
+
+	public void testIndiceBourrinisme2() throws TechnicalException
+	{
+		List<Attaque> listeAtt = new ArrayList<Attaque>();
+		listeAtt.add(attaque2);
+		listeAtt.add(attaque3);
+		chaine = new ChaineAttaquesV(cible, listeAtt);
+
+		chaine.evaluer(BigDecimal.ONE, BigDecimal.ZERO, 25);
+		double indBourrChaine = chaine.getIndiceBourrinisme();
+		assertEquals(1.0, indBourrChaine);
 	}
 }

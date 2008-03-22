@@ -57,6 +57,12 @@ public class ScenarioElement
 	@Override
 	public boolean equals(Object aObj)
 	{
+		// Vérification de l'égalité des références
+		if (this == aObj)
+		{
+			return true;
+		}
+
 		/*
 		 * Deux ScenarioElements sont considérés égaux s'ils ont la même attaque et la même résolution
 		 */
@@ -68,7 +74,8 @@ public class ScenarioElement
 				return true;
 			}
 		}
-		return super.equals(aObj);
+
+		return false;
 	}
 
 	/*
@@ -79,7 +86,10 @@ public class ScenarioElement
 	@Override
 	public int hashCode()
 	{
-		return getTypeResolution() * getAttaque().hashCode() + 1;
+		int hashcode = 13;
+		hashcode = 17 * hashcode + getTypeResolution();
+		hashcode = 17 * hashcode + getAttaque().hashCode();
+		return hashcode;
 	}
 
 	/*

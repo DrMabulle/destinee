@@ -5,6 +5,7 @@ package destinee.algorithmes.normal.data;
 
 import java.math.BigDecimal;
 
+import destinee.core.exception.TechnicalException;
 import destinee.core.utils.ConversionUtil;
 
 /**
@@ -16,7 +17,7 @@ public class ChaineAttaques
 	// private Set<String> scenarios = new HashSet<String>();
 	private String identifiant;
 	private double esperanceDegatCumulee = 0;
-	private BigDecimal probaRealisationCumulee = new BigDecimal(0);
+	private BigDecimal probaRealisationCumulee = BigDecimal.ZERO;
 
 	/**
 	 * Constructeur par défaut
@@ -31,8 +32,9 @@ public class ChaineAttaques
 	 * Méthode permettant d'ajouter un scénario à la chaine d'attaque, et ainsi cumuler les espérances de dégâts
 	 * 
 	 * @param aScenario le scénario à ajouter
+	 * @throws TechnicalException e
 	 */
-	public synchronized void ajouterScenario(Scenario aScenario)
+	public synchronized void ajouterScenario(Scenario aScenario) throws TechnicalException
 	{
 		// On n'ajoute qu'une seule fois chaque scénario
 		// if (!scenarios.contains(aScenario.toString()))

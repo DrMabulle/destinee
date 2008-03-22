@@ -5,15 +5,18 @@ package destinee.algorithmes.voisinages.data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import destinee.commun.data.Attaque;
 import destinee.commun.data.Cible;
 import destinee.commun.probas.ResolutionAttaque;
+import destinee.core.exception.TechnicalException;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
@@ -26,12 +29,24 @@ public class ChaineAttaquesV
 	private List<Attaque> chaine;
 	private Cible cible;
 	private double esperanceDegatCumulee = 0;
-	private BigDecimal probaRealisationCumulee = null;
+	private BigDecimal probaRealisationCumulee = BigDecimal.ZERO;
+	private double esperanceDegatConjecturee = 0;
+	private boolean isEvalTerminee = false;
+	private boolean isEvaluee = false;
+
+	protected List<ScenarioV> scenariosPrincipaux = new ArrayList<ScenarioV>();
+	protected List<ScenarioV> voisinages = new ArrayList<ScenarioV>();
 
 	private static final String CLE_PROBA_MIN_UNITAIRE = "destinee.chaineAttaquesV.evaluation.valeurMinUnitaire";
 	private static final String CLE_PROBA_CUMULEE_CIBLE = "destinee.chaineAttaquesV.evaluation.probaCumuleeCible";
 	private static final String CLE_NB_VOISINAGES_MAX = "destinee.chaineAttaquesV.evaluation.nombreVoisinagesMax";
 
+	/**
+	 * Constructeur par défaut
+	 * 
+	 * @param aCible une cible
+	 * @param aListeAttaques une liste d'attaques
+	 */
 	public ChaineAttaquesV(Cible aCible, List<Attaque> aListeAttaques)
 	{
 		super();
@@ -39,40 +54,163 @@ public class ChaineAttaquesV
 		chaine = aListeAttaques;
 	}
 
+	/**
+	 * @return la longueur de la chaine d'attaque
+	 */
 	public int size()
 	{
 		return chaine.size();
 	}
 
+	/**
+	 * @return l'identifiant de la chaine d'attaque
+	 */
 	public String getIdentifiant()
 	{
 		StringBuffer sb = new StringBuffer("");
 
 		for (Attaque att : chaine)
 		{
-			sb.append(att.getPerso().getIdentifiant());
-			sb.append(att.getTypeAttaque());
-			sb.append("-");
+			sb.append(att.toString());
+			sb.append(" - ");
 		}
 
 		return sb.toString();
 	}
 
+	/**
+	 * @return la cible
+	 */
 	public Cible getCible()
 	{
 		return cible;
 	}
 
+	/**
+	 * @return la liste des attaques de cette chaine d'attaques
+	 */
 	public List<Attaque> getListeAttaques()
 	{
 		return chaine;
 	}
 
+	/**
+	 * @return la probabilité de réalisation cumulée
+	 * @throws TechnicalException e
+	 */
+	public BigDecimal getProbaRealisationCumulee() throws TechnicalException
+	{
+		if (!isEvaluee)
+		{
+			evaluer();
+		}
+		return probaRealisationCumulee;
+	}
+
+	/**
+	 * @return l'espérance de dégâts cumulée
+	 * @throws TechnicalException e
+	 */
+	public double getEsperanceDegatCumulee() throws TechnicalException
+	{
+		if (!isEvaluee)
+		{
+			evaluer();
+		}
+		return esperanceDegatCumulee;
+	}
+
+	/**
+	 * Méthode d'évaluation de la chaine d'attaque suivant les paramètres du fichier application.properties
+	 * 
+	 * @throws TechnicalException e
+	 */
+	protected void evaluer() throws TechnicalException
+	{
+		// Récupération de la proba cumulée cible, à partir du application.properties
+		String tmp = PropertiesFactory.getOptionalString(CLE_PROBA_CUMULEE_CIBLE);
+		BigDecimal probaCumuleeCible = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal("0.95"));
+
+		// Récupération de la proba minimum pour un scenario principal, à partir du application.properties
+		tmp = PropertiesFactory.getOptionalString(CLE_PROBA_MIN_UNITAIRE);
+		BigDecimal probaMinUnitaire = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal("0.001"));
+
+		// Récupération de la proba minimum pour un scenario principal, à partir du application.properties
+		tmp = PropertiesFactory.getOptionalString(CLE_NB_VOISINAGES_MAX);
+		int nbVoisinageMax = ConversionUtil.stringVersInteger(tmp, 5);
+
+		evaluer(probaCumuleeCible, probaMinUnitaire, nbVoisinageMax);
+	}
+
+	/**
+	 * Méthode d'évaluation de la chaine d'attaque suivant certains paramètres donnés
+	 * 
+	 * @param aProbaCumuleeCible une probabilité de réalisation cumulée cible
+	 * @param aProbaMinUnitaire une probabilité unitaire minimum pour les scénarios principaux
+	 * @param aNbVoisinages un nombre de voisinage maximum
+	 * @throws TechnicalException e
+	 */
+	public void evaluer(BigDecimal aProbaCumuleeCible, BigDecimal aProbaMinUnitaire, int aNbVoisinages) throws TechnicalException
+	{
+		// On indique que la chaine d'attaque a été évaluée au moins une fois
+		isEvaluee = true;
+
+		if ((scenariosPrincipaux == null || scenariosPrincipaux.isEmpty()) && (voisinages == null || voisinages.isEmpty()))
+		{
+			ScenarioV scenarI = getScenarioInital();
+			voisinages.add(scenarI);
+		}
+
+		long startTime = System.currentTimeMillis();
+
+		// récupérer le scénario de plus haute probabilité dans la liste des scénarios de voisinage
+		Collections.sort(voisinages, new ScenarioVComparator());
+		ScenarioV scenar = voisinages.remove(0);
+		scenariosPrincipaux.add(scenar);
+
+		// probaRealisationCumulee = BigDecimal.ZERO;
+
+		while (scenariosPrincipaux.size() <= aNbVoisinages && aProbaCumuleeCible.compareTo(probaRealisationCumulee) >= 0
+				&& aProbaMinUnitaire.compareTo(scenar.getProbaRealisation()) <= 0)
+		{
+			Set<ScenarioV> voisinage = getVoisinage(scenar);
+			// Eviter les doublons :
+			for (ScenarioV scenarioV : voisinage)
+			{
+				if (!voisinages.contains(scenarioV))
+				{
+					voisinages.add(scenarioV);
+				}
+			}
+			voisinages.removeAll(scenariosPrincipaux);
+
+			// Mise à jour des probas de réalisation cumulée et espérance de dégâts cumulée
+			calculerEsperanceDegatsCumulee(scenariosPrincipaux, voisinages);
+			calculerProbaRealisationCumulee(scenariosPrincipaux, voisinages);
+
+			// Récupérer le scénario de plus haute probabilité pour l'itération suivante
+			Collections.sort(voisinages, new ScenarioVComparator());
+			// Si le voisinage calculé est vide, s'arrêter : on a déjà tout calculé
+			if (voisinages.isEmpty())
+			{
+				break;
+			}
+			scenar = voisinages.remove(0);
+			scenariosPrincipaux.add(scenar);
+		}
+
+		System.out.println("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
+				+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués. Temps = " + (System.currentTimeMillis() - startTime) + " ms.");
+	}
+
+	/**
+	 * Méthode permettant de calculer un très bon candidat pour le scénario de plus haute probabilité de réalisation
+	 * 
+	 * @return Le scénario initial pour l'évaluation
+	 */
 	protected ScenarioV getScenarioInital()
 	{
 		long startTime = System.currentTimeMillis();
-
-		ScenarioV scenar = new ScenarioV(this);
 
 		List<Integer> typesResol = new ArrayList<Integer>();
 		typesResol.add(ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
@@ -81,7 +219,10 @@ public class ChaineAttaquesV
 		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
 		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE);
 
-		for (int i = 0; i < chaine.size(); i++)
+		ScenarioV scenar = new ScenarioV(this);
+		int chaineSize = chaine.size();
+
+		for (int i = 0; i < chaineSize; i++)
 		{
 			// Remettre les persos et la cible en situation
 			initPersosCible(chaine, scenar.getListeTypesResolution(), i);
@@ -101,7 +242,7 @@ public class ChaineAttaquesV
 					typeResolPlusProbable = resolution;
 				}
 
-				if (probaTmp.compareTo(new BigDecimal(0.5).setScale(2, BigDecimal.ROUND_HALF_UP)) >= 0)
+				if (probaTmp.compareTo(new BigDecimal("0.5")) >= 0)
 				{
 					// La proba de cette résolution est supérieure à 50% => on peut arrêter là
 					break;
@@ -114,134 +255,19 @@ public class ChaineAttaquesV
 		return scenar;
 	}
 
-	private void initPersosCible(List<Attaque> aListeAttaques, List<Integer> aListeResolutions, int aIndice)
-	{
-		// Réinitialiser la cible et les persos
-		cible.reinitialiserFatigue();
-		cible.reinitialiserMalusDefense();
-		for (Attaque att : chaine)
-		{
-			att.getPerso().reinitialiserFatigue();
-		}
-
-		// Appliquer aux persos et à la cible chaque attaque, jusqu'à l'indice - 1
-		for (int i = 0; i < aIndice; i++)
-		{
-			cible.incrementerFatigue();
-			cible.incrementerMalusDefense(aListeAttaques.get(i), aListeResolutions.get(i));
-
-			aListeAttaques.get(i).getPerso().incrementerFatigue(aListeAttaques.get(i));
-		}
-	}
-
-	public BigDecimal getProbaRealisationCumulee()
-	{
-		if (probaRealisationCumulee == null)
-		{
-			evaluer();
-		}
-		return probaRealisationCumulee;
-	}
-
-	public double getEsperanceDegatCumulee()
-	{
-		if (probaRealisationCumulee == null)
-		{
-			evaluer();
-		}
-		return esperanceDegatCumulee;
-	}
-
-	protected void evaluer()
-	{
-		long startTime = System.currentTimeMillis();
-
-		ScenarioV scenarI = getScenarioInital();
-
-		List<ScenarioV> scenariosPrincipaux = new ArrayList<ScenarioV>();
-		List<ScenarioV> voisinages = new ArrayList<ScenarioV>();
-
-		// Récupération de la proba cumulée cible, à partir du application.properties
-		String tmp = PropertiesFactory.getOptionalString(CLE_PROBA_CUMULEE_CIBLE);
-		BigDecimal probaCumuleeCible = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal(0.95));
-
-		// Récupération de la proba minimum pour un scenario principal, à partir du application.properties
-		tmp = PropertiesFactory.getOptionalString(CLE_PROBA_MIN_UNITAIRE);
-		BigDecimal probaMinUnitaire = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal(0.001));
-
-		// Récupération de la proba minimum pour un scenario principal, à partir du application.properties
-		tmp = PropertiesFactory.getOptionalString(CLE_NB_VOISINAGES_MAX);
-		int nbVoisinageMax = ConversionUtil.stringVersInteger(tmp, 5);
-
-		ScenarioV scenar = scenarI;
-		scenariosPrincipaux.add(scenar);
-		probaRealisationCumulee = BigDecimal.ZERO;
-
-		while (scenariosPrincipaux.size() <= nbVoisinageMax && probaCumuleeCible.compareTo(probaRealisationCumulee) >= 0
-				&& probaMinUnitaire.compareTo(scenar.getProbaRealisation()) <= 0)
-		{
-			Set<ScenarioV> voisinage = getVoisinage(scenar);
-			// Eviter les doublons :
-			for (ScenarioV scenarioV : voisinage)
-			{
-				if (!voisinages.contains(scenarioV))
-				{
-					voisinages.add(scenarioV);
-				}
-			}
-			voisinages.removeAll(scenariosPrincipaux);
-
-			// Mise à jour des probas de réalisation cumulée et espérance de dégâts cumulée
-			calculerProbaRealisationCumulee(scenariosPrincipaux, voisinages);
-			calculerEsperanceDegatsCumulee(scenariosPrincipaux, voisinages);
-
-			// Récupérer le scénario de plus haute probabilité pour l'itération suivante
-			Collections.sort(voisinages, new ScenarioVComparator());
-			// Si le voisinage calculé est vide, c'est que l'on a déjà tout calculé et donc les cas d'arrêts sont atteints
-			scenar = voisinages.remove(0);
-			scenariosPrincipaux.add(scenar);
-		}
-
-		System.out.println("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
-				+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués. Temps = " + (System.currentTimeMillis() - startTime) + " ms.");
-	}
-
-	private void calculerProbaRealisationCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
-	{
-		probaRealisationCumulee = BigDecimal.ZERO;
-
-		for (ScenarioV scenarioV : aScenariosPrincipaux)
-		{
-			probaRealisationCumulee = probaRealisationCumulee.add(scenarioV.getProbaRealisation());
-		}
-
-		for (ScenarioV scenarioV : aVoisinages)
-		{
-			probaRealisationCumulee = probaRealisationCumulee.add(scenarioV.getProbaRealisation());
-		}
-	}
-
-	private void calculerEsperanceDegatsCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages)
-	{
-		esperanceDegatCumulee = 0;
-
-		for (ScenarioV scenarioV : aScenariosPrincipaux)
-		{
-			esperanceDegatCumulee += scenarioV.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
-		}
-
-		for (ScenarioV scenarioV : aVoisinages)
-		{
-			esperanceDegatCumulee += scenarioV.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
-		}
-	}
-
-	private Set<ScenarioV> getVoisinage(ScenarioV aScenar)
+	/**
+	 * Méthode permettant de récupérer le voisinage direct d'un scénario
+	 * 
+	 * @param aScenar un scénario
+	 * @return un ensemble de scénarios représentant le voisinage du scénario donné
+	 */
+	protected Set<ScenarioV> getVoisinage(ScenarioV aScenar)
 	{
 		Set<ScenarioV> voisinage = new HashSet<ScenarioV>();
 		List<Integer> listeResolutions = aScenar.getListeTypesResolution();
+		int nbResoltions = listeResolutions.size();
 
-		for (int i = 0; i < listeResolutions.size(); i++)
+		for (int i = 0; i < nbResoltions; i++)
 		{
 			int resolution = listeResolutions.get(i);
 			List<Integer> tmp = new ArrayList<Integer>(listeResolutions);
@@ -347,6 +373,176 @@ public class ChaineAttaquesV
 		return voisinage;
 	}
 
+	/**
+	 * Permet de conjecturer quelle sera l'espérance de dégât pour 100% de proba de réalisation
+	 * 
+	 * @return l'espérance de dégât conjecturée
+	 * @throws TechnicalException e
+	 */
+	public double getEsperanceDegatConjecturee() throws TechnicalException
+	{
+		if (esperanceDegatConjecturee == -1)
+		{
+			conjecturerResultatFinal();
+		}
+		return esperanceDegatConjecturee;
+	}
+
+	/**
+	 * Permet de conjecturer l'espérance de dégât finale en fonction du voisinage déjà calculé. Cette conjecture se base sur l'indice de bourrinisme moyen de ce
+	 * qui a été calculé et sur le fait qu'à 100% de proba de réalisation l'indice de bourrinisme doit être à 1.
+	 * 
+	 * @throws TechnicalException e
+	 */
+	public void conjecturerResultatFinal() throws TechnicalException
+	{
+		int nbScenariosActuel = scenariosPrincipaux.size() + voisinages.size();
+		int nbScenariosTotal = (int) Math.pow(5, size());
+		int nbScenariosRestants = nbScenariosTotal - nbScenariosActuel;
+
+		double indBourrinismeActuel = getIndiceBourrinisme();
+
+		double probaActuelle = ConversionUtil.bigdecimalVersDouble(getProbaRealisationCumulee(), 10);
+		double probaRestante = 1.0 - probaActuelle;
+		double esperanceDeg = getEsperanceDegatCumulee();
+
+		double indBourrinismeRestant;
+		if (nbScenariosRestants == 0)
+		{
+			indBourrinismeRestant = 1;
+		}
+		else
+		{
+			indBourrinismeRestant = (nbScenariosTotal - (indBourrinismeActuel * nbScenariosActuel)) / nbScenariosRestants;
+		}
+
+		esperanceDegatConjecturee = (esperanceDeg / probaActuelle / indBourrinismeActuel)
+				+ (esperanceDeg * probaRestante * indBourrinismeActuel / indBourrinismeRestant);
+	}
+
+	/**
+	 * Permet d'évaluer l'indice de bourrinisme moyen pour
+	 * 
+	 * @param aScenarioCollection
+	 * @return
+	 */
+	protected double evaluerIndiceBourrinisme(Collection<ScenarioV> aScenarioCollection)
+	{
+		double indiceBourrinismeMoyen = 0;
+		if (aScenarioCollection != null && aScenarioCollection.size() != 0)
+		{
+			for (Iterator<ScenarioV> theIterator = aScenarioCollection.iterator(); theIterator.hasNext();)
+			{
+				ScenarioV theScenarioV = theIterator.next();
+				indiceBourrinismeMoyen += theScenarioV.getIndiceBourrinisme();
+			}
+			indiceBourrinismeMoyen /= aScenarioCollection.size();
+		}
+
+		return indiceBourrinismeMoyen;
+	}
+
+	/**
+	 * Méthode permettant d'initiliser les persos et la cible comme s'ils avaient déjà effectué les attaques passées en paramètre, suivant les réalisations
+	 * passées en paramètre également
+	 * 
+	 * @param aListeAttaques une liste d'attaques
+	 * @param aListeResolutions une liste de réalisation d'attaque
+	 * @param aIndice position de la dernière attaque à effectuer
+	 */
+	private void initPersosCible(List<Attaque> aListeAttaques, List<Integer> aListeResolutions, int aIndice)
+	{
+		// Réinitialiser la cible et les persos
+		cible.reinitialiserFatigue();
+		cible.reinitialiserMalusDefense();
+		for (Attaque att : chaine)
+		{
+			att.getPerso().reinitialiserFatigue();
+		}
+
+		// Appliquer aux persos et à la cible chaque attaque, jusqu'à l'indice - 1
+		for (int i = 0; i < aIndice; i++)
+		{
+			cible.incrementerFatigue();
+			cible.incrementerMalusDefense(aListeAttaques.get(i), aListeResolutions.get(i));
+
+			aListeAttaques.get(i).getPerso().incrementerFatigue(aListeAttaques.get(i));
+		}
+	}
+
+	/**
+	 * Calcul de la probabilité de réalisation cumulée en fonction des scénarios principaux et de leur voisinage
+	 * 
+	 * @param aScenariosPrincipaux une liste de scénarios principaux
+	 * @param aVoisinages une liste de scénarios du voisinage
+	 * @throws TechnicalException e
+	 */
+	private void calculerProbaRealisationCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages) throws TechnicalException
+	{
+		// Une fois la chaine d'attaque vidée, on ne touche plus au résultat si on en a un
+		if (!isEvalTerminee)
+		{
+			probaRealisationCumulee = BigDecimal.ZERO;
+
+			for (ScenarioV scenarioV : aScenariosPrincipaux)
+			{
+				probaRealisationCumulee = probaRealisationCumulee.add(scenarioV.getProbaRealisation());
+			}
+
+			for (ScenarioV scenarioV : aVoisinages)
+			{
+				probaRealisationCumulee = probaRealisationCumulee.add(scenarioV.getProbaRealisation());
+			}
+		}
+	}
+
+	/**
+	 * Calcul de l'espérance de dégâts cumulée en fonction des scénarios principaux et de leur voisinage
+	 * 
+	 * @param aScenariosPrincipaux une liste de scénarios principaux
+	 * @param aVoisinages une liste de scénarios du voisinage
+	 * @throws TechnicalException e
+	 */
+	private void calculerEsperanceDegatsCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages) throws TechnicalException
+	{
+		// Une fois la chaine d'attaque vidée, on ne touche plus au résultat si on en a un
+		if (!isEvalTerminee)
+		{
+			esperanceDegatCumulee = 0;
+
+			for (ScenarioV scenarioV : aScenariosPrincipaux)
+			{
+				esperanceDegatCumulee += scenarioV.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
+			}
+
+			for (ScenarioV scenarioV : aVoisinages)
+			{
+				esperanceDegatCumulee += scenarioV.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
+			}
+		}
+	}
+
+	public double getIndiceBourrinisme()
+	{
+		int nbScenariosActuel = scenariosPrincipaux.size() + voisinages.size();
+		Set<ScenarioV> scenarioCollection = new HashSet<ScenarioV>(((int) (nbScenariosActuel * 3 / 2)) + 1);
+		scenarioCollection.addAll(scenariosPrincipaux);
+		scenarioCollection.addAll(voisinages);
+		return evaluerIndiceBourrinisme(scenarioCollection);
+	}
+
+	public int getNbScenariosTraites()
+	{
+		return scenariosPrincipaux.size() + voisinages.size();
+	}
+
+	public void vider()
+	{
+		scenariosPrincipaux = null;
+		voisinages = null;
+		isEvalTerminee = true;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -355,6 +551,12 @@ public class ChaineAttaquesV
 	@Override
 	public boolean equals(Object aObj)
 	{
+		// Vérification de l'égalité des références
+		if (this == aObj)
+		{
+			return true;
+		}
+
 		/*
 		 * Deux Chaines d'Attaques sont considérées égales si chacune de leurs attaques de rang égal sont égales
 		 */
@@ -364,7 +566,9 @@ public class ChaineAttaquesV
 			if (chaineTmp.size() == this.size())
 			{
 				boolean egales = true;
-				for (int i = 0; i < chaine.size(); i++)
+				int chaineSize = chaine.size();
+
+				for (int i = 0; i < chaineSize && egales; i++)
 				{
 					egales &= this.chaine.get(i).equals(chaineTmp.chaine.get(i));
 				}
@@ -375,7 +579,23 @@ public class ChaineAttaquesV
 				}
 			}
 		}
-		return super.equals(aObj);
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		int hashcode = 5;
+		for (Attaque attaque : chaine)
+		{
+			hashcode = hashcode * 3 + attaque.hashCode();
+		}
+		return hashcode;
 	}
 
 	private class ScenarioVComparator implements Comparator<ScenarioV>
@@ -383,7 +603,15 @@ public class ChaineAttaquesV
 		@Override
 		public int compare(ScenarioV aArg0, ScenarioV aArg1)
 		{
-			return aArg1.getProbaRealisation().compareTo(aArg0.getProbaRealisation());
+			try
+			{
+				return aArg1.getProbaRealisation().compareTo(aArg0.getProbaRealisation());
+			}
+			catch (TechnicalException e)
+			{
+				System.err.println("Erreur lors de la comparaison de 2 scénarios V !");
+				return 0;
+			}
 		}
 
 	}

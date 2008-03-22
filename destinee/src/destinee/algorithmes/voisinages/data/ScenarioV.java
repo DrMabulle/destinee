@@ -5,11 +5,13 @@ package destinee.algorithmes.voisinages.data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import destinee.commun.data.Attaque;
 import destinee.commun.data.Cible;
 import destinee.commun.probas.ResolutionAttaque;
+import destinee.core.exception.TechnicalException;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
@@ -23,6 +25,7 @@ public class ScenarioV
 	private BigDecimal probaRealisation = null;
 	private List<Integer> listeResultats;
 	private ChaineAttaquesV chaine;
+	private double indiceBourrinisme = -1;
 
 	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
 	private static final String CLE_VALEUR_MIN = "destinee.scenario.evaluation.valeurMin";
@@ -72,8 +75,9 @@ public class ScenarioV
 	 * Méthode permettant de connaitre l'espérance de dégâts de ce scénario
 	 * 
 	 * @return l'espérance de dégâts de ce scénario
+	 * @throws TechnicalException e
 	 */
-	public double getEsperanceDegats()
+	public double getEsperanceDegats() throws TechnicalException
 	{
 
 		// Si le scénario n'a pas encore été évaluer, le faire
@@ -89,8 +93,9 @@ public class ScenarioV
 	 * Méthode permettant de connaitre la probabilité de réalisation de ce scénario
 	 * 
 	 * @return probabilité de réalisation de ce scénario
+	 * @throws TechnicalException e
 	 */
-	public BigDecimal getProbaRealisation()
+	public BigDecimal getProbaRealisation() throws TechnicalException
 	{
 
 		// Si le scénario n'a pas encore été évaluer, le faire
@@ -104,12 +109,14 @@ public class ScenarioV
 
 	/**
 	 * Méthode permettant d'évaluer le scénario, en termes d'espérance de dégâts et de probabilité de réalisation
+	 * 
+	 * @throws TechnicalException e
 	 */
-	private void evalerEvenement()
+	private void evalerEvenement() throws TechnicalException
 	{
 		// long startTime = System.currentTimeMillis();
 
-		probaRealisation = new BigDecimal(1);
+		probaRealisation = BigDecimal.ONE;
 		esperanceDegats = 0;
 
 		Cible cible = chaine.getCible();
@@ -125,7 +132,7 @@ public class ScenarioV
 		double esperanceTmp = 0;
 
 		String valeurMinTemp = PropertiesFactory.getOptionalString(CLE_VALEUR_MIN);
-		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal(0.0005));
+		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal("0.0005"));
 		// valeurMin.pow(listeElements.size() + 1);
 		Boolean arretPossible = PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT);
 
@@ -172,9 +179,44 @@ public class ScenarioV
 		// System.out.println("Scénario évalué en " + (System.currentTimeMillis() - startTime) + " ms");
 	}
 
+	/**
+	 * @return la liste des types de résolution du scénario
+	 */
 	public List<Integer> getListeTypesResolution()
 	{
 		return listeResultats;
+	}
+
+	/**
+	 * @return l'indice de bourrinisme du scénario
+	 */
+	public double getIndiceBourrinisme()
+	{
+		if (indiceBourrinisme == -1)
+		{
+			// L'indice de bourrinisme n'a pas été calculé. Le faire
+			indiceBourrinisme = 0;
+			for (Iterator<Integer> iter = listeResultats.iterator(); iter.hasNext();)
+			{
+				Integer theResolution = (Integer) iter.next();
+				switch (theResolution)
+				{
+					case ResolutionAttaque.RESOLUTION_COUP_SIMPLE:
+						indiceBourrinisme += 2;
+						break;
+					case ResolutionAttaque.RESOLUTION_COUP_CRITIQUE:
+						indiceBourrinisme += 3;
+						break;
+					default:
+						// Dans les autres cas, l'indice de bourrinisme est augmenté de 0
+						break;
+				}
+			}
+
+			indiceBourrinisme /= listeResultats.size();
+		}
+
+		return indiceBourrinisme;
 	}
 
 	/*
@@ -185,6 +227,12 @@ public class ScenarioV
 	@Override
 	public boolean equals(Object aArg0)
 	{
+		// Vérification de l'égalité des références
+		if (this == aArg0)
+		{
+			return true;
+		}
+
 		/*
 		 * Deux Scénarios sont considérés égaux s'ils ont la même chaine d'attaque, les même résolutions
 		 */
@@ -208,7 +256,7 @@ public class ScenarioV
 			}
 		}
 
-		return super.equals(aArg0);
+		return false;
 	}
 
 	/*
@@ -219,12 +267,12 @@ public class ScenarioV
 	@Override
 	public int hashCode()
 	{
-		int hashcode = 0;
+		int hashcode = 11;
 		for (Integer elt : listeResultats)
 		{
-			hashcode += elt.hashCode();
+			hashcode = hashcode * 31 + elt.hashCode();
 		}
-		return chaine.hashCode() + hashcode;
+		return hashcode * 31 + chaine.hashCode();
 	}
 
 	/*

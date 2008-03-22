@@ -12,6 +12,7 @@ import java.util.Map;
 
 import destinee.algorithmes.normal.data.ChaineAttaques;
 import destinee.algorithmes.normal.data.Scenario;
+import destinee.core.exception.TechnicalException;
 
 /**
  * @author Bubulle et No-one
@@ -40,7 +41,12 @@ public class GestionnaireChainesAttaques
 		return instance;
 	}
 
-	public synchronized void ajouterScenarioTraite(Scenario aSceanrio)
+	/**
+	 * 
+	 * @param aSceanrio un scénario traité à ajouter
+	 * @throws TechnicalException e
+	 */
+	public synchronized void ajouterScenarioTraite(Scenario aSceanrio) throws TechnicalException
 	{
 		// Récupérer l'identifiant de la chaine d'attaque du scénario
 		String id = aSceanrio.getIdentifiantChaineAttaques();
