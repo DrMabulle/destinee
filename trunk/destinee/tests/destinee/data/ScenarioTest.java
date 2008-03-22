@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.TestCase;
 import destinee.algorithmes.normal.data.Scenario;
 import destinee.algorithmes.normal.data.ScenarioElement;
 import destinee.commun.constantes.ConstantesAttaques;
@@ -15,15 +16,15 @@ import destinee.commun.data.AttaqueNormale;
 import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 import destinee.commun.probas.ResolutionAttaque;
-import junit.framework.TestCase;
+import destinee.core.exception.TechnicalException;
 
 /**
  * @author Bubulle et No-one
- *
+ * 
  */
 public class ScenarioTest extends TestCase
 {
-	
+
 	/**
 	 * La cible des attaques
 	 */
@@ -40,11 +41,10 @@ public class ScenarioTest extends TestCase
 	 * L'attaque effectuée
 	 */
 	Attaque attaque;
-	
-	
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception
@@ -65,30 +65,34 @@ public class ScenarioTest extends TestCase
 
 	/**
 	 * Test method for {@link destinee.algorithmes.normal.data.Scenario#getEsperanceDegats()}.
+	 * 
+	 * @throws TechnicalException e
 	 */
-	public void testGetEsperanceDegats()
+	public void testGetEsperanceDegats() throws TechnicalException
 	{
 		double esperanceDeg = ResolutionAttaque.esperanceDeDegats(attaque, cible, ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 		double esperanceDegScenar = scenar.getEsperanceDegats();
-		
+
 		assertEquals(esperanceDeg, esperanceDegScenar, 0);
 	}
 
 	/**
 	 * Test method for {@link destinee.algorithmes.normal.data.Scenario#getProbaRealisation()}.
+	 * 
+	 * @throws TechnicalException e
 	 */
-	public void testGetProbaRealisation()
+	public void testGetProbaRealisation() throws TechnicalException
 	{
 		BigDecimal proba = ResolutionAttaque.resoudreAttaque(attaque, cible, ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
 		BigDecimal probaScenar = scenar.getProbaRealisation();
-		
+
 		assertTrue(proba.compareTo(probaScenar) == 0);
 	}
-	
+
 	public void testGetIdentifiant()
 	{
 		String id1 = scenar.getIdentifiantChaineAttaques();
-		
+
 		assertEquals("AttaquantNormale-", id1);
 	}
 

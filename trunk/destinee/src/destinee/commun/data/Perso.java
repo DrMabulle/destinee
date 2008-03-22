@@ -7,7 +7,6 @@ import java.util.Map;
 
 import destinee.commun.constantes.ConstantesAttaques;
 
-
 /**
  * @author Bubulle et No-one
  * 
@@ -206,9 +205,10 @@ public class Perso
 	{
 		return bonusAttaque - fatigue;
 	}
-	
+
 	/**
 	 * Retourne le pourcentage de maitrise de la compétence d'attaque du perso
+	 * 
 	 * @param aNomAttaque un identifiant d'attaque
 	 * @return le pourcentage de maitrise de la compétence d'attaque du perso
 	 */
@@ -264,16 +264,37 @@ public class Perso
 	 */
 	public boolean equals(Object aObj)
 	{
+		// Vérification de l'égalité des références
+		if (this == aObj)
+		{
+			return true;
+		}
+
 		if (aObj != null && aObj instanceof Perso)
 		{
 			Perso perso = (Perso) aObj;
-			if (getBonusAttaque() == perso.getBonusAttaque() && getBonusDegats() == perso.getBonusDegats() && getBonusPM() == perso.getBonusPM()
-					&& getIdentifiant().equals(perso.getIdentifiant()) && getNombreDeDesAttaque() == perso.getNombreDeDesAttaque()
-					&& getNombreDeDesDegats() == perso.getNombreDeDesDegats() && getNombreDeDesPM() == perso.getNombreDeDesPM())
+			/*
+			 * if (getBonusAttaque() == perso.getBonusAttaque() && getBonusDegats() == perso.getBonusDegats() && getBonusPM() == perso.getBonusPM() &&
+			 * getIdentifiant().equals(perso.getIdentifiant()) && getNombreDeDesAttaque() == perso.getNombreDeDesAttaque() && getNombreDeDesDegats() ==
+			 * perso.getNombreDeDesDegats() && getNombreDeDesPM() == perso.getNombreDeDesPM())
+			 */
+			if (getIdentifiant().equals(perso.getIdentifiant()))
 			{
 				return true;
 			}
 		}
-		return super.equals(aObj);
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		// TODO Auto-generated method stub
+		return getIdentifiant().hashCode();
 	}
 }

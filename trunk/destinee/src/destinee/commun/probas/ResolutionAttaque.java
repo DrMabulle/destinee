@@ -36,7 +36,7 @@ public class ResolutionAttaque
 	 */
 	public static BigDecimal resoudreAttaque(int nbDesAtt, int bonusAtt, int nbDesDef, int bonusDef, double maitriseCompetence, int typeResol)
 	{
-		BigDecimal result = new BigDecimal(0);
+		BigDecimal result = BigDecimal.ZERO;
 		BigDecimal temp = null;
 		BigDecimal borneSup = null;
 		BigDecimal borneInf = null;
@@ -89,8 +89,8 @@ public class ResolutionAttaque
 				result = result.multiply(new BigDecimal(maitriseCompetence));
 				break;
 			case RESOLUTION_ECHEC_COMPETENCE: // échec de la compétence
-				result = new BigDecimal(1 - maitriseCompetence).setScale(2, BigDecimal.ROUND_HALF_UP); 
-				break;	
+				result = new BigDecimal(1 - maitriseCompetence).setScale(2, BigDecimal.ROUND_HALF_UP);
+				break;
 		}
 		return result;
 	}
@@ -109,16 +109,16 @@ public class ResolutionAttaque
 		{
 			if (typeResol == RESOLUTION_COUP_SIMPLE)
 			{
-				return new BigDecimal(1);
+				return BigDecimal.ONE;
 			}
 			else
 			{
-				return new BigDecimal(0);
+				return BigDecimal.ZERO;
 			}
 		}
 
-		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNbDesDefenseEffectif(), cible.getBonusDefenseEffectif(), 
-				attaque.getPerso().getMaitriseAttaque(attaque.getTypeAttaque()) , typeResol);
+		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNbDesDefenseEffectif(), cible.getBonusDefenseEffectif(), attaque
+				.getPerso().getMaitriseAttaque(attaque.getTypeAttaque()), typeResol);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class ResolutionAttaque
 	public static double esperanceDeDegats(Attaque aAttaque, Cible aCible, int typeResol)
 	{
 
-		BigDecimal result = new BigDecimal(0);
+		BigDecimal result = BigDecimal.ZERO;
 		int nbDesUtilises = 0;
 		int bonusDeg = 0;
 
@@ -147,7 +147,7 @@ public class ResolutionAttaque
 			// Le résultat d'une attaque imparable est toujours un coup normal
 			return esperanceDeDegats(aAttaque, aCible, RESOLUTION_COUP_SIMPLE);
 		}
-		else if (typeResol == RESOLUTION_ESQUIVE_PARFAITE || typeResol == RESOLUTION_ESQUIVE_SIMPLE )
+		else if (typeResol == RESOLUTION_ESQUIVE_PARFAITE || typeResol == RESOLUTION_ESQUIVE_SIMPLE)
 		{
 			// Pas de dégâts en cas d'esquive
 			return 0;

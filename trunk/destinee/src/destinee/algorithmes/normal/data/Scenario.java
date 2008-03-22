@@ -9,6 +9,7 @@ import java.util.List;
 
 import destinee.commun.data.Cible;
 import destinee.commun.probas.ResolutionAttaque;
+import destinee.core.exception.TechnicalException;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
@@ -52,8 +53,9 @@ public class Scenario
 	 * Méthode permettant de connaitre l'espérance de dégâts de ce scénario
 	 * 
 	 * @return l'espérance de dégâts de ce scénario
+	 * @throws TechnicalException e
 	 */
-	public double getEsperanceDegats()
+	public double getEsperanceDegats() throws TechnicalException
 	{
 
 		// Si le scénario n'a pas encore été évaluer, le faire
@@ -69,8 +71,9 @@ public class Scenario
 	 * Méthode permettant de connaitre la probabilité de réalisation de ce scénario
 	 * 
 	 * @return probabilité de réalisation de ce scénario
+	 * @throws TechnicalException e
 	 */
-	public BigDecimal getProbaRealisation()
+	public BigDecimal getProbaRealisation() throws TechnicalException
 	{
 
 		// Si le scénario n'a pas encore été évaluer, le faire
@@ -84,12 +87,14 @@ public class Scenario
 
 	/**
 	 * Méthode permettant d'évaluer le scénario, en termes d'espérance de dégâts et de probabilité de réalisation
+	 * 
+	 * @throws TechnicalException e
 	 */
-	private void evalerEvenement()
+	private void evalerEvenement() throws TechnicalException
 	{
 		long startTime = System.currentTimeMillis();
 
-		probaRealisation = new BigDecimal(1);
+		probaRealisation = BigDecimal.ONE;
 		esperanceDegats = 0;
 
 		// Réinitialiser la fatigue et les malus de la cible et des persos
@@ -187,6 +192,12 @@ public class Scenario
 	@Override
 	public boolean equals(Object aArg0)
 	{
+		// Vérification de l'égalité des références
+		if (this == aArg0)
+		{
+			return true;
+		}
+
 		/*
 		 * Deux Scénarios sont considérés égaux s'ils ont la même chaine de ScenarioElement et la même cible
 		 */
@@ -210,7 +221,7 @@ public class Scenario
 			}
 		}
 
-		return super.equals(aArg0);
+		return false;
 	}
 
 	/*
@@ -221,12 +232,12 @@ public class Scenario
 	@Override
 	public int hashCode()
 	{
-		int hashcode = 0;
+		int hashcode = 7;
 		for (ScenarioElement elt : listeElements)
 		{
-			hashcode += elt.hashCode();
+			hashcode = 13 * hashcode + elt.hashCode();
 		}
-		return cible.hashCode() + hashcode;
+		return 13 * hashcode + cible.hashCode();
 	}
 
 	/*
@@ -240,7 +251,7 @@ public class Scenario
 		String result = "";
 		for (ScenarioElement scenarElem : listeElements)
 		{
-			result += scenarElem.toString() + "-";
+			result += scenarElem.toString() + " - ";
 		}
 		return result;
 	}

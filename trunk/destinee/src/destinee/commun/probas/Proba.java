@@ -9,7 +9,7 @@ import destinee.core.utils.CacheProba;
 
 /**
  * @author Bubulle et No-one
- *
+ * 
  * Class utilitaire pour les calculs de probas
  */
 public class Proba
@@ -17,6 +17,7 @@ public class Proba
 
 	/**
 	 * Permet de déterminer la probabilité de tomber sur une nombre A en jetant B dés à 10 faces
+	 * 
 	 * @param resultatCible résultat cible
 	 * @param nbDes nombre de dés
 	 * @return la probabilité de faire le résultat cible en lançant le nombre de dés donné
@@ -24,15 +25,15 @@ public class Proba
 	public static BigDecimal calculerProba(int resultatCible, int nbDes)
 	{
 		BigDecimal result = null;
-		if (resultatCible < nbDes 					// résultat inférieur au nombre de dés
-				|| nbDes < 1 						// pas de dés lancés
-				|| resultatCible > 10 * nbDes) 		// résultat supérieur au score maximum
+		if (resultatCible < nbDes // résultat inférieur au nombre de dés
+				|| nbDes < 1 // pas de dés lancés
+				|| resultatCible > 10 * nbDes) // résultat supérieur au score maximum
 		{
-			result = new BigDecimal(0);
+			result = BigDecimal.ZERO;
 		}
 		else if (nbDes == 1)
 		{
-			result = new BigDecimal(0.1); 			//pour un seul dé on a une équiprobabilité à 10%
+			result = new BigDecimal("0.1"); // pour un seul dé on a une équiprobabilité à 10%
 		}
 		else
 		{
@@ -47,11 +48,11 @@ public class Proba
 			if (resultatCache == null)
 			{
 				// Le résultat n'est pas en cache => il n'a pas été calculé => le faire
-				result = new BigDecimal(0);
+				result = BigDecimal.ZERO;
 				for (int i = resultatCible - 1; i >= resultatCible - 10; i--)
 				{
 					BigDecimal temp = Proba.calculerProba(i, nbDes - 1);
-					temp = temp.multiply(new BigDecimal(0.1));
+					temp = temp.multiply(new BigDecimal("0.1"));
 					result = result.add(temp);
 				}
 				CacheProba.getDefaultInstance().stockerDonnees(cle, result);
@@ -66,8 +67,9 @@ public class Proba
 		return result;
 	}
 
-	/** 
+	/**
 	 * Méthode servant à generer la clé unique de chaque objet proba
+	 * 
 	 * @param resultatCible nombre à atteindre avec les dés
 	 * @param nbDes nombre de dés
 	 * @return proba(resultatCible , nbDes)

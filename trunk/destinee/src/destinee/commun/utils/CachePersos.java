@@ -85,4 +85,14 @@ public class CachePersos
 			persos.put(entry.getKey(), entry.getValue().clone());
 		}
 	}
+
+	/**
+	 * Méthode permettant de connaitre le nombre de persos en cache
+	 * 
+	 * @return le nombre de persos en cache
+	 */
+	public int getNombrePersos()
+	{
+		return persos.size();
+	}
 }

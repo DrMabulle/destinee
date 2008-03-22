@@ -55,8 +55,8 @@ public class GestionnaireChainesAttaquesV
 		notifyAll();
 		try
 		{
-			// On limite la taille du buffer à 200 scénarios à traiter
-			while (chainesATraiter.size() >= 200)
+			// On limite la taille du buffer à 400 scénarios à traiter
+			while (chainesATraiter.size() >= 400)
 			{
 				wait();
 			}
@@ -115,7 +115,7 @@ public class GestionnaireChainesAttaquesV
 	/**
 	 * Méthode permettant de récuperer la liste de toutes les chaines d'attaques, ordonnée suivant l'espérance de dégâts décroissante
 	 * 
-	 * @return le liste des chaines d'attaque ordonnée
+	 * @return le liste des chaines d'attaques ordonnée
 	 */
 	public List<ChaineAttaquesV> getListeChainesOrdonnee()
 	{
@@ -128,16 +128,134 @@ public class GestionnaireChainesAttaquesV
 		return listeChaines;
 	}
 
+	/**
+	 * Méthode permettant de récuperer la liste de toutes les chaines d'attaques, ordonnée suivant l'espérance de dégâts conjecturée décroissante
+	 * 
+	 * @return le liste des chaines d'attaques ordonnée
+	 */
+	public List<ChaineAttaquesV> getListeChainesOrdonneeConj()
+	{
+		// Créer une chaine contenant l'ensemble des chaines d'attaque
+		List<ChaineAttaquesV> listeChaines = new ArrayList<ChaineAttaquesV>(chaines);
+
+		// Trier la liste obtenue par ordre d'espérances de dégâts décroissant
+		Collections.sort(listeChaines, new ChaineAttVComparatorConj());
+
+		return listeChaines;
+	}
+
+	/**
+	 * Méthode permettant de récuperer la liste de toutes les chaines d'attaques, ordonnée suivant un indicateur composé, basé sur l'espérance de dégâts et
+	 * l'indice de bourrinisme
+	 * 
+	 * @return le liste des chaines d'attaques ordonnée
+	 */
+	public List<ChaineAttaquesV> getListeChainesOrdonneeComp()
+	{
+		// Créer une chaine contenant l'ensemble des chaines d'attaque
+		List<ChaineAttaquesV> listeChaines = new ArrayList<ChaineAttaquesV>(chaines);
+
+		// Trier la liste obtenue par ordre d'espérances de dégâts décroissant
+		Collections.sort(listeChaines, new ChaineAttVComparatorComp());
+
+		return listeChaines;
+	}
+
+	/**
+	 * Méthode permettant de récuperer la liste de toutes les chaines d'attaques, non ordonnée
+	 * 
+	 * @return le liste des chaines d'attaques non ordonnée
+	 */
+	public List<ChaineAttaquesV> getListeChainesAttaques()
+	{
+		return new ArrayList<ChaineAttaquesV>(chaines);
+	}
+
+	/**
+	 * @author Bubulle
+	 * 
+	 * Comparateur
+	 */
 	class ChaineAttVComparator implements Comparator<ChaineAttaquesV>
 	{
 		@Override
 		public int compare(ChaineAttaquesV aO1, ChaineAttaquesV aO2)
 		{
-			Double espeDeg1 = new Double(aO1.getEsperanceDegatCumulee());
-			Double espeDeg2 = new Double(aO2.getEsperanceDegatCumulee());
+			try
+			{
+				Double espeDeg1 = new Double(aO1.getEsperanceDegatCumulee());
+				Double espeDeg2 = new Double(aO2.getEsperanceDegatCumulee());
 
-			// On veut l'ordre décroissant => faire les tests à l'envers
-			return espeDeg2.compareTo(espeDeg1);
+				// On veut l'ordre décroissant => faire les tests à l'envers
+				return espeDeg2.compareTo(espeDeg1);
+			}
+			catch (Exception e)
+			{
+				System.err.println("Erreur lors de la comparaison de deux ChaineAttaquesV. Méthode ChaineAttVComparator.compare()");
+				return 0;
+			}
 		}
+	}
+
+	/**
+	 * @author Bubulle
+	 * 
+	 * Comparateur de chaines d'attaques se basant sur l'espérance de dégâts conjecturée
+	 */
+	class ChaineAttVComparatorConj implements Comparator<ChaineAttaquesV>
+	{
+		@Override
+		public int compare(ChaineAttaquesV aO1, ChaineAttaquesV aO2)
+		{
+			try
+			{
+				Double espeDeg1 = new Double(aO1.getEsperanceDegatConjecturee());
+				Double espeDeg2 = new Double(aO2.getEsperanceDegatConjecturee());
+
+				// On veut l'ordre décroissant => faire les tests à l'envers
+				return espeDeg2.compareTo(espeDeg1);
+			}
+			catch (Exception e)
+			{
+				System.err.println("Erreur lors de la comparaison de deux ChaineAttaquesV. Méthode ChaineAttVComparatorConj.compare()");
+				return 0;
+			}
+		}
+	}
+
+	/**
+	 * @author Bubulle
+	 * 
+	 * Comparateur de chaines d'attaques se basant sur plusieurs critères dont l'espérance de dégât cumulée et l'indice de bourrinisme
+	 */
+	class ChaineAttVComparatorComp implements Comparator<ChaineAttaquesV>
+	{
+		@Override
+		public int compare(ChaineAttaquesV aO1, ChaineAttaquesV aO2)
+		{
+			try
+			{
+				Double espeDeg1 = new Double(aO1.getEsperanceDegatConjecturee() * aO1.getIndiceBourrinisme());
+				Double espeDeg2 = new Double(aO2.getEsperanceDegatConjecturee() * aO2.getIndiceBourrinisme());
+
+				// On veut l'ordre décroissant => faire les tests à l'envers
+				return espeDeg2.compareTo(espeDeg1);
+			}
+			catch (Exception e)
+			{
+				System.err.println("Erreur lors de la comparaison de deux ChaineAttaquesV. Méthode ChaineAttVComparatorComp.compare()");
+				return 0;
+			}
+		}
+	}
+
+	/**
+	 * Retire une chaine d'attaque de la liste des chaines d'attaques gérées
+	 * 
+	 * @param aChaine une chaine à retirer
+	 */
+	public void retirerChaineAttaques(ChaineAttaquesV aChaine)
+	{
+		chaines.remove(aChaine);
 	}
 }

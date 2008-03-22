@@ -6,7 +6,7 @@ import destinee.core.utils.CacheProba;
 
 /**
  * @author Bubulle et No-one
- *
+ * 
  * Class utilitaire pour les calculs de probasPlus
  */
 public class ProbaPlus
@@ -14,6 +14,7 @@ public class ProbaPlus
 
 	/**
 	 * Méthode permettant de déterminer la probabilité de tomber sur une nombre supérieur à A en jetant B dés à 10 faces
+	 * 
 	 * @param seuilMin seuil minimal à atteindre (A)
 	 * @param nbDes nombre de dés (B)
 	 * @return la probabilité de faire plus que A en jetant B dés
@@ -23,32 +24,31 @@ public class ProbaPlus
 		BigDecimal result = null;
 		if (seuilMin < nbDes)
 		{
-			//résultat inférieur au nombre de dés
-			result = new BigDecimal(1);
+			// résultat inférieur au nombre de dés
+			result = BigDecimal.ONE;
 		}
 		else if (nbDes < 1)
 		{
 			// pas de dés lancés
-			result = new BigDecimal(0);
+			result = BigDecimal.ZERO;
 		}
 		else if (seuilMin > 10 * nbDes)
 		{
 			// seuil supérieur au score maximum
-			result = new BigDecimal(0);
+			result = BigDecimal.ZERO;
 		}
 		else if (seuilMin < 5.5 * nbDes)
 		{
-			// Seuil inférieur à la moyenne : on va se simplifier la vie 
+			// Seuil inférieur à la moyenne : on va se simplifier la vie
 			// en passant par le calcul de probaMoins qui est plus rapide
 			BigDecimal probaMoins = ProbaMoins.calculerProba(seuilMin, nbDes);
 			probaMoins = probaMoins.add(Proba.calculerProba(seuilMin, nbDes));
-			BigDecimal un = new BigDecimal(1);
-			result = un.subtract(probaMoins);
+			result = BigDecimal.ONE.subtract(probaMoins);
 		}
 		else
 		{
-			// On calcule la probabilité de faire plus qu'un certain résultat en lançant un certain 
-			// nombre de dés. Pour cela on calcule la probabilité d'atteindre chacun des nombres 
+			// On calcule la probabilité de faire plus qu'un certain résultat en lançant un certain
+			// nombre de dés. Pour cela on calcule la probabilité d'atteindre chacun des nombres
 			// supérieurs au seuil avec le nombre de dés lancés.
 			String cle = ProbaPlus.genererCle(seuilMin, nbDes);
 
@@ -57,7 +57,7 @@ public class ProbaPlus
 			if (resultatCache == null)
 			{
 				// Le résultat n'est pas en cache => il n'a pas été calculé => le faire
-				result = new BigDecimal(0);
+				result = BigDecimal.ZERO;
 				for (int i = seuilMin + 1; i <= (nbDes * 10); i++)
 				{
 					BigDecimal temp = Proba.calculerProba(i, nbDes);
@@ -75,8 +75,9 @@ public class ProbaPlus
 		return result;
 	}
 
-	/** 
+	/**
 	 * Méthode servant à generer la clé unique de chaque objet probaPlus
+	 * 
 	 * @param seuilMin : nombre a dépasser avec les dés
 	 * @param nbDes : nombre de dés
 	 * @return probaPlus(seuilMin , nbDes)
