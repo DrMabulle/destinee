@@ -19,25 +19,25 @@ public class PropertiesFactory
 	private static final String chemin = "./properties/destinee/properties/application.properties";
 	private static Properties props = null;
 
-	private static void init()
+	private static void init() throws TechnicalException
 	{
 		init(chemin);
 	}
 
-	private static void init(String aFileName)
+	private static void init(String aFileName) throws TechnicalException
 	{
 		props = new Properties();
 		try
 		{
-			props.load(new FileInputStream(chemin));
+			props.load(new FileInputStream(aFileName));
 		}
 		catch (FileNotFoundException e)
 		{
-			new TechnicalException("Fichier des proprietés non trouvé", e);
+			throw new TechnicalException("Fichier des proprietés non trouvé", e);
 		}
 		catch (IOException e)
 		{
-			new TechnicalException("Lecture du fichier impossible", e);
+			throw new TechnicalException("Lecture du fichier impossible", e);
 		}
 
 	}
@@ -70,7 +70,7 @@ public class PropertiesFactory
 		return temp;
 	}
 
-	public static Boolean getOptionalBoolean(String aCle)
+	public static Boolean getOptionalBoolean(String aCle) throws TechnicalException
 	{
 		if (props == null)
 		{
@@ -80,7 +80,7 @@ public class PropertiesFactory
 		return Boolean.valueOf(temp);
 	}
 
-	public static String getOptionalString(String aCle)
+	public static String getOptionalString(String aCle) throws TechnicalException
 	{
 		if (props == null)
 		{

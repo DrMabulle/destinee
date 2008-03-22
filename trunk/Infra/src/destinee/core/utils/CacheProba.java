@@ -20,7 +20,7 @@ public class CacheProba
 	/**
 	 * Instance par défaut
 	 */
-	private static CacheProba defaultInstance = null;
+	private static CacheProba defaultInstance = new CacheProba();
 
 	/**
 	 * constructeur par defaut
@@ -37,10 +37,6 @@ public class CacheProba
 	 */
 	public static CacheProba getDefaultInstance()
 	{
-		if (defaultInstance == null)
-		{
-			defaultInstance = new CacheProba();
-		}
 		return defaultInstance;
 	}
 
