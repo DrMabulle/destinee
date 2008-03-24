@@ -59,6 +59,7 @@ public class PersoLoader
 		String base, identifiant;
 		double rapide, precise, brutale, berserk, kamikaze, magique, imparable;
 		Perso perso;
+		Map<String, Double> maitrises;
 
 		for (int i = 0; i < nbPersos; i++)
 		{
@@ -76,7 +77,7 @@ public class PersoLoader
 			precise = recupererMaitriseAttaque(base, ATT_PRECISE, "précise");
 			rapide = recupererMaitriseAttaque(base, ATT_RAPIDE, "rapide");
 
-			Map<String, Double> maitrises = new HashMap<String, Double>();
+			maitrises = new HashMap<String, Double>();
 			maitrises.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, berserk);
 			maitrises.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, brutale);
 			maitrises.put(ConstantesAttaques.ID_ATTAQUE_IMPARABLE, imparable);

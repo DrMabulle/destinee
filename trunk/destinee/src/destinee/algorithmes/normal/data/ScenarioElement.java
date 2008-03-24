@@ -100,28 +100,29 @@ public class ScenarioElement
 	@Override
 	public String toString()
 	{
-		String result = getAttaque().toString() + "_";
+		StringBuffer result = new StringBuffer(25);
+		result.append(getAttaque().toString()).append("_");
 
 		if (getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_CRITIQUE)
 		{
-			result += "CC";
+			result.append("CC");
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_SIMPLE)
 		{
-			result += "CS";
+			result.append("CS");
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE)
 		{
-			result += "ES";
+			result.append("ES");
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE)
 		{
-			result += "EP";
+			result.append("EP");
 		}
 		else if (getTypeResolution() == ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE)
 		{
-			result += "Echec";
+			result.append("Echec");
 		}
-		return result;
+		return result.toString();
 	}
 }

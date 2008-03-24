@@ -14,6 +14,7 @@ import destinee.core.utils.CacheProba;
  */
 public class Proba
 {
+	private static final BigDecimal zeroVirguleUn = new BigDecimal("0.1");
 
 	/**
 	 * Permet de déterminer la probabilité de tomber sur une nombre A en jetant B dés à 10 faces
@@ -33,7 +34,7 @@ public class Proba
 		}
 		else if (nbDes == 1)
 		{
-			result = new BigDecimal("0.1"); // pour un seul dé on a une équiprobabilité à 10%
+			result = zeroVirguleUn; // pour un seul dé on a une équiprobabilité à 10%
 		}
 		else
 		{
@@ -49,10 +50,12 @@ public class Proba
 			{
 				// Le résultat n'est pas en cache => il n'a pas été calculé => le faire
 				result = BigDecimal.ZERO;
-				for (int i = resultatCible - 1; i >= resultatCible - 10; i--)
+				BigDecimal temp;
+				int min = resultatCible - 10;
+				for (int i = resultatCible - 1; i >= min; i--)
 				{
-					BigDecimal temp = Proba.calculerProba(i, nbDes - 1);
-					temp = temp.multiply(new BigDecimal("0.1"));
+					temp = Proba.calculerProba(i, nbDes - 1);
+					temp = temp.multiply(zeroVirguleUn);
 					result = result.add(temp);
 				}
 				CacheProba.getDefaultInstance().stockerDonnees(cle, result);

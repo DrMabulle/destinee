@@ -58,9 +58,11 @@ public class ProbaPlus
 			{
 				// Le résultat n'est pas en cache => il n'a pas été calculé => le faire
 				result = BigDecimal.ZERO;
-				for (int i = seuilMin + 1; i <= (nbDes * 10); i++)
+				BigDecimal temp;
+				int max = nbDes * 10;
+				for (int i = seuilMin + 1; i <= max; i++)
 				{
-					BigDecimal temp = Proba.calculerProba(i, nbDes);
+					temp = Proba.calculerProba(i, nbDes);
 					result = result.add(temp);
 				}
 				CacheProba.getDefaultInstance().stockerDonnees(cle, result);

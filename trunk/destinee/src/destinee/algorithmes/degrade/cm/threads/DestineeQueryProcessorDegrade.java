@@ -104,9 +104,16 @@ public class DestineeQueryProcessorDegrade extends Thread
 	{
 		if (queryResults != null)
 		{
+			// Variables temporaires
+			Vector<String> vector;
+			String[] details;
+			String persoId, typeAttaque;
+			Perso attaquant;
+			Attaque attaque;
+
 			for (Map<String, Vector<String>> theMap : queryResults)
 			{
-				Vector<String> vector = theMap.get(scenarioVariableName);
+				vector = theMap.get(scenarioVariableName);
 				/*
 				 * On a une String de la forme [att(Perso1,Type1), ..., att(PersoN,TypeN)]
 				 */
@@ -130,12 +137,12 @@ public class DestineeQueryProcessorDegrade extends Thread
 						attaqueS = attaqueS.substring("att(".length(), attaqueS.length() - 1);
 
 						// Il ne reste plus que Perso,Type,Resolution
-						String[] details = attaqueS.split(",");
-						String persoId = details[0];
-						String typeAttaque = details[1];
+						details = attaqueS.split(",");
+						persoId = details[0];
+						typeAttaque = details[1];
 
-						Perso attaquant = CachePersos.getInstance().getPerso(persoId);
-						Attaque attaque = getNouvelleAttaque(typeAttaque, attaquant);
+						attaquant = CachePersos.getInstance().getPerso(persoId);
+						attaque = getNouvelleAttaque(typeAttaque, attaquant);
 
 						// Construire une chaineAtt avec ces données
 						chaineAtt.ajouterAttaque(attaque);

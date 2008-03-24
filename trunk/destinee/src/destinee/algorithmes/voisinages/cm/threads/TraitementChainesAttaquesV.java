@@ -24,17 +24,20 @@ public class TraitementChainesAttaquesV extends Thread
 	private int id = 0;
 	private static int compteur = 0;
 	private int etapes = 1;
+	private BigDecimal probaCible, probaMin;
 
 	public TraitementChainesAttaquesV()
 	{
-		new TraitementChainesAttaquesV(1);
+		new TraitementChainesAttaquesV(1, BigDecimal.ONE, BigDecimal.ZERO);
 	}
 
-	public TraitementChainesAttaquesV(int nbEtapes)
+	public TraitementChainesAttaquesV(int nbEtapes, BigDecimal aProbaCible, BigDecimal aProbaMin)
 	{
 		super();
 		id = compteur++;
 		etapes = nbEtapes;
+		probaCible = aProbaCible;
+		probaMin = aProbaMin;
 
 		start();
 	}
@@ -66,11 +69,14 @@ public class TraitementChainesAttaquesV extends Thread
 	{
 		System.out.println("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
 
+		// Variables temporaires
+		ChaineAttaquesV chaine;
+
 		// On continue les traitements tant qu'on ne nous dit pas de s'arrêter et tant qu'il reste des traitements à faire
 		while (!traitementsTermines || GestionnaireChainesAttaquesV.getInstance().hasNextChaineATraiter())
 		{
 			// Récupérer le Scenario suivant pour le traiter
-			ChaineAttaquesV chaine = GestionnaireChainesAttaquesV.getInstance().getNextChaineATraiter();
+			chaine = GestionnaireChainesAttaquesV.getInstance().getNextChaineATraiter();
 			if (chaine != null)
 			{
 				// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation de la chaine d'attaques
@@ -87,15 +93,18 @@ public class TraitementChainesAttaquesV extends Thread
 	{
 		System.out.println("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
 
+		// Variables temporaires
+		ChaineAttaquesV chaine;
+
 		// On continue les traitements tant qu'on ne nous dit pas de s'arrêter et tant qu'il reste des traitements à faire
 		while (!traitementsTermines || GestionnaireChainesAttaquesV.getInstance().hasNextChaineATraiter())
 		{
 			// Récupérer le Scenario suivant pour le traiter
-			ChaineAttaquesV chaine = GestionnaireChainesAttaquesV.getInstance().getNextChaineATraiter();
+			chaine = GestionnaireChainesAttaquesV.getInstance().getNextChaineATraiter();
 			if (chaine != null)
 			{
 				// Le traitement consiste simplement, ici, à demander l'évaluation de la chaine selon certains critères
-				chaine.evaluer(BigDecimal.ONE, BigDecimal.ZERO, etapes);
+				chaine.evaluer(probaCible, probaMin, etapes);
 				// Ajouter la chaine d'attaques une fois traitée
 				GestionnaireChainesAttaquesV.getInstance().ajouterChaineTraitee(chaine);
 			}

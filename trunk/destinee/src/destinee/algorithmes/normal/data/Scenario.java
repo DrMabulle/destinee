@@ -209,7 +209,8 @@ public class Scenario
 			{
 				boolean chainesEgales = true;
 				// Comparer les éléments de chaque chaine
-				for (int i = 0; i < listeElements.size() && chainesEgales; i++)
+				int size = listeElements.size();
+				for (int i = 0; i < size && chainesEgales; i++)
 				{
 					chainesEgales &= listeElements.get(i).equals(scenar.listeElements.get(i));
 				}
@@ -248,12 +249,12 @@ public class Scenario
 	@Override
 	public String toString()
 	{
-		String result = "";
+		StringBuffer result = new StringBuffer(150);
 		for (ScenarioElement scenarElem : listeElements)
 		{
-			result += scenarElem.toString() + " - ";
+			result.append(scenarElem.toString()).append(" - ");
 		}
-		return result;
+		return result.toString();
 	}
 
 }

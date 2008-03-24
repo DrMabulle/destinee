@@ -165,10 +165,13 @@ public class ResolutionAttaque
 			bonusDeg = aAttaque.getBonusDeg(aCible.getArmure());
 		}
 
-		for (int i = nbDesUtilises; i <= 10 * nbDesUtilises; i++)
+		BigDecimal resultatDuDeBigDecimal;
+		BigDecimal proba;
+		int resultatMax = 10 * nbDesUtilises;
+		for (int i = nbDesUtilises; i <= resultatMax; i++)
 		{
-			BigDecimal resultatDuDeBigDecimal = new BigDecimal(Math.max(i + bonusDeg, 1));
-			BigDecimal proba = (Proba.calculerProba(i, nbDesUtilises));
+			resultatDuDeBigDecimal = new BigDecimal(Math.max(i + bonusDeg, 1));
+			proba = Proba.calculerProba(i, nbDesUtilises);
 			result = result.add(proba.multiply(resultatDuDeBigDecimal));
 		}
 

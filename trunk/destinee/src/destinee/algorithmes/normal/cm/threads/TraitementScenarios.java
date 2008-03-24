@@ -33,11 +33,14 @@ public class TraitementScenarios extends Thread
 		{
 			System.out.println("Thread " + id + " : début des activités de traitement des scénarios.");
 
+			// Variables temporaires
+			Scenario scenar;
+
 			// On continue les traitements tant qu'on ne nous dit pas de s'arrêter et tant qu'il reste des traitements à faire
 			while (!traitementsTermines || GestionnaireChainesAttaques.getInstance().hasNextScenarioATraiter())
 			{
 				// Récupérer le Scenario suivant pour le traiter
-				Scenario scenar = GestionnaireChainesAttaques.getInstance().getNextScenarioATraiter();
+				scenar = GestionnaireChainesAttaques.getInstance().getNextScenarioATraiter();
 				if (scenar != null)
 				{
 					// System.out.println("Thread " + id + " : début traitement d'un scénario.");
