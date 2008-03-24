@@ -1244,18 +1244,20 @@ public class ConversionUtil
 			return "[]";
 		}
 
-		String theResult = "['";
+		StringBuffer theResult = new StringBuffer(150);
+		theResult.append("['");
+
 		for (Iterator<String> iter = aCollection.iterator(); iter.hasNext();)
 		{
-			theResult += iter.next();
+			theResult.append(iter.next());
 
 			if (iter.hasNext())
 			{
-				theResult += "','";
+				theResult.append("','");
 			}
 		}
-		theResult += "']";
+		theResult.append("']");
 
-		return theResult;
+		return theResult.toString();
 	}
 }

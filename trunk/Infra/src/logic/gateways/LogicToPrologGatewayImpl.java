@@ -188,16 +188,16 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 
 	private String createContents()
 	{
-		String theResult = "";
+		StringBuffer theResult = new StringBuffer(1000);
 		for (String rule : itsRules)
 		{
-			theResult += rule + "\n\n";
+			theResult.append(rule).append("\n\n");
 		}
 		for (String fact : itsFacts)
 		{
-			theResult += fact + "\n\n";
+			theResult.append(fact).append("\n\n");
 		}
-		return theResult;
+		return theResult.toString();
 	}
 
 	public static LogicToPrologGatewayImpl getDefaultGateway()
