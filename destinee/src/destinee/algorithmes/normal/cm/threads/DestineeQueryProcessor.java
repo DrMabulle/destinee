@@ -106,9 +106,16 @@ public class DestineeQueryProcessor extends Thread
 	{
 		Map<String, Vector<String>> result = prologGateway.queryOnce(QUERY);
 
+		// Variables temporaires
+		Vector<String> vector;
+		String[] details;
+		String persoId, typeAttaque, typeResolution;
+		Perso attaquant;
+		Attaque attaque;
+
 		while (result != null && !result.isEmpty())
 		{
-			Vector<String> vector = result.get("Result");
+			vector = result.get("Result");
 			/*
 			 * On a une String de la forme [att(Perso1,Type1,Resolution1), ..., att(PersoN,TypeN,ResolutionN)]
 			 */
@@ -128,13 +135,13 @@ public class DestineeQueryProcessor extends Thread
 					attaqueS = attaqueS.substring("att(".length(), attaqueS.length() - 1);
 
 					// Il ne reste plus que Perso,Type,Resolution
-					String[] details = attaqueS.split(",");
-					String persoId = details[0];
-					String typeAttaque = details[1];
-					String typeResolution = details[2];
+					details = attaqueS.split(",");
+					persoId = details[0];
+					typeAttaque = details[1];
+					typeResolution = details[2];
 
-					Perso attaquant = CachePersos.getInstance().getPerso(persoId);
-					Attaque attaque = getNouvelleAttaque(typeAttaque, attaquant);
+					attaquant = CachePersos.getInstance().getPerso(persoId);
+					attaque = getNouvelleAttaque(typeAttaque, attaquant);
 
 					// Construire un ScenarioElement avec ces données et l'ajouté au scénario
 					ScenarioElement scenarElt = getScenarioElement(attaque, typeResolution);

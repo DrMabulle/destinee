@@ -30,7 +30,7 @@ public class ChaineAttaquesV
 	private Cible cible;
 	private double esperanceDegatCumulee = 0;
 	private BigDecimal probaRealisationCumulee = BigDecimal.ZERO;
-	private double esperanceDegatConjecturee = 0;
+	private double esperanceDegatConjecturee = -1;
 	private boolean isEvalTerminee = false;
 	private boolean isEvaluee = false;
 
@@ -155,6 +155,10 @@ public class ChaineAttaquesV
 		// On indique que la chaine d'attaque a été évaluée au moins une fois
 		isEvaluee = true;
 
+		// Quand on évalue, on remet à 0 la conjecture
+		isEvalTerminee = false;
+		esperanceDegatConjecturee = -1;
+
 		if ((scenariosPrincipaux == null || scenariosPrincipaux.isEmpty()) && (voisinages == null || voisinages.isEmpty()))
 		{
 			ScenarioV scenarI = getScenarioInital();
@@ -168,12 +172,13 @@ public class ChaineAttaquesV
 		ScenarioV scenar = voisinages.remove(0);
 		scenariosPrincipaux.add(scenar);
 
-		// probaRealisationCumulee = BigDecimal.ZERO;
+		// Variables temporaires
+		Set<ScenarioV> voisinage;
 
 		while (scenariosPrincipaux.size() <= aNbVoisinages && aProbaCumuleeCible.compareTo(probaRealisationCumulee) >= 0
 				&& aProbaMinUnitaire.compareTo(scenar.getProbaRealisation()) <= 0)
 		{
-			Set<ScenarioV> voisinage = getVoisinage(scenar);
+			voisinage = getVoisinage(scenar);
 			// Eviter les doublons :
 			for (ScenarioV scenarioV : voisinage)
 			{
@@ -222,15 +227,20 @@ public class ChaineAttaquesV
 		ScenarioV scenar = new ScenarioV(this);
 		int chaineSize = chaine.size();
 
+		// Variables temporaires
+		int typeResolPlusProbable;
+		BigDecimal probaMaxTmp = BigDecimal.ZERO;
+		BigDecimal probaTmp;
+
 		for (int i = 0; i < chaineSize; i++)
 		{
 			// Remettre les persos et la cible en situation
 			initPersosCible(chaine, scenar.getListeTypesResolution(), i);
 
 			scenar.ajouterElementResolution(ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
-			int typeResolPlusProbable = ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE;
-			BigDecimal probaMaxTmp = BigDecimal.ZERO;
-			BigDecimal probaTmp = null;
+			typeResolPlusProbable = ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE;
+			probaMaxTmp = BigDecimal.ZERO;
+			probaTmp = null;
 
 			for (Integer resolution : typesResol)
 			{
@@ -267,11 +277,14 @@ public class ChaineAttaquesV
 		List<Integer> listeResolutions = aScenar.getListeTypesResolution();
 		int nbResoltions = listeResolutions.size();
 
+		// Variables temporaires
+		List<Integer> tmp;
+		ScenarioV scenarTmp;
+
 		for (int i = 0; i < nbResoltions; i++)
 		{
 			int resolution = listeResolutions.get(i);
-			List<Integer> tmp = new ArrayList<Integer>(listeResolutions);
-			ScenarioV scenarTmp;
+			tmp = new ArrayList<Integer>(listeResolutions);
 
 			switch (resolution)
 			{
@@ -396,28 +409,30 @@ public class ChaineAttaquesV
 	 */
 	public void conjecturerResultatFinal() throws TechnicalException
 	{
-		int nbScenariosActuel = scenariosPrincipaux.size() + voisinages.size();
-		int nbScenariosTotal = (int) Math.pow(5, size());
-		int nbScenariosRestants = nbScenariosTotal - nbScenariosActuel;
-
-		double indBourrinismeActuel = getIndiceBourrinisme();
-
-		double probaActuelle = ConversionUtil.bigdecimalVersDouble(getProbaRealisationCumulee(), 10);
-		double probaRestante = 1.0 - probaActuelle;
-		double esperanceDeg = getEsperanceDegatCumulee();
-
-		double indBourrinismeRestant;
-		if (nbScenariosRestants == 0)
+		if (esperanceDegatConjecturee == -1 && !isEvalTerminee)
 		{
-			indBourrinismeRestant = 1;
-		}
-		else
-		{
-			indBourrinismeRestant = (nbScenariosTotal - (indBourrinismeActuel * nbScenariosActuel)) / nbScenariosRestants;
-		}
+			int nbScenariosActuel = scenariosPrincipaux.size() + voisinages.size();
+			int nbScenariosTotal = (int) Math.pow(5, size());
+			int nbScenariosRestants = nbScenariosTotal - nbScenariosActuel;
 
-		esperanceDegatConjecturee = (esperanceDeg / probaActuelle / indBourrinismeActuel)
-				+ (esperanceDeg * probaRestante * indBourrinismeActuel / indBourrinismeRestant);
+			double indBourrinismeActuel = getIndiceBourrinisme();
+
+			double probaActuelle = ConversionUtil.bigdecimalVersDouble(getProbaRealisationCumulee(), 10);
+			double probaRestante = 1.0 - probaActuelle;
+			double esperanceDeg = getEsperanceDegatCumulee();
+
+			double indBourrinismeRestant;
+			if (nbScenariosRestants == 0)
+			{
+				indBourrinismeRestant = 1;
+			}
+			else
+			{
+				indBourrinismeRestant = (nbScenariosTotal - (indBourrinismeActuel * nbScenariosActuel)) / nbScenariosRestants;
+			}
+
+			esperanceDegatConjecturee = (esperanceDeg) + (esperanceDeg / probaActuelle * probaRestante / indBourrinismeActuel * indBourrinismeRestant);
+		}
 	}
 
 	/**
@@ -431,9 +446,10 @@ public class ChaineAttaquesV
 		double indiceBourrinismeMoyen = 0;
 		if (aScenarioCollection != null && aScenarioCollection.size() != 0)
 		{
+			ScenarioV theScenarioV;
 			for (Iterator<ScenarioV> theIterator = aScenarioCollection.iterator(); theIterator.hasNext();)
 			{
-				ScenarioV theScenarioV = theIterator.next();
+				theScenarioV = theIterator.next();
 				indiceBourrinismeMoyen += theScenarioV.getIndiceBourrinisme();
 			}
 			indiceBourrinismeMoyen /= aScenarioCollection.size();
@@ -538,8 +554,8 @@ public class ChaineAttaquesV
 
 	public void vider()
 	{
-		scenariosPrincipaux = null;
-		voisinages = null;
+		// scenariosPrincipaux = null;
+		// voisinages = null;
 		isEvalTerminee = true;
 	}
 

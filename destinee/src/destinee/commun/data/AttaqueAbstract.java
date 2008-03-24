@@ -94,6 +94,8 @@ public abstract class AttaqueAbstract implements Attaque
 	@Override
 	public String toString()
 	{
-		return getPerso().toString() + "_" + getTypeAttaque();
+		StringBuffer result = new StringBuffer(50);
+		result.append(getPerso().toString()).append("_").append(getTypeAttaque());
+		return result.toString();
 	}
 }

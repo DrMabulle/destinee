@@ -6,7 +6,7 @@ package destinee.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import destinee.algorithmes.normal.data.ChaineAttaques;
+import junit.framework.TestCase;
 import destinee.algorithmes.normal.data.Scenario;
 import destinee.algorithmes.normal.data.ScenarioElement;
 import destinee.commun.constantes.ConstantesAttaques;
@@ -15,11 +15,10 @@ import destinee.commun.data.AttaqueNormale;
 import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 import destinee.commun.probas.ResolutionAttaque;
-import junit.framework.TestCase;
 
 /**
  * @author Bubulle
- *
+ * 
  */
 public class ChaineAttaquesTest extends TestCase
 {
@@ -43,12 +42,15 @@ public class ChaineAttaquesTest extends TestCase
 	 * L'attaque effectuée en second
 	 */
 	private Attaque attaque2;
-	/**
-	 * La chaine d'attaque testée
-	 */
-	private ChaineAttaques chaineAtt;
 
-	/* (non-Javadoc)
+	// /**
+	// * La chaine d'attaque testée
+	// */
+	// private ChaineAttaques chaineAtt;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception

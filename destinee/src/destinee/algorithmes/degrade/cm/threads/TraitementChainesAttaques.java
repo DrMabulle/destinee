@@ -30,11 +30,14 @@ public class TraitementChainesAttaques extends Thread
 	{
 		System.out.println("Thread " + id + " : début des activités de traitement des Chaines d'attaques.");
 
+		// Variables temporaires
+		ChaineAttaquesD chaine;
+
 		// On continue les traitements tant qu'on ne nous dit pas de s'arrêter et tant qu'il reste des traitements à faire
 		while (!traitementsTermines || GestionnaireChainesAttaquesD.getInstance().hasNextChaineAttaqueATraiter())
 		{
 			// Récupérer le Scenario suivant pour le traiter
-			ChaineAttaquesD chaine = GestionnaireChainesAttaquesD.getInstance().getNextChaineAttaqueATraiter();
+			chaine = GestionnaireChainesAttaquesD.getInstance().getNextChaineAttaqueATraiter();
 			if (chaine != null)
 			{
 				System.out.println("Thread " + id + " : début traitement d'une Chaine d'attaques.");

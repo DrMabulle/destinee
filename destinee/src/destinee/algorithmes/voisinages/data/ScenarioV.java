@@ -141,10 +141,16 @@ public class ScenarioV
 		 * afin de trouver la meilleure combinaison.
 		 */
 		List<Attaque> attaques = chaine.getListeAttaques();
-		for (int i = 0; i < listeResultats.size(); i++)
+
+		// Variables temporaires
+		Attaque att;
+		int typeResolution;
+		int tailleListeResultats = listeResultats.size();
+
+		for (int i = 0; i < tailleListeResultats; i++)
 		{
-			Attaque att = attaques.get(i);
-			int typeResolution = listeResultats.get(i);
+			att = attaques.get(i);
+			typeResolution = listeResultats.get(i);
 
 			probaTmp = ResolutionAttaque.resoudreAttaque(att, cible, typeResolution);
 			esperanceTmp = ResolutionAttaque.esperanceDeDegats(att, cible, typeResolution);
@@ -196,9 +202,11 @@ public class ScenarioV
 		{
 			// L'indice de bourrinisme n'a pas été calculé. Le faire
 			indiceBourrinisme = 0;
+			Integer theResolution;
+
 			for (Iterator<Integer> iter = listeResultats.iterator(); iter.hasNext();)
 			{
-				Integer theResolution = (Integer) iter.next();
+				theResolution = (Integer) iter.next();
 				switch (theResolution)
 				{
 					case ResolutionAttaque.RESOLUTION_COUP_SIMPLE:
@@ -244,7 +252,8 @@ public class ScenarioV
 			{
 				boolean chainesEgales = true;
 				// Comparer les éléments de chaque chaine
-				for (int i = 0; i < listeResultats.size() && chainesEgales; i++)
+				int tailleListeResultats = listeResultats.size();
+				for (int i = 0; i < tailleListeResultats && chainesEgales; i++)
 				{
 					chainesEgales &= listeResultats.get(i).equals(scenar.listeResultats.get(i));
 				}
@@ -283,11 +292,11 @@ public class ScenarioV
 	@Override
 	public String toString()
 	{
-		String result = "";
+		StringBuffer result = new StringBuffer(150);
 		for (Integer elt : listeResultats)
 		{
-			result += elt.toString() + " - ";
+			result.append(elt.toString()).append(" - ");
 		}
-		return result;
+		return result.toString();
 	}
 }
