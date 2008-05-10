@@ -3,12 +3,12 @@
  */
 package destinee.core.properties;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
 import destinee.core.exception.TechnicalException;
+import destinee.core.utils.FileAssistant;
 
 /**
  * @author Bubulle et No-one
@@ -29,7 +29,7 @@ public class PropertiesFactory
 		props = new Properties();
 		try
 		{
-			props.load(new FileInputStream(aFileName));
+			props.load(FileAssistant.getInputStream(aFileName));
 		}
 		catch (FileNotFoundException e)
 		{
