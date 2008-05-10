@@ -100,4 +100,13 @@ public class AttaqueBerserk extends AttaqueAbstract
 		return 4;
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.commun.data.Attaque#getCoutEnPA()
+	 */
+	@Override
+	public int getCoutEnPA()
+	{
+		return 8;
+	}
+
 }

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import destinee.algorithmes.voisinages.data.ChaineAttaquesV;
 import destinee.algorithmes.voisinages.utils.GestionnaireChainesAttaquesV;
 import destinee.core.exception.TechnicalException;
-import destinee.core.properties.PropertiesFactory;
+import destinee.core.log.LogFactory;
 
 /**
  * @author Bubulle
@@ -17,39 +17,36 @@ import destinee.core.properties.PropertiesFactory;
  */
 public class TraitementChainesAttaquesV extends Thread
 {
-	private static final String CLE_UTILISATION_HEURISTIQUE = "destinee.voisinage.utiliser.heuristique";
-
 	private static boolean traitementsTermines = false;
 
 	private int id = 0;
 	private static int compteur = 0;
 	private int etapes = 1;
 	private BigDecimal probaCible, probaMin;
+	private boolean utiliseHeuristique;
 
 	public TraitementChainesAttaquesV()
 	{
-		new TraitementChainesAttaquesV(1, BigDecimal.ONE, BigDecimal.ZERO);
+		new TraitementChainesAttaquesV(1, BigDecimal.ONE, BigDecimal.ZERO, true);
 	}
 
-	public TraitementChainesAttaquesV(int nbEtapes, BigDecimal aProbaCible, BigDecimal aProbaMin)
+	public TraitementChainesAttaquesV(int nbEtapes, BigDecimal aProbaCible, BigDecimal aProbaMin, boolean doitUtiliserHeuristique)
 	{
 		super();
 		id = compteur++;
 		etapes = nbEtapes;
 		probaCible = aProbaCible;
 		probaMin = aProbaMin;
+		utiliseHeuristique = doitUtiliserHeuristique;
 
 		start();
 	}
 
 	public void run()
 	{
-		Boolean utiliseHeuristique;
 		try
 		{
-			utiliseHeuristique = PropertiesFactory.getOptionalBoolean(CLE_UTILISATION_HEURISTIQUE);
-
-			if (Boolean.TRUE.equals(utiliseHeuristique))
+			if (utiliseHeuristique)
 			{
 				traitementHeuristique();
 			}
@@ -60,14 +57,14 @@ public class TraitementChainesAttaquesV extends Thread
 		}
 		catch (TechnicalException e)
 		{
-			System.err.println("Erreur lors du traitement des chaines d'attaques, méthode run()");
+			LogFactory.logError("Erreur lors du traitement des chaines d'attaques, méthode run()");
 			e.printStackTrace();
 		}
 	}
 
 	private void traitementNormal() throws TechnicalException
 	{
-		System.out.println("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
 
 		// Variables temporaires
 		ChaineAttaquesV chaine;
@@ -86,12 +83,12 @@ public class TraitementChainesAttaquesV extends Thread
 			}
 		}
 
-		System.out.println("Thread " + id + " : fin des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des chaines d'attaque.");
 	}
 
 	private void traitementHeuristique() throws TechnicalException
 	{
-		System.out.println("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
 
 		// Variables temporaires
 		ChaineAttaquesV chaine;
@@ -110,7 +107,7 @@ public class TraitementChainesAttaquesV extends Thread
 			}
 		}
 
-		System.out.println("Thread " + id + " : fin des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des chaines d'attaque.");
 	}
 
 	public static void arreterTraitements()

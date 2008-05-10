@@ -100,4 +100,13 @@ public class AttaqueRapide extends AttaqueAbstract
 		return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.commun.data.Attaque#getCoutEnPA()
+	 */
+	@Override
+	public int getCoutEnPA()
+	{
+		return 2;
+	}
+
 }

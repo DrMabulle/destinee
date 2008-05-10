@@ -37,6 +37,9 @@ public class PersoLoader
 	private static final String ATT_KAMIKAZE = ".attaque.kamikaze";
 	private static final String ATT_IMPARABLE = ".attaque.imparable";
 	private static final String ATT_MAGIQUE = ".attaque.magique";
+	private static final String SACRIFICE_ATT = ".kamikaze.sacrifice.attaque";
+	private static final String SACRIFICE_DEG = ".kamikaze.sacrifice.degat";
+	private static final String SACRIFICE_MAX = ".kamikaze.sacrifice.max";
 	private static Properties props = null;
 
 	/**
@@ -88,8 +91,13 @@ public class PersoLoader
 
 			perso = new Perso(caracs[0], caracs[1], caracs[2], caracs[3], caracs[4], caracs[5], caracs[6], identifiant, maitrises);
 
+			recupererSacrificesPourKamikaze(perso, base);
+
+			perso.setPaCycle1(pa1);
+			perso.setPaCycle2(pa2);
+
 			// Ajouter le perso nouvellement créé au cache
-			CachePersos.getInstance().addPerso(identifiant, perso);
+			CachePersos.addPerso(identifiant, perso);
 
 			// Déclarer le perso à Prolog
 			prolog.ajouterPerso(perso.getIdentifiant(), perso.getNombreDeDesAttaque(), perso.getBonusAttaque(), perso.getNombreDeDesDegats(), perso
@@ -205,6 +213,62 @@ public class PersoLoader
 		}
 
 		return result;
+	}
+
+	/**
+	 * @param aPerso un perso
+	 * @param aBase
+	 * @throws TechnicalException
+	 */
+	private static void recupererSacrificesPourKamikaze(Perso aPerso, String aBase) throws TechnicalException
+	{
+		String sacroAttaque = props.getProperty(aBase + SACRIFICE_ATT);
+		String sacroDegat = props.getProperty(aBase + SACRIFICE_DEG);
+		String sacroMax = props.getProperty(aBase + SACRIFICE_MAX);
+		int temp;
+
+		// Sacrifice pour booster l'attaque
+		if (sacroAttaque != null && !"".equals(sacroAttaque.trim()))
+		{
+			// Convertir en int
+			try
+			{
+				temp = ConversionUtil.stringVersInteger(sacroAttaque, null).intValue();
+				aPerso.setSacrificePourAttaque(temp);
+			}
+			catch (Exception e)
+			{
+				throw new TechnicalException("Erreur : le sacrifice pour l'attaque du " + aBase + " est mal renseigné.");
+			}
+		}
+		// Sacrifice pour booster les dégâts
+		if (sacroDegat != null && !"".equals(sacroDegat.trim()))
+		{
+			// Convertir en int
+			try
+			{
+				temp = ConversionUtil.stringVersInteger(sacroDegat, null).intValue();
+				aPerso.setSacrificePourDegat(temp);
+			}
+			catch (Exception e)
+			{
+				throw new TechnicalException("Erreur : le sacrifice pour les degats du " + aBase + " est mal renseigné.");
+			}
+		}
+		// Sacrifice maximal autorisé, pour booster attaque et/ou dégâts
+		if (sacroMax != null && !"".equals(sacroMax.trim()))
+		{
+			// Convertir en int
+			try
+			{
+				temp = ConversionUtil.stringVersInteger(sacroMax, null).intValue();
+				aPerso.setSacrificeMax(temp);
+			}
+			catch (Exception e)
+			{
+				throw new TechnicalException("Erreur : le sacrifice maximal du " + aBase + " est mal renseigné.");
+			}
+		}
 	}
 
 	/**

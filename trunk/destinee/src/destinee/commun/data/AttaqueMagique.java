@@ -97,7 +97,17 @@ public class AttaqueMagique extends AttaqueAbstract
 	 */
 	public int getAugmentationFatigue()
 	{
-		return 2;
+		// L'attaque magique fait augmenter la FAT de 1 et perdre 1 point d'EM
+		return 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.commun.data.Attaque#getCoutEnPA()
+	 */
+	@Override
+	public int getCoutEnPA()
+	{
+		return 4;
 	}
 
 }

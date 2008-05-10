@@ -10,6 +10,7 @@ import java.util.List;
 import destinee.commun.data.Cible;
 import destinee.commun.probas.ResolutionAttaque;
 import destinee.core.exception.TechnicalException;
+import destinee.core.log.LogFactory;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
@@ -129,7 +130,8 @@ public class Scenario
 				{
 					probaRealisation = BigDecimal.ZERO;
 					esperanceDegats = 0;
-					// System.out.println("scenario " + toString() + ": abandon. " + (System.currentTimeMillis() - startTime) + " ms");
+					if (LogFactory.isLogDebugEnabled())
+						LogFactory.logDebug("scenario " + toString() + ": abandon. " + (System.currentTimeMillis() - startTime) + " ms");
 					return;
 				}
 			}
@@ -148,8 +150,9 @@ public class Scenario
 		// TODO une methode pour récuperer la fatigue si on gere les cumuls, formule sur le wiki
 		// TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
 
-		System.out.println("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15) + ". "
-				+ (System.currentTimeMillis() - startTime) + " ms");
+		if (LogFactory.isLogDebugEnabled())
+			LogFactory.logDebug("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15) + ". "
+					+ (System.currentTimeMillis() - startTime) + " ms");
 	}
 
 	/**

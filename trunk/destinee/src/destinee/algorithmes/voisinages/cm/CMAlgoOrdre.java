@@ -5,9 +5,9 @@ package destinee.algorithmes.voisinages.cm;
 
 import java.util.List;
 
-import destinee.algorithmes.voisinages.cm.threads.DestineeQueryProcessorVoisinage;
+import destinee.algorithmes.voisinages.cm.threads.DestineeQueryProcessorOrdre;
 import destinee.algorithmes.voisinages.data.ChaineAttaquesV;
-import destinee.algorithmes.voisinages.utils.GestionnaireChainesAttaquesV;
+import destinee.algorithmes.voisinages.utils.GestionnaireOrdresAttaquants;
 import destinee.commun.data.Cible;
 import destinee.commun.utils.PersoLoader;
 import destinee.core.exception.DestineeException;
@@ -19,7 +19,7 @@ import destinee.logic.gateways.DestineeToLogicGatewayImpl;
  * @author Bubulle
  * 
  */
-public class CMAlgoVoisinage
+public class CMAlgoOrdre
 {
 
 	/**
@@ -33,9 +33,9 @@ public class CMAlgoVoisinage
 		PersoLoader.chargerPersos();
 		Cible cible = new Cible(12, 0, 0);
 
-		DestineeQueryProcessorVoisinage.processQuery(DestineeToLogicGatewayImpl.getDefaultInstance(), cible);
+		DestineeQueryProcessorOrdre.processQuery(DestineeToLogicGatewayImpl.getDefaultInstance(), cible);
 
-		List<ChaineAttaquesV> chainesAtt = GestionnaireChainesAttaquesV.getInstance().getListeChainesOrdonneeConj();
+		List<ChaineAttaquesV> chainesAtt = GestionnaireOrdresAttaquants.getInstance().getListeChainesOrdonneeConj();
 
 		for (ChaineAttaquesV theChaineAttaques : chainesAtt)
 		{

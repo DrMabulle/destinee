@@ -30,6 +30,8 @@ public class Perso
 	private String identifiant;
 	private int fatigue;
 	private int fatigueIntiale;
+	private int sacrificePourAttaque, sacrificePourDegat, sacrificeMax;
+	private int paCycle1, paCycle2;
 	private Map<String, Double> maitrisesAtt;
 
 	/**
@@ -57,6 +59,12 @@ public class Perso
 		fatigueIntiale = aFatigueInitiale;
 		maitrisesAtt = aMaitrisesAtt;
 		maitrisesAtt.put(ConstantesAttaques.ID_ATTAQUE_NORMALE, 1.00);
+		
+		sacrificePourAttaque = 0;
+		sacrificePourDegat = 0;
+		sacrificeMax = 0;
+		paCycle1 = 10;
+		paCycle2 = 0;
 	}
 
 	// /**
@@ -205,6 +213,87 @@ public class Perso
 	{
 		return bonusAttaque - fatigue;
 	}
+	
+	/**
+	 * @return the sacrificePourAttaque
+	 */
+	public int getSacrificePourAttaque()
+	{
+		return sacrificePourAttaque;
+	}
+
+	/**
+	 * @param aSacrificePourAttaque the sacrificePourAttaque to set
+	 */
+	public void setSacrificePourAttaque(int aSacrificePourAttaque)
+	{
+		sacrificePourAttaque = aSacrificePourAttaque;
+	}
+
+	/**
+	 * @return the sacrificePourDegat
+	 */
+	public int getSacrificePourDegat()
+	{
+		return sacrificePourDegat;
+	}
+
+	/**
+	 * @param aSacrificePourDegat the sacrificePourDegat to set
+	 */
+	public void setSacrificePourDegat(int aSacrificePourDegat)
+	{
+		sacrificePourDegat = aSacrificePourDegat;
+	}
+
+	/**
+	 * @return the sacrificeMax
+	 */
+	public int getSacrificeMax()
+	{
+		return sacrificeMax;
+	}
+
+	/**
+	 * @param aSacrificeMax the sacrificeMax to set
+	 */
+	public void setSacrificeMax(int aSacrificeMax)
+	{
+		sacrificeMax = aSacrificeMax;
+	}
+
+	/**
+	 * @return le nombre de PA au cycle 1
+	 */
+	public int getPaCycle1()
+	{
+		return paCycle1;
+	}
+
+	/**
+	 * @param aPaCycle1 un nombre de PA pour le cycle 1
+	 */
+	public void setPaCycle1(int aPaCycle1)
+	{
+		paCycle1 = aPaCycle1;
+	}
+
+	/**
+	 * @return le nombre de PA au cycle 2
+	 */
+	public int getPaCycle2()
+	{
+		return paCycle2;
+	}
+
+	/**
+	 * @param aPaCycle2 un nombre de PA pour le cycle 2
+	 */
+	public void setPaCycle2(int aPaCycle2)
+	{
+		paCycle2 = aPaCycle2;
+	}
+
 
 	/**
 	 * Retourne le pourcentage de maitrise de la compétence d'attaque du perso
@@ -254,7 +343,11 @@ public class Perso
 	 */
 	public Perso clone()
 	{
-		return new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale, identifiant, maitrisesAtt);
+		Perso clone = new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale, identifiant, maitrisesAtt);
+		clone.setSacrificePourAttaque(getSacrificePourAttaque());
+		clone.setSacrificePourDegat(getSacrificePourDegat());
+		clone.setSacrificeMax(getSacrificeMax());
+		return clone;
 	}
 
 	/*

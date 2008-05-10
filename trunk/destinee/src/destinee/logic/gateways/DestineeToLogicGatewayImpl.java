@@ -2,7 +2,6 @@ package destinee.logic.gateways;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import logic.gateways.DestineeToLogicGateway;
 import logic.gateways.LogicToPrologGateway;
@@ -37,7 +36,7 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-	public List<Map<String, Vector<String>>> query(String aQuery)
+	public List<Map<String, List<String>>> query(String aQuery)
 	{
 		try
 		{
@@ -50,7 +49,7 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-	public Map<String, Vector<String>> queryOnce(String aQuery)
+	public Map<String, List<String>> queryOnce(String aQuery)
 	{
 		try
 		{
@@ -63,7 +62,7 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-	public Map<String, Vector<String>> next()
+	public Map<String, List<String>> next()
 	{
 		try
 		{

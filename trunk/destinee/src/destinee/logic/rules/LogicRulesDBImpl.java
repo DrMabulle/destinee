@@ -97,10 +97,16 @@ private List<String> rulesList;
         		"	attaque(Perso, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "'),\n" +
         		"	Attaque = att(Perso, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "').\n" +
         		"getNextAttaque(Atts, Attaque) :-\n" +
+        		"	peutAttaquerKamikaze(Perso, Atts),\n" +
+        		"	attaque(Perso, '" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "'),\n" +
+        		"	Attaque = att(Perso, '" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "').\n" +
+        		"getNextAttaque(Atts, Attaque) :-\n" +
         		"	peutAttaquer(Perso, Atts),\n" +
         		"	attaque(Perso, Type),\n" +
         		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
         		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
+        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "',\n" +
+        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_CHARGE + "',\n" +
         		"	Attaque = att(Perso, Type).\n" +
         		"getNextAttaque(Atts, Attaque) :-\n" +
         		"	peutAttaquerRapide(Perso, Atts),\n" +
@@ -112,6 +118,12 @@ private List<String> rulesList;
         		"peutAttaquer(Perso, Atts) :-\n" +
         		"	paRestants(Perso, Atts, PARestants),\n" +
         		"	PARestants >= 4.\n" +
+        		"peutAttaquerKamikaze(Perso, Atts) :-\n" +
+        		"	paRestants(Perso, Atts, PARestants),\n" +
+        		"	PARestants >= 6.\n" +
+        		"peutAttaquerCharge(Perso, Atts) :-\n" +
+        		"	paRestants(Perso, Atts, PARestants),\n" +
+        		"	PARestants >= 6.\n" +
         		"peutAttaquerBerserk(Perso, Atts) :-\n" +
         		"	paRestants(Perso, Atts, PARestants),\n" +
         		"	PARestants >= 8.\n" +
@@ -138,6 +150,24 @@ private List<String> rulesList;
         		"	Perso1 \\== Perso2,\n" +
         		"	paUtilises(Perso1, Suite, PaUtilisesSuite),\n" +
         		"	PaUtilises is PaUtilisesSuite.");
+        
+        
+        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
+        	"% Méthode permettant de creer l'ordre d'attaque en fonction des persos et de leurs PA\n" +
+        	"generationListeAttaquants(L) :- genererOrdre(L, [], []).\n" +
+        	"genererOrdre([], Atts, _) :-\n" +
+        	"	not(getNextAttaquant(Atts, _)).\n" +
+        	"genererOrdre(Retour, Atts, Ordre) :-\n" +
+        	"	getNextAttaquant(Atts, Attaquant),\n" +
+        	"	concat(Atts, [att(Attaquant, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "')], Atts2),\n" +
+        	"	concat(Ordre, [Attaquant], Ordre2),\n" +
+        	"	genererOrdre(Retour2, Atts2, Ordre2),\n" +
+        	"	concat([Attaquant], Retour2, Retour).");
+        
+        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
+        		"% Methode permettant de récupérer le prochain attaquant possible\n" +
+        		"getNextAttaquant(Atts, Attaquant) :-\n" +
+        		"	peutAttaquer(Attaquant, Atts).");
 
         
         rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
@@ -145,10 +175,14 @@ private List<String> rulesList;
         		"% caracAttaque(typeAttaque, att, bonAtt, deg, bonDeg, resultAtt, resultBonAtt, resultDeg, resultBonDeg).\n" +
         		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         
-        rulesList.add("coutPA('" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', 4).\n" +
+        rulesList.add("coutPA('" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "', 8).\n" +
         		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_BRUTALE + "', 4).\n" +
+        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_CHARGE + "', 6).\n" +
+        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_IMPARABLE + "', 4).\n" +
+        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "', 6).\n" +
+        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_MAGIQUE + "', 4).\n" +
+        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', 4).\n" +
         		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_PRECISE + "', 4).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "', 8).\n" +
         		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', 2).");
     }
 

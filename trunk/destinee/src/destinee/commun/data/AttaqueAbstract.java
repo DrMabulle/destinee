@@ -3,6 +3,7 @@
  */
 package destinee.commun.data;
 
+
 /**
  * classe abstraite des attaques
  * 

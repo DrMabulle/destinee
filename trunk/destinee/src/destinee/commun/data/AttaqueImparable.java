@@ -47,7 +47,7 @@ public class AttaqueImparable extends AttaqueAbstract
 	 */
 	public int getNbDesDeg()
 	{
-		return getPerso().getNombreDeDesAttaque();
+		return (getPerso().getNombreDeDesDegats() / 2);
 	}
 
 	/*
@@ -77,7 +77,7 @@ public class AttaqueImparable extends AttaqueAbstract
 	 */
 	public int getNbDesDegatsCritique()
 	{
-		return getPerso().getNombreDeDesDegats();
+		return (getPerso().getNombreDeDesDegats() / 2);
 	}
 
 	/*
@@ -98,6 +98,15 @@ public class AttaqueImparable extends AttaqueAbstract
 	public int getAugmentationFatigue()
 	{
 		return 2;
+	}
+
+	/* (non-Javadoc)
+	 * @see destinee.commun.data.Attaque#getCoutEnPA()
+	 */
+	@Override
+	public int getCoutEnPA()
+	{
+		return 4;
 	}
 
 }

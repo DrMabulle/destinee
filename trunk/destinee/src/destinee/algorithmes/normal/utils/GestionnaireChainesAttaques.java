@@ -13,6 +13,7 @@ import java.util.Map;
 import destinee.algorithmes.normal.data.ChaineAttaques;
 import destinee.algorithmes.normal.data.Scenario;
 import destinee.core.exception.TechnicalException;
+import destinee.core.log.LogFactory;
 
 /**
  * @author Bubulle et No-one
@@ -48,6 +49,8 @@ public class GestionnaireChainesAttaques
 	 */
 	public synchronized void ajouterScenarioTraite(Scenario aSceanrio) throws TechnicalException
 	{
+		notifyAll();
+
 		// Récupérer l'identifiant de la chaine d'attaque du scénario
 		String id = aSceanrio.getIdentifiantChaineAttaques();
 
@@ -90,7 +93,8 @@ public class GestionnaireChainesAttaques
 		}
 
 		scenariosATraiter.add(aScenario);
-		// System.out.println("Ajout d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+		if (LogFactory.isLogDebugEnabled())
+			LogFactory.logDebug("Ajout d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
 		notifyAll();
 	}
 
@@ -120,7 +124,9 @@ public class GestionnaireChainesAttaques
 		if (!scenariosATraiter.isEmpty())
 		{
 			scenario = scenariosATraiter.remove(0);
-			// System.out.println("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+
+			if (LogFactory.isLogDebugEnabled())
+				LogFactory.logDebug("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
 		}
 		notifyAll();
 

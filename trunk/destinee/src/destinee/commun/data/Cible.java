@@ -108,7 +108,7 @@ public class Cible implements Cloneable
 	/**
 	 * @param aMalusDesDefense the malusDesDefense to set
 	 */
-	public void setMalusDesDefense(int aMalusDesDefense)
+	public void setMalusDesDefense(double aMalusDesDefense)
 	{
 		malusDesDefense = aMalusDesDefense;
 	}
@@ -228,6 +228,19 @@ public class Cible implements Cloneable
 		hashcode = 5 * hashcode + getBonusDefense();
 		hashcode = 5 * hashcode + getNbDesDefense();
 		return hashcode;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("Cible : DEF=").append(getNbDesDefense()).append("D+").append(getBonusDefense()).append(", ARM=").append(getArmure());
+		return sb.toString();
 	}
 
 }

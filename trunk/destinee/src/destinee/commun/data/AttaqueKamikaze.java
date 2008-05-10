@@ -11,10 +11,6 @@ import destinee.commun.constantes.ConstantesAttaques;
  */
 public class AttaqueKamikaze extends AttaqueAbstract
 {
-
-	private int bonusDesAttaque;
-	private int bonusDesDegats;
-
 	/**
 	 * @param aPerso un Perso
 	 */
@@ -40,7 +36,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 */
 	public int getNbDesAtt()
 	{
-		return (getPerso().getNombreDeDesAttaque() + bonusDesAttaque);
+		return (getPerso().getNombreDeDesAttaque() + ((int) (getPerso().getSacrificePourAttaque() / 20)));
 	}
 
 	/*
@@ -50,39 +46,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 */
 	public int getNbDesDeg()
 	{
-		return (getPerso().getNombreDeDesDegats() + bonusDesDegats);
-	}
-
-	/**
-	 * @return the bonusDesAttaque
-	 */
-	public int getBonusDesAttaque()
-	{
-		return bonusDesAttaque;
-	}
-
-	/**
-	 * @param aBonusDesAttaque the bonusDesAttaque to set
-	 */
-	public void setBonusDesAttaque(int aBonusDesAttaque)
-	{
-		bonusDesAttaque = aBonusDesAttaque;
-	}
-
-	/**
-	 * @return the bonusDesDegats
-	 */
-	public int getBonusDesDegats()
-	{
-		return bonusDesDegats;
-	}
-
-	/**
-	 * @param aBonusDesDegats the bonusDesDegats to set
-	 */
-	public void setBonusDesDegats(int aBonusDesDegats)
-	{
-		bonusDesDegats = aBonusDesDegats;
+		return (getPerso().getNombreDeDesDegats() + ((int) (getPerso().getSacrificePourDegat() / 20)));
 	}
 
 	/*
@@ -112,7 +76,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 */
 	public int getNbDesDegatsCritique()
 	{
-		return (int) (1.5 * (getPerso().getNombreDeDesDegats() + getBonusDesDegats()));
+		return (int) (1.5 * (getPerso().getNombreDeDesDegats() + ((int) (getPerso().getSacrificePourDegat() / 20))));
 	}
 
 	/*
@@ -135,4 +99,27 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		return 2;
 	}
 
+	/* (non-Javadoc)
+	 * @see destinee.commun.data.Attaque#getCoutEnPA()
+	 */
+	@Override
+	public int getCoutEnPA()
+	{
+		return 6;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuffer result = new StringBuffer(50);
+		result.append(super.toString());
+		result.append("(").append(getPerso().getSacrificePourAttaque()).append("/");
+		result.append(getPerso().getSacrificePourDegat()).append(")");
+		return result.toString();
+	}
 }

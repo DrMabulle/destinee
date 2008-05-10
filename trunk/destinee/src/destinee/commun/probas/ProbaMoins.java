@@ -51,7 +51,7 @@ public class ProbaMoins
 			// inférieurs au seuil avec le nombre de dés lancés.
 			String cle = ProbaMoins.genererCle(seuilMax, nbDes);
 
-			BigDecimal resultatCache = CacheProba.getDefaultInstance().recupererDonnees(cle);
+			BigDecimal resultatCache = CacheProba.recupererDonnees(cle);
 
 			if (resultatCache == null)
 			{
@@ -63,7 +63,7 @@ public class ProbaMoins
 					temp = Proba.calculerProba(i, nbDes);
 					result = result.add(temp);
 				}
-				CacheProba.getDefaultInstance().stockerDonnees(cle, result);
+				CacheProba.stockerDonnees(cle, result);
 
 			}
 			else
