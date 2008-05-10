@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import ubc.cs.JLog.Foundation.jPrologAPI;
 
@@ -64,7 +63,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		hasChanged = true;
 	}
 
-	public Map<String, Vector<String>> queryOnce(String aQuery)
+	public Map<String, List<String>> queryOnce(String aQuery)
 	{
 		if (hasChanged)
 		{
@@ -91,7 +90,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		return itsPrologAPI.query(aQuery);
 	}
 
-	public Map<String, Vector<String>> next()
+	public Map<String, List<String>> next()
 	{
 		return itsPrologAPI.retry();
 	}
@@ -102,7 +101,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 	}
 
 	@SuppressWarnings("serial")
-	public List<Map<String, Vector<String>>> queryAll(String aQuery)
+	public List<Map<String, List<String>>> queryAll(String aQuery)
 	{
 		if (hasChanged)
 		{
@@ -126,8 +125,8 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 			}
 		}
 		// query
-		List<Map<String, Vector<String>>> theResult = new ArrayList<Map<String, Vector<String>>>();
-		Map<String, Vector<String>> theQueryResult;
+		List<Map<String, List<String>>> theResult = new ArrayList<Map<String, List<String>>>();
+		Map<String, List<String>> theQueryResult;
 
 		theQueryResult = itsPrologAPI.query(aQuery);
 
@@ -144,6 +143,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		try
 		{
 			itsStoringFile = File.createTempFile("DestineeTemp", ".pl");
+			itsStoringFile.deleteOnExit();
 			itsInputStream = new FileInputStream(itsStoringFile);
 		}
 		catch (FileNotFoundException e)

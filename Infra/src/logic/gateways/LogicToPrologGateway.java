@@ -2,7 +2,6 @@ package logic.gateways;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * @author Benoit Kessler
@@ -31,14 +30,14 @@ public interface LogicToPrologGateway
 	 * @param aQuery The query to be done
 	 * @return a hashtable, containing the bindings generated.
 	 */
-	public Map<String, Vector<String>> queryOnce(String aQuery);
+	public Map<String, List<String>> queryOnce(String aQuery);
 
 	/**
 	 * Retries the previous query.
 	 * 
 	 * @return a hashtable, containing the bindings generated.
 	 */
-	public Map<String, Vector<String>> next();
+	public Map<String, List<String>> next();
 
 	/**
 	 * Stops the current query, once all desired results have been retrieved. Use only with queryOnce and next
@@ -53,7 +52,7 @@ public interface LogicToPrologGateway
 	 * @param aQuery The query to be done
 	 * @return a hashtable, containing the bindings generated.
 	 */
-	public List<Map<String, Vector<String>>> queryAll(String aQuery);
+	public List<Map<String, List<String>>> queryAll(String aQuery);
 
 	/**
 	 * Erase all the facts from the facts base

@@ -2,7 +2,6 @@ package logic.gateways;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * @author Bubulle et No-one
@@ -16,7 +15,7 @@ public interface DestineeToLogicGateway
 	 * @param aQuery une Query
 	 * @return la liste des résultats
 	 */
-	public List<Map<String, Vector<String>>> query(String aQuery);
+	public List<Map<String, List<String>>> query(String aQuery);
 
 	/**
 	 * Permet d'exécuter une Query Prolog mais en ne récupérant que le premier résultat
@@ -24,14 +23,14 @@ public interface DestineeToLogicGateway
 	 * @param aQuery une Query
 	 * @return le premier résultat
 	 */
-	public Map<String, Vector<String>> queryOnce(String aQuery);
+	public Map<String, List<String>> queryOnce(String aQuery);
 
 	/**
 	 * Permet de récupérer le résultat suivant après un premier appel à queryOnce()
 	 * 
 	 * @return le résultat suivant
 	 */
-	public Map<String, Vector<String>> next();
+	public Map<String, List<String>> next();
 
 	/**
 	 * Permet de fermer la Query une fois les résultats voulus obtenus. A appeler après l'utilisation d'un queryOnce

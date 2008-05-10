@@ -16,29 +16,7 @@ public class CacheProba
 	/**
 	 * Contenu du cache
 	 */
-	private Map<String, BigDecimal> cache;
-	/**
-	 * Instance par défaut
-	 */
-	private static CacheProba defaultInstance = new CacheProba();
-
-	/**
-	 * constructeur par defaut
-	 */
-	private CacheProba()
-	{
-		cache = new Hashtable<String, BigDecimal>(20000, 0.8F);
-	}
-
-	/**
-	 * Méthode de récupération de l'instance par défaut
-	 * 
-	 * @return l'instance par défaut
-	 */
-	public static CacheProba getDefaultInstance()
-	{
-		return defaultInstance;
-	}
+	private static Map<String, BigDecimal> cache = new Hashtable<String, BigDecimal>(20000, 0.8F);
 
 	/**
 	 * Permet de stocker une donnée dans le cache
@@ -46,10 +24,9 @@ public class CacheProba
 	 * @param cle clé unique permettant de placer la donnée
 	 * @param valeur valeur à stocker
 	 */
-	public void stockerDonnees(String cle, BigDecimal valeur)
+	public static void stockerDonnees(String cle, BigDecimal valeur)
 	{
 		cache.put(cle, valeur);
-		// System.out.println("" + cache.size() + " données dans le cache.");
 	}
 
 	/**
@@ -58,7 +35,7 @@ public class CacheProba
 	 * @param cle la clé d'entrée du cache
 	 * @return la valeur associée à la clé (eventuellement null)
 	 */
-	public BigDecimal recupererDonnees(Object cle)
+	public static BigDecimal recupererDonnees(Object cle)
 	{
 		return cache.get(cle);
 	}
@@ -68,7 +45,7 @@ public class CacheProba
 	 * 
 	 * @return la taille actuelle du cache
 	 */
-	public int size()
+	public static int size()
 	{
 		return cache.size();
 	}
@@ -76,7 +53,7 @@ public class CacheProba
 	/**
 	 * Méthode permettant de vider toutes les données stockées dans le cache
 	 */
-	public void viderCache()
+	public static void viderCache()
 	{
 		cache.clear();
 	}
