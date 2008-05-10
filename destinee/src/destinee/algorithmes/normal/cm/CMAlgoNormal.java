@@ -11,6 +11,7 @@ import destinee.algorithmes.normal.utils.GestionnaireChainesAttaques;
 import destinee.commun.data.Cible;
 import destinee.commun.utils.PersoLoader;
 import destinee.core.exception.DestineeException;
+import destinee.core.log.LogFactory;
 import destinee.core.utils.ConversionUtil;
 import destinee.logic.gateways.DestineeToLogicGatewayImpl;
 
@@ -27,10 +28,10 @@ public class CMAlgoNormal
 	 */
 	public static void main(String[] args) throws DestineeException
 	{
-		long startTime = System.currentTimeMillis();
+		// long startTime = System.currentTimeMillis();
 
 		PersoLoader.chargerPersos();
-		Cible cible = new Cible(15, 0, 30);
+		Cible cible = new Cible(10, 0, 0);
 
 		DestineeQueryProcessor.processQuery(DestineeToLogicGatewayImpl.getDefaultInstance(), cible);
 
@@ -38,14 +39,15 @@ public class CMAlgoNormal
 
 		for (ChaineAttaques theChaineAttaques : chainesAtt)
 		{
-			System.out.println("-----------------------------");
-			System.out.println("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
-			System.out.println("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
-			System.out.println("Probabilité de réalisation : " + ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10));
+			LogFactory.logInfo("-----------------------------");
+			LogFactory.logInfo("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
+			LogFactory.logInfo("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
+			LogFactory.logInfo(theChaineAttaques.getIdentifiant() + " : " + theChaineAttaques.getEsperanceDegatCumulee());
+			LogFactory.logInfo("Probabilité de réalisation : " + ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10));
 		}
 
-		System.out.println("-----------------------------");
-		long stopTime = System.currentTimeMillis();
-		System.out.println("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
+		LogFactory.logInfo("-----------------------------");
+		// long stopTime = System.currentTimeMillis();
+		// LogFactory.logInfo("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
 	}
 }

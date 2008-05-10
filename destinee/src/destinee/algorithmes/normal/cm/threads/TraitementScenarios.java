@@ -6,6 +6,7 @@ package destinee.algorithmes.normal.cm.threads;
 import destinee.algorithmes.normal.data.Scenario;
 import destinee.algorithmes.normal.utils.GestionnaireChainesAttaques;
 import destinee.core.exception.TechnicalException;
+import destinee.core.log.LogFactory;
 
 /**
  * @author Bubulle
@@ -31,7 +32,7 @@ public class TraitementScenarios extends Thread
 	{
 		try
 		{
-			System.out.println("Thread " + id + " : début des activités de traitement des scénarios.");
+			LogFactory.logInfo("Thread " + id + " : début des activités de traitement des scénarios.");
 
 			// Variables temporaires
 			Scenario scenar;
@@ -43,7 +44,8 @@ public class TraitementScenarios extends Thread
 				scenar = GestionnaireChainesAttaques.getInstance().getNextScenarioATraiter();
 				if (scenar != null)
 				{
-					// System.out.println("Thread " + id + " : début traitement d'un scénario.");
+					if (LogFactory.isLogDebugEnabled())
+						LogFactory.logDebug("Thread " + id + " : début traitement d'un scénario.");
 					// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation du scénario
 
 					scenar.getEsperanceDegats();
@@ -52,11 +54,11 @@ public class TraitementScenarios extends Thread
 					GestionnaireChainesAttaques.getInstance().ajouterScenarioTraite(scenar);
 				}
 			}
-			System.out.println("Thread " + id + " : fin des activités de traitement des scénarios.");
+			LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des scénarios.");
 		}
 		catch (TechnicalException e)
 		{
-			System.err.println("Thread " + id + " : erreur lors du traitement des scénarios.");
+			LogFactory.logError("Thread " + id + " : erreur lors du traitement des scénarios.");
 			e.printStackTrace();
 		}
 

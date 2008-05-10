@@ -3,8 +3,8 @@
  */
 package destinee.algorithmes.normal.cm.threads;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import logic.gateways.DestineeToLogicGateway;
 import destinee.algorithmes.normal.data.Scenario;
@@ -104,10 +104,10 @@ public class DestineeQueryProcessor extends Thread
 
 	public void run()
 	{
-		Map<String, Vector<String>> result = prologGateway.queryOnce(QUERY);
+		Map<String, List<String>> result = prologGateway.queryOnce(QUERY);
 
 		// Variables temporaires
-		Vector<String> vector;
+		List<String> vector;
 		String[] details;
 		String persoId, typeAttaque, typeResolution;
 		Perso attaquant;
@@ -120,7 +120,7 @@ public class DestineeQueryProcessor extends Thread
 			 * On a une String de la forme [att(Perso1,Type1,Resolution1), ..., att(PersoN,TypeN,ResolutionN)]
 			 */
 
-			CachePersos.getInstance().getNouvellesInstances();
+			CachePersos.getNouvellesInstances();
 			Scenario scenar = new Scenario(cible.clone());
 
 			try
@@ -140,7 +140,7 @@ public class DestineeQueryProcessor extends Thread
 					typeAttaque = details[1];
 					typeResolution = details[2];
 
-					attaquant = CachePersos.getInstance().getPerso(persoId);
+					attaquant = CachePersos.getPerso(persoId);
 					attaque = getNouvelleAttaque(typeAttaque, attaquant);
 
 					// Construire un ScenarioElement avec ces données et l'ajouté au scénario

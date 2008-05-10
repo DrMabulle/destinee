@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import destinee.algorithmes.degrade.data.ChaineAttaquesD;
+import destinee.core.log.LogFactory;
 
 /**
  * @author Bubulle et No-one
@@ -52,7 +53,8 @@ public class GestionnaireChainesAttaquesD
 	public synchronized void ajouterChaineAttaqueATraiter(ChaineAttaquesD aChaine)
 	{
 		chainesAttDATraiter.add(aChaine);
-		System.out.println("Ajout d'une Chaine d'Attaques à traiter. " + chainesAttDATraiter.size() + " ChaineAttaquesDegradees à traiter.");
+		if (LogFactory.isLogDebugEnabled())
+			LogFactory.logDebug("Ajout d'une Chaine d'Attaques à traiter. " + chainesAttDATraiter.size() + " ChaineAttaquesDegradees à traiter.");
 		notifyAll();
 	}
 
@@ -75,7 +77,8 @@ public class GestionnaireChainesAttaquesD
 			if (!chainesAttDATraiter.isEmpty())
 			{
 				chaine = chainesAttDATraiter.remove(0);
-				System.out.println("Retrait d'une Chaine d'Attaques à traiter. " + chainesAttDATraiter.size() + " ChaineAttaquesDegradees à traiter.");
+				if (LogFactory.isLogDebugEnabled())
+					LogFactory.logDebug("Retrait d'une Chaine d'Attaques à traiter. " + chainesAttDATraiter.size() + " ChaineAttaquesDegradees à traiter.");
 			}
 		}
 		catch (InterruptedException e)

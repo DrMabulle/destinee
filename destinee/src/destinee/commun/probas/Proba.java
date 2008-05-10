@@ -44,7 +44,7 @@ public class Proba
 			// Les cas précédents permettent d'eviter de calculer les impossibilités
 			String cle = Proba.genererCle(resultatCible, nbDes);
 
-			BigDecimal resultatCache = CacheProba.getDefaultInstance().recupererDonnees(cle);
+			BigDecimal resultatCache = CacheProba.recupererDonnees(cle);
 
 			if (resultatCache == null)
 			{
@@ -58,7 +58,7 @@ public class Proba
 					temp = temp.multiply(zeroVirguleUn);
 					result = result.add(temp);
 				}
-				CacheProba.getDefaultInstance().stockerDonnees(cle, result);
+				CacheProba.stockerDonnees(cle, result);
 
 			}
 			else

@@ -5,7 +5,6 @@ package destinee.algorithmes.degrade.cm.threads;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import destinee.algorithmes.degrade.data.ChaineAttaquesD;
 import destinee.algorithmes.degrade.utils.GestionnaireChainesAttaquesD;
@@ -34,7 +33,7 @@ import destinee.core.exception.TechnicalException;
 public class DestineeQueryProcessorDegrade extends Thread
 {
 
-	private List<Map<String, Vector<String>>> queryResults;
+	private List<Map<String, List<String>>> queryResults;
 	private String scenarioVariableName;
 	private Cible cible;
 
@@ -45,7 +44,7 @@ public class DestineeQueryProcessorDegrade extends Thread
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 * @param aCible Cible des attaques
 	 */
-	public DestineeQueryProcessorDegrade(List<Map<String, Vector<String>>> results, String aScenarioVariableName, Cible aCible)
+	public DestineeQueryProcessorDegrade(List<Map<String, List<String>>> results, String aScenarioVariableName, Cible aCible)
 	{
 		queryResults = results;
 		scenarioVariableName = aScenarioVariableName;
@@ -54,7 +53,7 @@ public class DestineeQueryProcessorDegrade extends Thread
 		start();
 	}
 
-	public static void processQuery(List<Map<String, Vector<String>>> results, String scenarioVariableName, Cible aCible) throws DestineeException
+	public static void processQuery(List<Map<String, List<String>>> results, String scenarioVariableName, Cible aCible) throws DestineeException
 	{
 
 		Thread processor = new DestineeQueryProcessorDegrade(results, scenarioVariableName, aCible);
@@ -105,13 +104,13 @@ public class DestineeQueryProcessorDegrade extends Thread
 		if (queryResults != null)
 		{
 			// Variables temporaires
-			Vector<String> vector;
+			List<String> vector;
 			String[] details;
 			String persoId, typeAttaque;
 			Perso attaquant;
 			Attaque attaque;
 
-			for (Map<String, Vector<String>> theMap : queryResults)
+			for (Map<String, List<String>> theMap : queryResults)
 			{
 				vector = theMap.get(scenarioVariableName);
 				/*
@@ -122,7 +121,7 @@ public class DestineeQueryProcessorDegrade extends Thread
 				{
 					// throw new FonctionnalException("Mauvais identifiant de variable Prolog.");
 				}
-				CachePersos.getInstance().getNouvellesInstances();
+				CachePersos.getNouvellesInstances();
 				ChaineAttaquesD chaineAtt = new ChaineAttaquesD(cible.clone());
 
 				try
@@ -141,7 +140,7 @@ public class DestineeQueryProcessorDegrade extends Thread
 						persoId = details[0];
 						typeAttaque = details[1];
 
-						attaquant = CachePersos.getInstance().getPerso(persoId);
+						attaquant = CachePersos.getPerso(persoId);
 						attaque = getNouvelleAttaque(typeAttaque, attaquant);
 
 						// Construire une chaineAtt avec ces données

@@ -17,6 +17,7 @@ import destinee.commun.data.Attaque;
 import destinee.commun.data.Cible;
 import destinee.commun.probas.ResolutionAttaque;
 import destinee.core.exception.TechnicalException;
+import destinee.core.log.LogFactory;
 import destinee.core.properties.PropertiesFactory;
 import destinee.core.utils.ConversionUtil;
 
@@ -33,6 +34,9 @@ public class ChaineAttaquesV
 	private double esperanceDegatConjecturee = -1;
 	private boolean isEvalTerminee = false;
 	private boolean isEvaluee = false;
+
+	private String toString = null;
+	private String identifiant = null;
 
 	protected List<ScenarioV> scenariosPrincipaux = new ArrayList<ScenarioV>();
 	protected List<ScenarioV> voisinages = new ArrayList<ScenarioV>();
@@ -67,15 +71,19 @@ public class ChaineAttaquesV
 	 */
 	public String getIdentifiant()
 	{
-		StringBuffer sb = new StringBuffer("");
-
-		for (Attaque att : chaine)
+		if (identifiant == null)
 		{
-			sb.append(att.toString());
-			sb.append(" - ");
-		}
+			StringBuffer sb = new StringBuffer("");
 
-		return sb.toString();
+			for (Attaque att : chaine)
+			{
+				sb.append(att.toString());
+				sb.append(" - ");
+			}
+
+			identifiant = sb.substring(0, sb.lastIndexOf(" - "));
+		}
+		return identifiant;
 	}
 
 	/**
@@ -125,15 +133,15 @@ public class ChaineAttaquesV
 	 * 
 	 * @throws TechnicalException e
 	 */
-	protected void evaluer() throws TechnicalException
+	public void evaluer() throws TechnicalException
 	{
 		// Récupération de la proba cumulée cible, à partir du application.properties
 		String tmp = PropertiesFactory.getOptionalString(CLE_PROBA_CUMULEE_CIBLE);
-		BigDecimal probaCumuleeCible = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal("0.95"));
+		BigDecimal probaCumuleeCible = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal("0.97"));
 
 		// Récupération de la proba minimum pour un scenario principal, à partir du application.properties
 		tmp = PropertiesFactory.getOptionalString(CLE_PROBA_MIN_UNITAIRE);
-		BigDecimal probaMinUnitaire = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal("0.001"));
+		BigDecimal probaMinUnitaire = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal("0.0"));
 
 		// Récupération de la proba minimum pour un scenario principal, à partir du application.properties
 		tmp = PropertiesFactory.getOptionalString(CLE_NB_VOISINAGES_MAX);
@@ -167,45 +175,48 @@ public class ChaineAttaquesV
 
 		long startTime = System.currentTimeMillis();
 
-		// récupérer le scénario de plus haute probabilité dans la liste des scénarios de voisinage
-		Collections.sort(voisinages, new ScenarioVComparator());
-		ScenarioV scenar = voisinages.remove(0);
-		scenariosPrincipaux.add(scenar);
-
-		// Variables temporaires
-		Set<ScenarioV> voisinage;
-
-		while (scenariosPrincipaux.size() <= aNbVoisinages && aProbaCumuleeCible.compareTo(probaRealisationCumulee) >= 0
-				&& aProbaMinUnitaire.compareTo(scenar.getProbaRealisation()) <= 0)
+		if (!voisinages.isEmpty())
 		{
-			voisinage = getVoisinage(scenar);
-			// Eviter les doublons :
-			for (ScenarioV scenarioV : voisinage)
-			{
-				if (!voisinages.contains(scenarioV))
-				{
-					voisinages.add(scenarioV);
-				}
-			}
-			voisinages.removeAll(scenariosPrincipaux);
-
-			// Mise à jour des probas de réalisation cumulée et espérance de dégâts cumulée
-			calculerEsperanceDegatsCumulee(scenariosPrincipaux, voisinages);
-			calculerProbaRealisationCumulee(scenariosPrincipaux, voisinages);
-
-			// Récupérer le scénario de plus haute probabilité pour l'itération suivante
+			// récupérer le scénario de plus haute probabilité dans la liste des scénarios de voisinage
 			Collections.sort(voisinages, new ScenarioVComparator());
-			// Si le voisinage calculé est vide, s'arrêter : on a déjà tout calculé
-			if (voisinages.isEmpty())
-			{
-				break;
-			}
-			scenar = voisinages.remove(0);
+			ScenarioV scenar = voisinages.remove(0);
 			scenariosPrincipaux.add(scenar);
-		}
 
-		System.out.println("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
-				+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués. Temps = " + (System.currentTimeMillis() - startTime) + " ms.");
+			// Variables temporaires
+			Set<ScenarioV> voisinage;
+
+			while (scenariosPrincipaux.size() <= aNbVoisinages && aProbaCumuleeCible.compareTo(probaRealisationCumulee) >= 0
+					&& aProbaMinUnitaire.compareTo(scenar.getProbaRealisation()) <= 0)
+			{
+				voisinage = getVoisinage(scenar);
+				// Eviter les doublons :
+				for (ScenarioV scenarioV : voisinage)
+				{
+					if (!voisinages.contains(scenarioV))
+					{
+						voisinages.add(scenarioV);
+					}
+				}
+				voisinages.removeAll(scenariosPrincipaux);
+
+				// Mise à jour des probas de réalisation cumulée et espérance de dégâts cumulée
+				calculerEsperanceDegatsCumulee(scenariosPrincipaux, voisinages);
+				calculerProbaRealisationCumulee(scenariosPrincipaux, voisinages);
+
+				// Récupérer le scénario de plus haute probabilité pour l'itération suivante
+				Collections.sort(voisinages, new ScenarioVComparator());
+				// Si le voisinage calculé est vide, s'arrêter : on a déjà tout calculé
+				if (voisinages.isEmpty())
+				{
+					break;
+				}
+				scenar = voisinages.remove(0);
+				scenariosPrincipaux.add(scenar);
+			}
+		}
+		if (LogFactory.isLogDebugEnabled())
+			LogFactory.logDebug("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
+					+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués. Temps = " + (System.currentTimeMillis() - startTime) + " ms.");
 	}
 
 	/**
@@ -215,14 +226,8 @@ public class ChaineAttaquesV
 	 */
 	protected ScenarioV getScenarioInital()
 	{
-		long startTime = System.currentTimeMillis();
-
-		List<Integer> typesResol = new ArrayList<Integer>();
-		typesResol.add(ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE);
-		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_SIMPLE);
-		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE);
-		typesResol.add(ResolutionAttaque.RESOLUTION_COUP_CRITIQUE);
-		typesResol.add(ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE);
+		int[] typesResol = new int[] { ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE, ResolutionAttaque.RESOLUTION_COUP_SIMPLE,
+				ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE, ResolutionAttaque.RESOLUTION_COUP_CRITIQUE, ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE };
 
 		ScenarioV scenar = new ScenarioV(this);
 		int chaineSize = chaine.size();
@@ -242,7 +247,7 @@ public class ChaineAttaquesV
 			probaMaxTmp = BigDecimal.ZERO;
 			probaTmp = null;
 
-			for (Integer resolution : typesResol)
+			for (int resolution : typesResol)
 			{
 				scenar.changerTypeResolution(i, resolution);
 				probaTmp = ResolutionAttaque.resoudreAttaque(chaine.get(i), cible, resolution);
@@ -261,7 +266,6 @@ public class ChaineAttaquesV
 			scenar.changerTypeResolution(i, typeResolPlusProbable);
 		}
 
-		System.out.println("Calcul du scénario initial effectué en " + (System.currentTimeMillis() - startTime) + " ms");
 		return scenar;
 	}
 
@@ -572,30 +576,30 @@ public class ChaineAttaquesV
 		{
 			return true;
 		}
-
-		/*
-		 * Deux Chaines d'Attaques sont considérées égales si chacune de leurs attaques de rang égal sont égales
-		 */
-		if (aObj != null && aObj instanceof ChaineAttaquesV)
-		{
-			ChaineAttaquesV chaineTmp = (ChaineAttaquesV) aObj;
-			if (chaineTmp.size() == this.size())
-			{
-				boolean egales = true;
-				int chaineSize = chaine.size();
-
-				for (int i = 0; i < chaineSize && egales; i++)
-				{
-					egales &= this.chaine.get(i).equals(chaineTmp.chaine.get(i));
-				}
-
-				if (egales)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
+		return this.toString().equals(aObj.toString());
+		// /*
+		// * Deux Chaines d'Attaques sont considérées égales si chacune de leurs attaques de rang égal sont égales
+		// */
+		// if (aObj != null && aObj instanceof ChaineAttaquesV)
+		// {
+		// ChaineAttaquesV chaineTmp = (ChaineAttaquesV) aObj;
+		// if (chaineTmp.size() == this.size())
+		// {
+		// boolean egales = true;
+		// int chaineSize = chaine.size();
+		//
+		// for (int i = 0; i < chaineSize && egales; i++)
+		// {
+		// egales &= this.chaine.get(i).equals(chaineTmp.chaine.get(i));
+		// }
+		//
+		// if (egales)
+		// {
+		// return true;
+		// }
+		// }
+		// }
+		// return false;
 	}
 
 	/*
@@ -614,6 +618,21 @@ public class ChaineAttaquesV
 		return hashcode;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		if (toString == null)
+		{
+			toString = getIdentifiant() + " || " + cible.toString();
+		}
+		return toString;
+	}
+
 	private class ScenarioVComparator implements Comparator<ScenarioV>
 	{
 		@Override
@@ -625,7 +644,7 @@ public class ChaineAttaquesV
 			}
 			catch (TechnicalException e)
 			{
-				System.err.println("Erreur lors de la comparaison de 2 scénarios V !");
+				LogFactory.logError("Erreur lors de la comparaison de 2 scénarios V !");
 				return 0;
 			}
 		}

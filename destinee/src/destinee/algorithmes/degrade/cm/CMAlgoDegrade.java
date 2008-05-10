@@ -6,7 +6,6 @@ package destinee.algorithmes.degrade.cm;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import logic.gateways.DestineeToLogicGateway;
 import destinee.algorithmes.degrade.cm.threads.DestineeQueryProcessorDegrade;
@@ -17,6 +16,7 @@ import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 import destinee.commun.utils.CachePersos;
 import destinee.core.exception.DestineeException;
+import destinee.core.log.LogFactory;
 import destinee.core.utils.ConversionUtil;
 import destinee.logic.gateways.DestineeToLogicGatewayImpl;
 
@@ -34,13 +34,13 @@ public class CMAlgoDegrade
 	public static void main(String[] args) throws DestineeException
 	{
 		long startTime = System.currentTimeMillis();
-		
+
 		Map<String, Double> maitrisesNoOne = new HashMap<String, Double>();
 		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
 		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, 0.8);
 		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_PRECISE, 0.8);
 		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_RAPIDE, 0.8);
-		
+
 		Map<String, Double> maitrisesKoumi = new HashMap<String, Double>();
 		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
 		maitrisesNoOne.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, 0.8);
@@ -50,8 +50,8 @@ public class CMAlgoDegrade
 		Perso koumi = new Perso(16, 10, 12, 7, 5, 0, 0, "Koumi", maitrisesKoumi);
 		Perso noone = new Perso(12, 0, 8, 0, 5, 0, 0, "No-one", maitrisesNoOne);
 
-		CachePersos.getInstance().addPerso(koumi.getIdentifiant(), koumi);
-		CachePersos.getInstance().addPerso(noone.getIdentifiant(), noone);
+		CachePersos.addPerso(koumi.getIdentifiant(), koumi);
+		CachePersos.addPerso(noone.getIdentifiant(), noone);
 
 		DestineeToLogicGateway prolog = DestineeToLogicGatewayImpl.getDefaultInstance();
 
@@ -74,7 +74,7 @@ public class CMAlgoDegrade
 				.getBonusDegats(), 10, 0);
 
 		String queryString = "generationChainesAttaques(Result).";
-		List<Map<String, Vector<String>>> resultQuery = prolog.query(queryString);
+		List<Map<String, List<String>>> resultQuery = prolog.query(queryString);
 
 		long tempsIntermediaire = System.currentTimeMillis();
 
@@ -84,16 +84,16 @@ public class CMAlgoDegrade
 
 		for (ChaineAttaquesD theChaineAttaques : chainesAtt)
 		{
-			System.out.println("-----------------------------");
-			System.out.println("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
-			System.out.println("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
+			LogFactory.logInfo("-----------------------------");
+			LogFactory.logInfo("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
+			LogFactory.logInfo("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
 		}
 
-		System.out.println("-----------------------------");
+		LogFactory.logInfo("-----------------------------");
 		long stopTime = System.currentTimeMillis();
-		System.out.println("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
-		System.out.println("Temps Prolog : " + ConversionUtil.longVersStringFormat(tempsIntermediaire - startTime) + " ms");
-		System.out.println("Temps Process : " + ConversionUtil.longVersStringFormat(stopTime - tempsIntermediaire) + " ms");
+		LogFactory.logInfo("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
+		LogFactory.logInfo("Temps Prolog : " + ConversionUtil.longVersStringFormat(tempsIntermediaire - startTime) + " ms");
+		LogFactory.logInfo("Temps Process : " + ConversionUtil.longVersStringFormat(stopTime - tempsIntermediaire) + " ms");
 	}
 
 }

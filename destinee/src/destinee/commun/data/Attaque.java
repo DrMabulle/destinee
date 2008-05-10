@@ -66,4 +66,9 @@ public interface Attaque
 	 * @return le nombre de points de fatigue subi en faisant l'attaque
 	 */
 	public int getAugmentationFatigue();
+	
+	/**
+	 * @return le coût en PA de l'attaque
+	 */
+	public int getCoutEnPA();
 }

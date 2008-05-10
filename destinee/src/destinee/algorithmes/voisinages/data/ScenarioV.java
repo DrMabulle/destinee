@@ -27,6 +27,8 @@ public class ScenarioV
 	private ChaineAttaquesV chaine;
 	private double indiceBourrinisme = -1;
 
+	private String toString = null;
+
 	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
 	private static final String CLE_VALEUR_MIN = "destinee.scenario.evaluation.valeurMin";
 
@@ -181,8 +183,6 @@ public class ScenarioV
 			// Incrémenter la fatigue du perso
 			att.getPerso().incrementerFatigue(att);
 		}
-
-		// System.out.println("Scénario évalué en " + (System.currentTimeMillis() - startTime) + " ms");
 	}
 
 	/**
@@ -241,31 +241,33 @@ public class ScenarioV
 			return true;
 		}
 
-		/*
-		 * Deux Scénarios sont considérés égaux s'ils ont la même chaine d'attaque, les même résolutions
-		 */
-		if (aArg0 != null && aArg0 instanceof ScenarioV)
-		{
-			ScenarioV scenar = (ScenarioV) aArg0;
-			// Même cible, même nombre d'éléments
-			if (listeResultats.size() == scenar.listeResultats.size() && this.chaine.equals(scenar.chaine))
-			{
-				boolean chainesEgales = true;
-				// Comparer les éléments de chaque chaine
-				int tailleListeResultats = listeResultats.size();
-				for (int i = 0; i < tailleListeResultats && chainesEgales; i++)
-				{
-					chainesEgales &= listeResultats.get(i).equals(scenar.listeResultats.get(i));
-				}
+		// /*
+		// * Deux Scénarios sont considérés égaux s'ils ont la même chaine d'attaque, les même résolutions
+		// */
+		// if (aArg0 != null && aArg0 instanceof ScenarioV)
+		// {
+		// ScenarioV scenar = (ScenarioV) aArg0;
+		// // Même cible, même nombre d'éléments
+		// if (listeResultats.size() == scenar.listeResultats.size() && this.chaine.equals(scenar.chaine))
+		// {
+		// boolean chainesEgales = true;
+		// // Comparer les éléments de chaque chaine
+		// int tailleListeResultats = listeResultats.size();
+		// for (int i = 0; i < tailleListeResultats && chainesEgales; i++)
+		// {
+		// chainesEgales &= listeResultats.get(i).equals(scenar.listeResultats.get(i));
+		// }
+		//
+		// if (chainesEgales)
+		// {
+		// return true;
+		// }
+		// }
+		// }
+		//
+		// return false;
 
-				if (chainesEgales)
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
+		return this.toString().equals(aArg0.toString());
 	}
 
 	/*
@@ -292,11 +294,15 @@ public class ScenarioV
 	@Override
 	public String toString()
 	{
-		StringBuffer result = new StringBuffer(150);
-		for (Integer elt : listeResultats)
+		if (toString == null)
 		{
-			result.append(elt.toString()).append(" - ");
+			StringBuffer result = new StringBuffer(150);
+			for (Integer elt : listeResultats)
+			{
+				result.append(elt.toString()).append(" - ");
+			}
+			toString = result.toString();
 		}
-		return result.toString();
+		return toString;
 	}
 }

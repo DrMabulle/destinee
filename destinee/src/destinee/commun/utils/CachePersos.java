@@ -15,30 +15,8 @@ import destinee.commun.data.Perso;
  */
 public class CachePersos
 {
-	private static CachePersos instance = new CachePersos();
-
-	private Map<String, Perso> persosInitiaux;
-	private Map<String, Perso> persos;
-
-	/**
-	 * Constructeur par défaut
-	 */
-	private CachePersos()
-	{
-		super();
-		persosInitiaux = new Hashtable<String, Perso>();
-		persos = new Hashtable<String, Perso>();
-	}
-
-	/**
-	 * Méthode permettant de récupérer l'instance par défaut du Cache
-	 * 
-	 * @return l'instance par défaut
-	 */
-	public static CachePersos getInstance()
-	{
-		return instance;
-	}
+	private static Map<String, Perso> persosInitiaux = new Hashtable<String, Perso>();
+	private static Map<String, Perso> persos = new Hashtable<String, Perso>();
 
 	/**
 	 * Méthode permettant de récupérer le Perso répondant à l'identifiant passé en paramètre
@@ -46,7 +24,7 @@ public class CachePersos
 	 * @param aIdentifiant un identifiant de Perso
 	 * @return le Perso répondant à l'identifiant passé en paramètre
 	 */
-	public Perso getPerso(String aIdentifiant)
+	public static Perso getPerso(String aIdentifiant)
 	{
 		return persos.get(aIdentifiant);
 	}
@@ -57,7 +35,7 @@ public class CachePersos
 	 * @param aIdentifiant un identifiant de perso
 	 * @param aPerso un perso
 	 */
-	public void addPerso(String aIdentifiant, Perso aPerso)
+	public static void addPerso(String aIdentifiant, Perso aPerso)
 	{
 		persosInitiaux.put(aIdentifiant, aPerso);
 		persos.put(aIdentifiant, aPerso.clone());
@@ -68,7 +46,7 @@ public class CachePersos
 	 * 
 	 * @return l'ensemble des Perso
 	 */
-	public Set<Perso> getEnsemblePersos()
+	public static Set<Perso> getEnsemblePersos()
 	{
 		return new HashSet<Perso>(persos.values());
 	}
@@ -76,7 +54,7 @@ public class CachePersos
 	/**
 	 * Permet d'obtenir de nouvelles instances des objets Perso, afin de permettre une utilisation concurrente des objets
 	 */
-	public void getNouvellesInstances()
+	public static void getNouvellesInstances()
 	{
 		persos = new Hashtable<String, Perso>();
 
@@ -91,7 +69,7 @@ public class CachePersos
 	 * 
 	 * @return le nombre de persos en cache
 	 */
-	public int getNombrePersos()
+	public static int getNombrePersos()
 	{
 		return persos.size();
 	}

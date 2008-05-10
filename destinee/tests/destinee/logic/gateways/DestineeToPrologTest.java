@@ -5,12 +5,10 @@ package destinee.logic.gateways;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
-
-import destinee.logic.gateways.DestineeToLogicGatewayImpl;
 
 import junit.framework.TestCase;
 import logic.gateways.DestineeToLogicGateway;
+import destinee.commun.constantes.ConstantesAttaques;
 
 /**
  * @author Bubulle et No-one
@@ -48,9 +46,9 @@ public class DestineeToPrologTest extends TestCase
 	public void testQuery()
 	{
 		itsGate.ajouterPerso("Koumi", 12, 5, 12, -6, 10, 0);
-		itsGate.ajouterAttaquePerso("Koumi", "normale");
-		itsGate.ajouterAttaquePerso("Koumi", "brutale");
-		List<Map<String, Vector<String>>> retour = itsGate.query("peutAttaquer(Perso, []).");
+		itsGate.ajouterAttaquePerso("Koumi", ConstantesAttaques.ID_ATTAQUE_NORMALE);
+		itsGate.ajouterAttaquePerso("Koumi", ConstantesAttaques.ID_ATTAQUE_BRUTALE);
+		List<Map<String, List<String>>> retour = itsGate.query("peutAttaquer(Perso, []).");
 		assertNotNull(retour);
 		assertTrue(!retour.isEmpty());
 		Map binding = retour.get(0);
@@ -71,8 +69,8 @@ public class DestineeToPrologTest extends TestCase
 	 */
 	public void testAjouterAttaquePerso()
 	{
-		itsGate.ajouterAttaquePerso("Koumi", "normale");
-		itsGate.ajouterAttaquePerso("Koumi", "brutale");
+		itsGate.ajouterAttaquePerso("Koumi", ConstantesAttaques.ID_ATTAQUE_NORMALE);
+		itsGate.ajouterAttaquePerso("Koumi", ConstantesAttaques.ID_ATTAQUE_BRUTALE);
 	}
 
 }

@@ -5,6 +5,7 @@ package destinee.algorithmes.degrade.cm.threads;
 
 import destinee.algorithmes.degrade.data.ChaineAttaquesD;
 import destinee.algorithmes.degrade.utils.GestionnaireChainesAttaquesD;
+import destinee.core.log.LogFactory;
 
 /**
  * @author Bubulle
@@ -28,7 +29,7 @@ public class TraitementChainesAttaques extends Thread
 
 	public void run()
 	{
-		System.out.println("Thread " + id + " : début des activités de traitement des Chaines d'attaques.");
+		LogFactory.logInfo("Thread " + id + " : début des activités de traitement des Chaines d'attaques.");
 
 		// Variables temporaires
 		ChaineAttaquesD chaine;
@@ -40,7 +41,8 @@ public class TraitementChainesAttaques extends Thread
 			chaine = GestionnaireChainesAttaquesD.getInstance().getNextChaineAttaqueATraiter();
 			if (chaine != null)
 			{
-				System.out.println("Thread " + id + " : début traitement d'une Chaine d'attaques.");
+				if (LogFactory.isLogDebugEnabled())
+					LogFactory.logDebug("Thread " + id + " : début traitement d'une Chaine d'attaques.");
 				// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation du scénario
 				chaine.getEsperanceDegatCumulee();
 				// Ajouter le scénario une fois traité
@@ -48,7 +50,7 @@ public class TraitementChainesAttaques extends Thread
 			}
 		}
 
-		System.out.println("Thread " + id + " : fin des activités de traitement des Chaines d'attaques.");
+		LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des Chaines d'attaques.");
 	}
 
 	public static void arreterTraitements()

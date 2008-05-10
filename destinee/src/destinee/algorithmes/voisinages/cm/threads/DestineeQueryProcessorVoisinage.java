@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import logic.gateways.DestineeToLogicGateway;
 import destinee.algorithmes.voisinages.data.ChaineAttaquesV;
@@ -18,6 +17,7 @@ import destinee.commun.data.Attaque;
 import destinee.commun.data.AttaqueBerserk;
 import destinee.commun.data.AttaqueBrutale;
 import destinee.commun.data.AttaqueImparable;
+import destinee.commun.data.AttaqueKamikaze;
 import destinee.commun.data.AttaqueMagique;
 import destinee.commun.data.AttaqueNormale;
 import destinee.commun.data.AttaquePrecise;
@@ -27,6 +27,7 @@ import destinee.commun.data.Perso;
 import destinee.commun.utils.CachePersos;
 import destinee.core.exception.DestineeException;
 import destinee.core.exception.TechnicalException;
+import destinee.core.log.LogFactory;
 import destinee.core.properties.PropertiesFactory;
 
 /**
@@ -85,16 +86,16 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	{
 		Thread processor = new DestineeQueryProcessorVoisinage(aGateway, aCible);
 		int nbVoisinages = 1;
-		int nbPersos = CachePersos.getInstance().getNombrePersos();
+		int nbPersos = CachePersos.getNombrePersos();
 		int facteurIncrement = nbPersos;
-		int nbIterations = 2 * nbPersos;
+		int nbIterations = 3 * nbPersos;
 		BigDecimal probaCible = new BigDecimal("0.5");
 		BigDecimal increment = new BigDecimal(0.5 / nbIterations).setScale(2, BigDecimal.ROUND_HALF_UP);
 		probaCible = new BigDecimal("0.98").subtract(increment.multiply(new BigDecimal(nbIterations)));
 		BigDecimal probaMin = BigDecimal.ZERO; // new BigDecimal("0.1");
 
 		// Traiter le premier voisinage
-		traiterXVoisinages(processor, nbVoisinages, probaCible, probaMin);
+		traiterXVoisinages(processor, nbVoisinages, probaCible, probaMin, true);
 
 		List<ChaineAttaquesV> chainesAtt;
 		List<ChaineAttaquesV> premiereMoitie;
@@ -102,7 +103,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 		// variables temporaires
 		ChaineAttaquesV chaine;
 		Iterator<ChaineAttaquesV> iter1;
-		Iterator<ChaineAttaquesV> iter2;
+		// Iterator<ChaineAttaquesV> iter2;
 		int indDiscard;
 		double taillePremierePartie = 1.0;
 		int tailleListeChainesAtt = GestionnaireChainesAttaquesV.getInstance().getListeChainesAttaques().size();
@@ -117,13 +118,13 @@ public class DestineeQueryProcessorVoisinage extends Thread
 				chaine.conjecturerResultatFinal();
 			}
 			// Récupérer la liste des chaines d'attaques ordonnées suivant les résultats de la conjecture
-			chainesAtt = GestionnaireChainesAttaquesV.getInstance().getListeChainesOrdonneeComp();
+			chainesAtt = GestionnaireChainesAttaquesV.getInstance().getListeChainesOrdonneeConj();
 			// Ne garder que la première moitié. La seconde moitié doit être vidée.
-			taillePremierePartie *= 0.75;
+			taillePremierePartie *= 0.55;
 			indDiscard = (int) (chainesAtt.size() * taillePremierePartie);
-			if (indDiscard <= 20)
+			if (indDiscard <= 50)
 			{
-				indDiscard = 20;
+				indDiscard = 50;
 			}
 
 			for (int i = tailleListeChainesAtt - 1; i >= indDiscard; i--)
@@ -133,27 +134,25 @@ public class DestineeQueryProcessorVoisinage extends Thread
 			}
 			premiereMoitie = chainesAtt;
 
-			// Ajouter la première moitié aux chaines d'attaque à traiter
-			for (iter2 = premiereMoitie.iterator(); iter2.hasNext();)
-			{
-				chaine = iter2.next();
-				GestionnaireChainesAttaquesV.getInstance().ajouterChaineATraiter(chaine); // FIXME blocage en perspective
-				GestionnaireChainesAttaquesV.getInstance().retirerChaineAttaques(chaine);
-			}
+			GestionnaireChainesAttaquesV.getInstance().ajouterChainesATraiter(premiereMoitie);
+			GestionnaireChainesAttaquesV.getInstance().retirerChainesAttaques(premiereMoitie);
 
 			// Traiter les nouvelles chaines avec un nombre d'étape plus grand
 			nbVoisinages *= facteurIncrement;
 			probaCible = probaCible.add(increment);
 			probaMin = probaMin.multiply(probaMin);
-			traiterXVoisinages(processor, nbVoisinages, probaCible, probaMin);
+			traiterXVoisinages(processor, nbVoisinages, probaCible, probaMin, true);
 		}
 
 	}
 
-	private static void traiterXVoisinages(Thread aProcessor, int aNbVoisinages, BigDecimal aProbaCible, BigDecimal aProbaMin) throws DestineeException
+	private static void traiterXVoisinages(Thread aProcessor, int aNbVoisinages, BigDecimal aProbaCible, BigDecimal aProbaMin, boolean utiliserHeuristique)
+			throws DestineeException
 	{
+		GestionnaireChainesAttaquesV.getInstance().declarerDebutTraitement();
+
 		// Démarrer X Threads de traitement des scénarios
-		instancierThreadsTraitement(aNbVoisinages, aProbaCible, aProbaMin);
+		instancierThreadsTraitement(aNbVoisinages, aProbaCible, aProbaMin, utiliserHeuristique);
 
 		try
 		{
@@ -169,10 +168,14 @@ public class DestineeQueryProcessorVoisinage extends Thread
 			TraitementChainesAttaquesV.arreterTraitements();
 		}
 
+		GestionnaireChainesAttaquesV.getInstance().declarerFinTraitement();
 		joinTreadsTraitement();
 
-		System.out.println("====================================================================");
-		System.out.println("====================================================================");
+		if (LogFactory.isLogDebugEnabled())
+		{
+			LogFactory.logDebug("====================================================================");
+			LogFactory.logDebug("====================================================================");
+		}
 	}
 
 	/**
@@ -182,13 +185,13 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	 * @param aProbaCible une proba cumulée cible souhaitée
 	 * @param aProbaMin une proba min unitaire souhaitée
 	 */
-	private static void instancierThreadsTraitement(int aNbVoisinages, BigDecimal aProbaCible, BigDecimal aProbaMin)
+	private static void instancierThreadsTraitement(int aNbVoisinages, BigDecimal aProbaCible, BigDecimal aProbaMin, boolean utiliserHeuristique)
 	{
 		int nbCores = Runtime.getRuntime().availableProcessors();
 		int nbThreads = nbCores * 4;
 		for (int i = 0; i < nbThreads; i++)
 		{
-			listeThreads.add(new TraitementChainesAttaquesV(aNbVoisinages, aProbaCible, aProbaMin));
+			listeThreads.add(new TraitementChainesAttaquesV(aNbVoisinages, aProbaCible, aProbaMin, utiliserHeuristique));
 		}
 	}
 
@@ -221,15 +224,15 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	private static void traitementNormal(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
 	{
 		Thread processor = new DestineeQueryProcessorVoisinage(aGateway, aCible);
-		traiterXVoisinages(processor, 0, BigDecimal.ONE, BigDecimal.ZERO);
+		traiterXVoisinages(processor, 0, BigDecimal.ONE, BigDecimal.ZERO, false);
 	}
 
 	public void run()
 	{
-		Map<String, Vector<String>> result = prologGateway.queryOnce(QUERY);
+		Map<String, List<String>> result = prologGateway.queryOnce(QUERY);
 
 		// Variables temporaires
-		Vector<String> vector;
+		List<String> vector;
 		String[] details;
 		String persoId, typeAttaque;
 		Perso attaquant;
@@ -244,7 +247,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 			 * On a une String de la forme [att(Perso1,Type1), ..., att(PersoN,TypeN)]
 			 */
 
-			CachePersos.getInstance().getNouvellesInstances();
+			CachePersos.getNouvellesInstances();
 			listeAttaques = new ArrayList<Attaque>();
 			chaine = null;
 
@@ -264,7 +267,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 					persoId = details[0];
 					typeAttaque = details[1];
 
-					attaquant = CachePersos.getInstance().getPerso(persoId);
+					attaquant = CachePersos.getPerso(persoId);
 					attaque = getNouvelleAttaque(typeAttaque, attaquant);
 
 					// Construire un ScenarioElement avec ces données et l'ajouté au scénario
@@ -310,6 +313,10 @@ public class DestineeQueryProcessorVoisinage extends Thread
 		else if (ConstantesAttaques.ID_ATTAQUE_IMPARABLE.equals(aTypeAttaque))
 		{
 			attaque = new AttaqueImparable(aAttaquant);
+		}
+		else if (ConstantesAttaques.ID_ATTAQUE_KAMIKAZE.equals(aTypeAttaque))
+		{
+			attaque = new AttaqueKamikaze(aAttaquant);
 		}
 		else if (ConstantesAttaques.ID_ATTAQUE_MAGIQUE.equals(aTypeAttaque))
 		{
