@@ -12,9 +12,23 @@ import java.io.InputStream;
  * @author Bubulle
  * 
  */
-public class FileAssistant
+public final class FileAssistant
 {
-	public static InputStream getInputStream(String aChemin)
+	/**
+	 * Crée une nouvelle instance de FileAssistant
+	 */
+	private FileAssistant()
+	{
+		super();
+	}
+
+	/**
+	 * Génère une instance de InputStream permettant de charger la ressource passée en paramètre
+	 * 
+	 * @param aChemin un chemin vers un fichier ou une ressource
+	 * @return InputStream permettant de charger la ressource passée en paramètre
+	 */
+	public static final InputStream getInputStream(final String aChemin)
 	{
 		InputStream is;
 

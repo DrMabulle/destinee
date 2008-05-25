@@ -14,17 +14,25 @@ import destinee.core.utils.FileAssistant;
  * @author Bubulle et No-one
  * 
  */
-public class PropertiesFactory
+public final class PropertiesFactory
 {
 	private static final String chemin = "./properties/destinee/properties/application.properties";
-	private static Properties props = null;
+	private static Properties props;
 
-	private static void init() throws TechnicalException
+	/**
+	 * Crée une nouvelle instance de PropertiesFactory
+	 */
+	private PropertiesFactory()
+	{
+		super();
+	}
+
+	private static final void init() throws TechnicalException
 	{
 		init(chemin);
 	}
 
-	private static void init(String aFileName) throws TechnicalException
+	private static final void init(final String aFileName) throws TechnicalException
 	{
 		props = new Properties();
 		try
@@ -42,13 +50,13 @@ public class PropertiesFactory
 
 	}
 
-	public static Boolean getBoolean(String aCle) throws TechnicalException
+	public static final Boolean getBoolean(final String aCle) throws TechnicalException
 	{
 		if (props == null)
 		{
 			init();
 		}
-		String temp = (String) props.getProperty(aCle);
+		String temp = props.getProperty(aCle);
 		if (temp == null)
 		{
 			throw new TechnicalException("cle inexistante : " + aCle);
@@ -56,13 +64,13 @@ public class PropertiesFactory
 		return Boolean.valueOf(temp);
 	}
 
-	public static String getString(String aCle) throws TechnicalException
+	public static final String getString(final String aCle) throws TechnicalException
 	{
 		if (props == null)
 		{
 			init();
 		}
-		String temp = (String) props.getProperty(aCle);
+		String temp = props.getProperty(aCle);
 		if (temp == null)
 		{
 			throw new TechnicalException("cle inexistante : " + aCle);
@@ -70,23 +78,23 @@ public class PropertiesFactory
 		return temp;
 	}
 
-	public static Boolean getOptionalBoolean(String aCle) throws TechnicalException
+	public static final Boolean getOptionalBoolean(final String aCle) throws TechnicalException
 	{
 		if (props == null)
 		{
 			init();
 		}
-		String temp = (String) props.getProperty(aCle, "");
+		String temp = props.getProperty(aCle, "");
 		return Boolean.valueOf(temp);
 	}
 
-	public static String getOptionalString(String aCle) throws TechnicalException
+	public static final String getOptionalString(final String aCle) throws TechnicalException
 	{
 		if (props == null)
 		{
 			init();
 		}
-		String temp = (String) props.getProperty(aCle, "");
+		String temp = props.getProperty(aCle, "");
 		return temp;
 	}
 

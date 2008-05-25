@@ -10,13 +10,21 @@ import java.util.Map;
 /**
  * @author Bubulle et No-one Cache utilisé pour les calculs de Proba, ProbaPlus et ProbaMoins
  */
-public class CacheProba
+public final class CacheProba
 {
 
 	/**
 	 * Contenu du cache
 	 */
-	private static Map<String, BigDecimal> cache = new Hashtable<String, BigDecimal>(20000, 0.8F);
+	private static final Map<String, BigDecimal> cache = new Hashtable<String, BigDecimal>(20000, 0.8F);
+
+	/**
+	 * Crée une nouvelle instance de CacheProba
+	 */
+	private CacheProba()
+	{
+		super();
+	}
 
 	/**
 	 * Permet de stocker une donnée dans le cache
@@ -24,7 +32,7 @@ public class CacheProba
 	 * @param cle clé unique permettant de placer la donnée
 	 * @param valeur valeur à stocker
 	 */
-	public static void stockerDonnees(String cle, BigDecimal valeur)
+	public static final void stockerDonnees(final String cle, final BigDecimal valeur)
 	{
 		cache.put(cle, valeur);
 	}
@@ -35,7 +43,7 @@ public class CacheProba
 	 * @param cle la clé d'entrée du cache
 	 * @return la valeur associée à la clé (eventuellement null)
 	 */
-	public static BigDecimal recupererDonnees(Object cle)
+	public static final BigDecimal recupererDonnees(final Object cle)
 	{
 		return cache.get(cle);
 	}
@@ -45,7 +53,7 @@ public class CacheProba
 	 * 
 	 * @return la taille actuelle du cache
 	 */
-	public static int size()
+	public static final int size()
 	{
 		return cache.size();
 	}
@@ -53,7 +61,7 @@ public class CacheProba
 	/**
 	 * Méthode permettant de vider toutes les données stockées dans le cache
 	 */
-	public static void viderCache()
+	public static final void viderCache()
 	{
 		cache.clear();
 	}
