@@ -14,9 +14,23 @@ import destinee.core.log.LogFactory;
  * @author Bubulle
  * 
  */
-public class KamikazeOptimiser
+public final class KamikazeOptimiser
 {
-	public static void optimiserAttaqueKamikaze(AttaqueKamikaze aAttaqueKamikaze, Cible aCible)
+	/**
+	 * Crée une nouvelle instance de KamikazeOptimiser.java
+	 */
+	private KamikazeOptimiser()
+	{
+		super();
+	}
+
+	/**
+	 * Méthode permettant d'optimiser l'espérance de dégâts sur une attaque kamikaze, en jouant sur le sacrifice lié à l'attaque et le sacrifice lié aux dégâts
+	 * 
+	 * @param aAttaqueKamikaze une attaque kamikaze à optimiser
+	 * @param aCible la cible de l'attaque
+	 */
+	public static final void optimiserAttaqueKamikaze(final AttaqueKamikaze aAttaqueKamikaze, final Cible aCible)
 	{
 		Perso perso = aAttaqueKamikaze.getPerso();
 		Cible cible = aCible;
@@ -37,7 +51,9 @@ public class KamikazeOptimiser
 			esperanceDegTemp = ResolutionAttaque.esperanceDeDegats(aAttaqueKamikaze, cible);
 
 			if (LogFactory.isLogDebugEnabled())
+			{
 				LogFactory.logDebug(aAttaqueKamikaze.toString() + " : " + esperanceDegTemp);
+			}
 
 			if (esperanceDegTemp > esperanceDegMax)
 			{
@@ -51,10 +67,12 @@ public class KamikazeOptimiser
 		perso.setSacrificePourDegat(sacrificeDegOptim);
 
 		if (LogFactory.isLogDebugEnabled())
+		{
 			LogFactory.logDebug("Attaque Kamikaze optimale : " + aAttaqueKamikaze.toString());
+		}
 	}
 
-	public static void main(String[] args) throws DestineeException
+	public static void main(final String[] args) throws DestineeException
 	{
 		PersoLoader.chargerPersos();
 		Cible cible = new Cible(15, 0, 0);

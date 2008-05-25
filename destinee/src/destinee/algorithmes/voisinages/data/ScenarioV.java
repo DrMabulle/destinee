@@ -23,23 +23,23 @@ public class ScenarioV
 {
 	private double esperanceDegats;
 	private BigDecimal probaRealisation = null;
-	private List<Integer> listeResultats;
-	private ChaineAttaquesV chaine;
+	private final List<Integer> listeResultats;
+	private final ChaineAttaquesV chaine;
 	private double indiceBourrinisme = -1;
 
-	private String toString = null;
+	private String toString;
 
 	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
 	private static final String CLE_VALEUR_MIN = "destinee.scenario.evaluation.valeurMin";
 
-	public ScenarioV(ChaineAttaquesV aChaineAtt)
+	public ScenarioV(final ChaineAttaquesV aChaineAtt)
 	{
 		super();
 		chaine = aChaineAtt;
 		listeResultats = new ArrayList<Integer>(aChaineAtt.size());
 	}
 
-	public ScenarioV(ChaineAttaquesV aChaineAtt, List<Integer> resolutions)
+	public ScenarioV(final ChaineAttaquesV aChaineAtt, final List<Integer> resolutions)
 	{
 		super();
 		chaine = aChaineAtt;
@@ -51,7 +51,7 @@ public class ScenarioV
 	 * 
 	 * @param aTypeResolution un type de résolution
 	 */
-	public void ajouterElementResolution(int aTypeResolution)
+	public void ajouterElementResolution(final int aTypeResolution)
 	{
 		listeResultats.add(aTypeResolution);
 		// réinitialiser les probas et espérances
@@ -65,7 +65,7 @@ public class ScenarioV
 	 * @param aPosition position du type de résolution à modifier
 	 * @param aTypeResolution un type de résolution
 	 */
-	public void changerTypeResolution(int aPosition, int aTypeResolution)
+	public void changerTypeResolution(final int aPosition, final int aTypeResolution)
 	{
 		listeResultats.set(aPosition, aTypeResolution);
 		// réinitialiser les probas et espérances
@@ -206,7 +206,7 @@ public class ScenarioV
 
 			for (Iterator<Integer> iter = listeResultats.iterator(); iter.hasNext();)
 			{
-				theResolution = (Integer) iter.next();
+				theResolution = iter.next();
 				switch (theResolution)
 				{
 					case ResolutionAttaque.RESOLUTION_COUP_SIMPLE:
@@ -233,7 +233,7 @@ public class ScenarioV
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object aArg0)
+	public boolean equals(final Object aArg0)
 	{
 		// Vérification de l'égalité des références
 		if (this == aArg0)

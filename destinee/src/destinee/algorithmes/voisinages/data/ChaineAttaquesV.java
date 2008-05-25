@@ -38,8 +38,8 @@ public class ChaineAttaquesV
 	private String toString = null;
 	private String identifiant = null;
 
-	protected List<ScenarioV> scenariosPrincipaux = new ArrayList<ScenarioV>();
-	protected List<ScenarioV> voisinages = new ArrayList<ScenarioV>();
+	protected final List<ScenarioV> scenariosPrincipaux = new ArrayList<ScenarioV>();
+	protected final List<ScenarioV> voisinages = new ArrayList<ScenarioV>();
 
 	private static final String CLE_PROBA_MIN_UNITAIRE = "destinee.chaineAttaquesV.evaluation.valeurMinUnitaire";
 	private static final String CLE_PROBA_CUMULEE_CIBLE = "destinee.chaineAttaquesV.evaluation.probaCumuleeCible";
@@ -51,7 +51,7 @@ public class ChaineAttaquesV
 	 * @param aCible une cible
 	 * @param aListeAttaques une liste d'attaques
 	 */
-	public ChaineAttaquesV(Cible aCible, List<Attaque> aListeAttaques)
+	public ChaineAttaquesV(final Cible aCible, final List<Attaque> aListeAttaques)
 	{
 		super();
 		cible = aCible.clone();
@@ -158,7 +158,7 @@ public class ChaineAttaquesV
 	 * @param aNbVoisinages un nombre de voisinage maximum
 	 * @throws TechnicalException e
 	 */
-	public void evaluer(BigDecimal aProbaCumuleeCible, BigDecimal aProbaMinUnitaire, int aNbVoisinages) throws TechnicalException
+	public void evaluer(final BigDecimal aProbaCumuleeCible, final BigDecimal aProbaMinUnitaire, final int aNbVoisinages) throws TechnicalException
 	{
 		// On indique que la chaine d'attaque a été évaluée au moins une fois
 		isEvaluee = true;
@@ -215,8 +215,10 @@ public class ChaineAttaquesV
 			}
 		}
 		if (LogFactory.isLogDebugEnabled())
+		{
 			LogFactory.logDebug("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
 					+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués. Temps = " + (System.currentTimeMillis() - startTime) + " ms.");
+		}
 	}
 
 	/**
@@ -275,7 +277,7 @@ public class ChaineAttaquesV
 	 * @param aScenar un scénario
 	 * @return un ensemble de scénarios représentant le voisinage du scénario donné
 	 */
-	protected Set<ScenarioV> getVoisinage(ScenarioV aScenar)
+	protected Set<ScenarioV> getVoisinage(final ScenarioV aScenar)
 	{
 		Set<ScenarioV> voisinage = new HashSet<ScenarioV>();
 		List<Integer> listeResolutions = aScenar.getListeTypesResolution();
@@ -445,7 +447,7 @@ public class ChaineAttaquesV
 	 * @param aScenarioCollection
 	 * @return
 	 */
-	protected double evaluerIndiceBourrinisme(Collection<ScenarioV> aScenarioCollection)
+	protected double evaluerIndiceBourrinisme(final Collection<ScenarioV> aScenarioCollection)
 	{
 		double indiceBourrinismeMoyen = 0;
 		if (aScenarioCollection != null && aScenarioCollection.size() != 0)
@@ -470,7 +472,7 @@ public class ChaineAttaquesV
 	 * @param aListeResolutions une liste de réalisation d'attaque
 	 * @param aIndice position de la dernière attaque à effectuer
 	 */
-	private void initPersosCible(List<Attaque> aListeAttaques, List<Integer> aListeResolutions, int aIndice)
+	private void initPersosCible(final List<Attaque> aListeAttaques, final List<Integer> aListeResolutions, final int aIndice)
 	{
 		// Réinitialiser la cible et les persos
 		cible.reinitialiserFatigue();
@@ -497,7 +499,7 @@ public class ChaineAttaquesV
 	 * @param aVoisinages une liste de scénarios du voisinage
 	 * @throws TechnicalException e
 	 */
-	private void calculerProbaRealisationCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages) throws TechnicalException
+	private void calculerProbaRealisationCumulee(final List<ScenarioV> aScenariosPrincipaux, final List<ScenarioV> aVoisinages) throws TechnicalException
 	{
 		// Une fois la chaine d'attaque vidée, on ne touche plus au résultat si on en a un
 		if (!isEvalTerminee)
@@ -523,7 +525,7 @@ public class ChaineAttaquesV
 	 * @param aVoisinages une liste de scénarios du voisinage
 	 * @throws TechnicalException e
 	 */
-	private void calculerEsperanceDegatsCumulee(List<ScenarioV> aScenariosPrincipaux, List<ScenarioV> aVoisinages) throws TechnicalException
+	private void calculerEsperanceDegatsCumulee(final List<ScenarioV> aScenariosPrincipaux, final List<ScenarioV> aVoisinages) throws TechnicalException
 	{
 		// Une fois la chaine d'attaque vidée, on ne touche plus au résultat si on en a un
 		if (!isEvalTerminee)
@@ -545,7 +547,7 @@ public class ChaineAttaquesV
 	public double getIndiceBourrinisme()
 	{
 		int nbScenariosActuel = scenariosPrincipaux.size() + voisinages.size();
-		Set<ScenarioV> scenarioCollection = new HashSet<ScenarioV>(((int) (nbScenariosActuel * 3 / 2)) + 1);
+		Set<ScenarioV> scenarioCollection = new HashSet<ScenarioV>(((nbScenariosActuel * 3 / 2)) + 1);
 		scenarioCollection.addAll(scenariosPrincipaux);
 		scenarioCollection.addAll(voisinages);
 		return evaluerIndiceBourrinisme(scenarioCollection);
@@ -569,7 +571,7 @@ public class ChaineAttaquesV
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object aObj)
+	public boolean equals(final Object aObj)
 	{
 		// Vérification de l'égalité des références
 		if (this == aObj)
@@ -636,7 +638,7 @@ public class ChaineAttaquesV
 	private class ScenarioVComparator implements Comparator<ScenarioV>
 	{
 		@Override
-		public int compare(ScenarioV aArg0, ScenarioV aArg1)
+		public int compare(final ScenarioV aArg0, final ScenarioV aArg1)
 		{
 			try
 			{

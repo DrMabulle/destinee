@@ -68,9 +68,10 @@ public class TraitementChainesAttaquesV extends Thread
 
 		// Variables temporaires
 		ChaineAttaquesV chaine;
+		boolean continuer = true;
 
 		// On continue les traitements tant qu'on ne nous dit pas de s'arrêter et tant qu'il reste des traitements à faire
-		while (!traitementsTermines || GestionnaireChainesAttaquesV.getInstance().hasNextChaineATraiter())
+		while (!traitementsTermines || continuer)
 		{
 			// Récupérer le Scenario suivant pour le traiter
 			chaine = GestionnaireChainesAttaquesV.getInstance().getNextChaineATraiter();
@@ -80,6 +81,10 @@ public class TraitementChainesAttaquesV extends Thread
 				chaine.getProbaRealisationCumulee();
 				// Ajouter la chaine d'attaques une fois traitée
 				GestionnaireChainesAttaquesV.getInstance().ajouterChaineTraitee(chaine);
+			}
+			else
+			{
+				continuer = false;
 			}
 		}
 
@@ -92,9 +97,10 @@ public class TraitementChainesAttaquesV extends Thread
 
 		// Variables temporaires
 		ChaineAttaquesV chaine;
+		boolean continuer = true;
 
 		// On continue les traitements tant qu'on ne nous dit pas de s'arrêter et tant qu'il reste des traitements à faire
-		while (!traitementsTermines || GestionnaireChainesAttaquesV.getInstance().hasNextChaineATraiter())
+		while (!traitementsTermines || continuer)
 		{
 			// Récupérer le Scenario suivant pour le traiter
 			chaine = GestionnaireChainesAttaquesV.getInstance().getNextChaineATraiter();
@@ -104,6 +110,10 @@ public class TraitementChainesAttaquesV extends Thread
 				chaine.evaluer(probaCible, probaMin, etapes);
 				// Ajouter la chaine d'attaques une fois traitée
 				GestionnaireChainesAttaquesV.getInstance().ajouterChaineTraitee(chaine);
+			}
+			else
+			{
+				continuer = false;
 			}
 		}
 

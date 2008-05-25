@@ -17,10 +17,10 @@ import destinee.algorithmes.voisinages.data.ChaineAttaquesV;
  */
 public class GestionnaireChainesAttaquesV
 {
-	private Set<ChaineAttaquesV> chaines = new HashSet<ChaineAttaquesV>(15000);
-	private static GestionnaireChainesAttaquesV instance = new GestionnaireChainesAttaquesV();
+	private final Set<ChaineAttaquesV> chaines = new HashSet<ChaineAttaquesV>(15000);
+	private static final GestionnaireChainesAttaquesV instance = new GestionnaireChainesAttaquesV();
 
-	private List<ChaineAttaquesV> chainesATraiter = new ArrayList<ChaineAttaquesV>(400);
+	private final List<ChaineAttaquesV> chainesATraiter = new ArrayList<ChaineAttaquesV>(400);
 	private boolean traitementEnCours = true;
 
 	/**
@@ -39,10 +39,10 @@ public class GestionnaireChainesAttaquesV
 		return instance;
 	}
 
-	public synchronized void ajouterChaineTraitee(ChaineAttaquesV aChaine)
+	public synchronized void ajouterChaineTraitee(final ChaineAttaquesV aChaine)
 	{
 		chaines.add(aChaine);
-		notifyAll();
+		// notifyAll();
 	}
 
 	/**
@@ -50,9 +50,9 @@ public class GestionnaireChainesAttaquesV
 	 * 
 	 * @param aScenario un scénario à traiter
 	 */
-	public synchronized void ajouterChaineATraiter(ChaineAttaquesV aChaine)
+	public synchronized void ajouterChaineATraiter(final ChaineAttaquesV aChaine)
 	{
-		notifyAll();
+		// notifyAll();
 		try
 		{
 			// On limite la taille du buffer à 400 scénarios à traiter
@@ -73,7 +73,7 @@ public class GestionnaireChainesAttaquesV
 	/**
 	 * @param aListChainesAttaques
 	 */
-	public synchronized void ajouterChainesATraiter(List<ChaineAttaquesV> aListChainesAttaques)
+	public synchronized void ajouterChainesATraiter(final List<ChaineAttaquesV> aListChainesAttaques)
 	{
 		chainesATraiter.addAll(aListChainesAttaques);
 	}
@@ -85,7 +85,7 @@ public class GestionnaireChainesAttaquesV
 	 */
 	public synchronized ChaineAttaquesV getNextChaineATraiter()
 	{
-		notifyAll();
+		// notifyAll();
 		ChaineAttaquesV chaine = null;
 		try
 		{
@@ -107,15 +107,6 @@ public class GestionnaireChainesAttaquesV
 		notifyAll();
 
 		return chaine;
-	}
-
-	/**
-	 * @return true s'il reste des chaines d'attaques à traiter
-	 */
-	public synchronized boolean hasNextChaineATraiter()
-	{
-		notifyAll();
-		return !chainesATraiter.isEmpty();
 	}
 
 	/**
@@ -165,7 +156,7 @@ public class GestionnaireChainesAttaquesV
 	 * 
 	 * @param aChaine une chaine à retirer
 	 */
-	public void retirerChaineAttaques(ChaineAttaquesV aChaine)
+	public void retirerChaineAttaques(final ChaineAttaquesV aChaine)
 	{
 		chaines.remove(aChaine);
 	}
@@ -173,7 +164,7 @@ public class GestionnaireChainesAttaquesV
 	/**
 	 * @param aListChainesAttaques
 	 */
-	public void retirerChainesAttaques(List<ChaineAttaquesV> aListChainesAttaques)
+	public void retirerChainesAttaques(final List<ChaineAttaquesV> aListChainesAttaques)
 	{
 		chaines.removeAll(aListChainesAttaques);
 	}

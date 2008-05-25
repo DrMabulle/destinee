@@ -12,9 +12,17 @@ import destinee.core.utils.CacheProba;
  * 
  * Class utilitaire pour les calculs de probas
  */
-public class Proba
+public final class Proba
 {
 	private static final BigDecimal zeroVirguleUn = new BigDecimal("0.1");
+
+	/**
+	 * Crée une nouvelle instance de Proba.java
+	 */
+	private Proba()
+	{
+		super();
+	}
 
 	/**
 	 * Permet de déterminer la probabilité de tomber sur une nombre A en jetant B dés à 10 faces
@@ -23,7 +31,7 @@ public class Proba
 	 * @param nbDes nombre de dés
 	 * @return la probabilité de faire le résultat cible en lançant le nombre de dés donné
 	 */
-	public static BigDecimal calculerProba(int resultatCible, int nbDes)
+	public static final BigDecimal calculerProba(final int resultatCible, final int nbDes)
 	{
 		BigDecimal result = null;
 		if (resultatCible < nbDes // résultat inférieur au nombre de dés
@@ -77,7 +85,7 @@ public class Proba
 	 * @param nbDes nombre de dés
 	 * @return proba(resultatCible , nbDes)
 	 */
-	private static String genererCle(int resultatCible, int nbDes)
+	private static final String genererCle(final int resultatCible, final int nbDes)
 	{
 		StringBuffer cle = new StringBuffer("proba(");
 		cle.append(resultatCible).append(",").append(nbDes).append(")");

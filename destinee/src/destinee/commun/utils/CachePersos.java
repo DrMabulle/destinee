@@ -13,10 +13,10 @@ import destinee.commun.data.Perso;
 /**
  * @author Bubulle et No-one Cache de gestion des Persos utilisés
  */
-public class CachePersos
+public final class CachePersos
 {
-	private static Map<String, Perso> persosInitiaux = new Hashtable<String, Perso>();
-	private static Map<String, Perso> persos = new Hashtable<String, Perso>();
+	private static final Map<String, Perso> persosInitiaux = new Hashtable<String, Perso>();
+	private static final Map<String, Perso> persos = new Hashtable<String, Perso>();
 
 	/**
 	 * Méthode permettant de récupérer le Perso répondant à l'identifiant passé en paramètre
@@ -24,7 +24,7 @@ public class CachePersos
 	 * @param aIdentifiant un identifiant de Perso
 	 * @return le Perso répondant à l'identifiant passé en paramètre
 	 */
-	public static Perso getPerso(String aIdentifiant)
+	public static final Perso getPerso(final String aIdentifiant)
 	{
 		return persos.get(aIdentifiant);
 	}
@@ -35,7 +35,7 @@ public class CachePersos
 	 * @param aIdentifiant un identifiant de perso
 	 * @param aPerso un perso
 	 */
-	public static void addPerso(String aIdentifiant, Perso aPerso)
+	public static final void addPerso(final String aIdentifiant, final Perso aPerso)
 	{
 		persosInitiaux.put(aIdentifiant, aPerso);
 		persos.put(aIdentifiant, aPerso.clone());
@@ -46,7 +46,7 @@ public class CachePersos
 	 * 
 	 * @return l'ensemble des Perso
 	 */
-	public static Set<Perso> getEnsemblePersos()
+	public static final Set<Perso> getEnsemblePersos()
 	{
 		return new HashSet<Perso>(persos.values());
 	}
@@ -54,9 +54,9 @@ public class CachePersos
 	/**
 	 * Permet d'obtenir de nouvelles instances des objets Perso, afin de permettre une utilisation concurrente des objets
 	 */
-	public static void getNouvellesInstances()
+	public static final void getNouvellesInstances()
 	{
-		persos = new Hashtable<String, Perso>();
+		persos.clear();
 
 		for (Map.Entry<String, Perso> entry : persosInitiaux.entrySet())
 		{
@@ -69,7 +69,7 @@ public class CachePersos
 	 * 
 	 * @return le nombre de persos en cache
 	 */
-	public static int getNombrePersos()
+	public static final int getNombrePersos()
 	{
 		return persos.size();
 	}

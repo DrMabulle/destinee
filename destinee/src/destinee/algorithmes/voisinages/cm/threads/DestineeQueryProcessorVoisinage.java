@@ -164,11 +164,11 @@ public class DestineeQueryProcessorVoisinage extends Thread
 		}
 		finally
 		{
+			GestionnaireChainesAttaquesV.getInstance().declarerFinTraitement();
 			// Dire aux Threads de traitement de scénario qu'ils peuvent s'arrêter une fois les traitements effectués (pas de nouveaux scénarios)
 			TraitementChainesAttaquesV.arreterTraitements();
 		}
 
-		GestionnaireChainesAttaquesV.getInstance().declarerFinTraitement();
 		joinTreadsTraitement();
 
 		if (LogFactory.isLogDebugEnabled())

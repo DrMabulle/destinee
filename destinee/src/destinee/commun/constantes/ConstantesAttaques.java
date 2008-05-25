@@ -7,7 +7,7 @@ package destinee.commun.constantes;
  * @author Bubulle et No-one
  * 
  */
-public class ConstantesAttaques
+public final class ConstantesAttaques
 {
 	public static final String ID_ATTAQUE_BERSERK = "Berserk";
 	public static final String ID_ATTAQUE_BRUTALE = "Brutale";
@@ -18,4 +18,12 @@ public class ConstantesAttaques
 	public static final String ID_ATTAQUE_NORMALE = "Normale";
 	public static final String ID_ATTAQUE_PRECISE = "Précise";
 	public static final String ID_ATTAQUE_RAPIDE = "Rapide";
+
+	/**
+	 * Crée une nouvelle instance de ConstantesAttaques
+	 */
+	private ConstantesAttaques()
+	{
+		super();
+	}
 }

@@ -26,7 +26,7 @@ public class CMAlgoOrdre
 	 * @param args
 	 * @throws DestineeException
 	 */
-	public static void main(String[] args) throws DestineeException
+	public static void main(final String[] args) throws DestineeException
 	{
 		long startTime = System.currentTimeMillis();
 
@@ -34,6 +34,8 @@ public class CMAlgoOrdre
 		Cible cible = new Cible(12, 0, 0);
 
 		DestineeQueryProcessorOrdre.processQuery(DestineeToLogicGatewayImpl.getDefaultInstance(), cible);
+
+		GestionnaireOrdresAttaquants.getInstance().finaliserEvaluation();
 
 		List<ChaineAttaquesV> chainesAtt = GestionnaireOrdresAttaquants.getInstance().getListeChainesOrdonneeConj();
 
