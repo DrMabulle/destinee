@@ -19,14 +19,13 @@ import java.util.StringTokenizer;
  */
 public class ConversionUtil
 {
-
 	/**
 	 * Conversion d'un bigDecimal en String, avec formatage correct
 	 * 
 	 * @param decimal le BigDecimal à convertir
 	 * @return le BigDecimal formaté
 	 */
-	public static String bigDecimalVersString(BigDecimal decimal)
+	public static String bigDecimalVersString(final BigDecimal decimal)
 	{
 		return bigDecimalVersString(decimal, 2);
 	}
@@ -37,7 +36,7 @@ public class ConversionUtil
 	 * @param decimal le BigDecimal à convertir
 	 * @return le BigDecimal formaté
 	 */
-	public static String bigDecimalVersString(BigDecimal decimal, int scale)
+	public static String bigDecimalVersString(final BigDecimal decimal, final int scale)
 	{
 		String str = "";
 		int idxVirgule = -1;
@@ -46,7 +45,6 @@ public class ConversionUtil
 
 		if (decimal != null)
 		{
-
 			// On distingue 2 cas :
 			// - decimal est très petit (proche de 0)
 			// - decimal n'est pas très petit (cas 'normal')
@@ -112,7 +110,7 @@ public class ConversionUtil
 	 * @param pModele chaîne spécifiant le format de la date à convertir (ex: "dd.MM.yyyy")
 	 * @return String chaîne formatée au format spécifié par pModele
 	 */
-	public static String dateVersString(Date pDate, String pModele)
+	public static String dateVersString(final Date pDate, final String pModele)
 	{
 		DateFormat dateFormat = new SimpleDateFormat(pModele);
 		String resultat = "";
@@ -131,7 +129,7 @@ public class ConversionUtil
 	 * @param pChaine Chaîne à convertir
 	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne est vide
 	 */
-	public static BigDecimal stringVersBigDecimal(String pChaine)
+	public static BigDecimal stringVersBigDecimal(final String pChaine)
 	{
 		return stringVersBigDecimal(pChaine, null);
 	}
@@ -142,7 +140,7 @@ public class ConversionUtil
 	 * @param pChaine Chaîne à convertir
 	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne est vide
 	 */
-	public static BigDecimal stringVersBigDecimal(String pChaine, BigDecimal defaultValue)
+	public static BigDecimal stringVersBigDecimal(final String pChaine, final BigDecimal defaultValue)
 	{
 
 		BigDecimal retour = defaultValue;
@@ -176,7 +174,7 @@ public class ConversionUtil
 	 * @param pModele chaîne spécifiant le format de la date utilisée (ex: dd.MM.yyyy)
 	 * @return Date date correspondant à la chaîne
 	 */
-	public static Date stringVersDate(String pChaine, String pModele)
+	public static Date stringVersDate(final String pChaine, final String pModele)
 	{
 		Date resultat = null;
 
@@ -202,7 +200,7 @@ public class ConversionUtil
 	 * @param pDate Date à convertir
 	 * @return String chaîne formatée au format "JJ/MM/AAAA hh:mm:ss"
 	 */
-	public static String dateHeureVersString(Date pDate)
+	public static String dateHeureVersString(final Date pDate)
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		String resultat = "";
@@ -221,7 +219,7 @@ public class ConversionUtil
 	 * @param pDate Date à convertir
 	 * @return String chaîne formatée au format "JJ/MM/AAAA hh:mm"
 	 */
-	public static String dateHeureVersStringSansSecondes(Date pDate)
+	public static String dateHeureVersStringSansSecondes(final Date pDate)
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		DateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
@@ -257,7 +255,7 @@ public class ConversionUtil
 	 * @param pDate Date à convertir
 	 * @return String chaîne formatée au format défini dans beanUtils.date.pattern
 	 */
-	public static String dateVersString(Date pDate)
+	public static String dateVersString(final Date pDate)
 	{
 		String pattern;
 		String resultat = "";
@@ -280,7 +278,7 @@ public class ConversionUtil
 	 * @return Integer correpondant au flottant multiplié par 10
 	 * @throws Exception en cas d'erreur
 	 */
-	public static Integer floatVersInteger(Float pFloat, float pMultiplicateur) throws Exception
+	public static Integer floatVersInteger(final Float pFloat, final float pMultiplicateur) throws Exception
 	{
 
 		Integer retour = null;
@@ -307,7 +305,7 @@ public class ConversionUtil
 	 * @return Long correpondant au flottant multiplié par 10
 	 * @throws Exception en cas d'erreur
 	 */
-	public static Long floatVersLong(Float pFloat) throws Exception
+	public static Long floatVersLong(final Float pFloat) throws Exception
 	{
 
 		Long retour = null;
@@ -335,7 +333,7 @@ public class ConversionUtil
 	 * @return String correspondant à l'objet
 	 * @throws Exception en cas d'erreur
 	 */
-	public static String floatVersString(Object pFloat) throws Exception
+	public static String floatVersString(final Object pFloat) throws Exception
 	{
 
 		String resultat = null;
@@ -356,7 +354,7 @@ public class ConversionUtil
 	 * @param pDiviseur le diviseur
 	 * @return Float correpondant à l'entier divisé par 10
 	 */
-	public static Float integerVersFloat(Integer pEntier, float pDiviseur)
+	public static Float integerVersFloat(final Integer pEntier, final float pDiviseur)
 	{
 
 		Float retour = null;
@@ -383,7 +381,7 @@ public class ConversionUtil
 	 * @param pInteger Le integer à convertir en String
 	 * @return String correspondant à l'objet
 	 */
-	public static String integerVersString(Object pInteger)
+	public static String integerVersString(final Object pInteger)
 	{
 
 		return integerVersString(pInteger, null);
@@ -397,7 +395,7 @@ public class ConversionUtil
 	 * @param valeurDefaut la valeur par défaut
 	 * @return String correspondant à l'objet
 	 */
-	public static String integerVersString(Object pInteger, String valeurDefaut)
+	public static String integerVersString(final Object pInteger, final String valeurDefaut)
 	{
 
 		String resultat = valeurDefaut;
@@ -416,7 +414,7 @@ public class ConversionUtil
 	 * @param pEntier entier à convertir
 	 * @return Float correpondant à l'entier divisé par 10
 	 */
-	public static Float longVersFloat(Long pEntier)
+	public static Float longVersFloat(final Long pEntier)
 	{
 
 		Float retour = null;
@@ -445,7 +443,7 @@ public class ConversionUtil
 	 * @return String correspondant à l'objet
 	 * @throws Exception en cas d'erreur
 	 */
-	public static String longVersString(Object pLong) throws Exception
+	public static String longVersString(final Object pLong) throws Exception
 	{
 
 		String resultat = null;
@@ -465,7 +463,7 @@ public class ConversionUtil
 	 * @param pObjet L'objet à convertir en String
 	 * @return String correspondant à l'objet
 	 */
-	public static String objectVersString(Object pObjet)
+	public static String objectVersString(final Object pObjet)
 	{
 		String resultat = "";
 
@@ -492,7 +490,7 @@ public class ConversionUtil
 	 * @param pEspace booleen indiquant s'il faut insérer des espaces par paquet de trois chiffres
 	 * @return String.
 	 */
-	public static String pointVersVirgule(String pValeur, int pNbDec, boolean pEspace)
+	public static String pointVersVirgule(final String pValeur, final int pNbDec, final boolean pEspace)
 	{
 
 		StringTokenizer st = null;
@@ -569,7 +567,7 @@ public class ConversionUtil
 	 * @param pChaine chaîne à convertir en timestamp
 	 * @return Date date correspondant à la chaîne
 	 */
-	public static Date stringVersDate(String pChaine)
+	public static Date stringVersDate(final String pChaine)
 	{
 		Date resultat = null;
 
@@ -596,7 +594,7 @@ public class ConversionUtil
 	 * @param pChaine chaîne à convertir en timestamp
 	 * @return Date date correspondant à la chaîne
 	 */
-	public static Date stringVersDateHeure(String pChaine)
+	public static Date stringVersDateHeure(final String pChaine)
 	{
 		Date resultat = null;
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -622,7 +620,7 @@ public class ConversionUtil
 	 * @param pChaine chaîne à convertir en timestamp
 	 * @return Date date correspondant à la chaîne
 	 */
-	public static Date stringVersDateHeureSansSecondes(String pChaine)
+	public static Date stringVersDateHeureSansSecondes(final String pChaine)
 	{
 		Date resultat = null;
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -656,7 +654,7 @@ public class ConversionUtil
 	 * @param pChaine Chaîne à convertir
 	 * @return Float correspondant à la chaîne ou bien Float(0.0f) si la chaîne est vide
 	 */
-	public static Float stringVersFloat(String pChaine)
+	public static Float stringVersFloat(final String pChaine)
 	{
 
 		Float retour = null;
@@ -684,7 +682,7 @@ public class ConversionUtil
 	 * @param pString chaîne à convertir
 	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
-	public static Integer stringVersInteger(String pString)
+	public static Integer stringVersInteger(final String pString)
 	{
 		return stringVersInteger(pString, new Integer(0));
 	}
@@ -697,7 +695,7 @@ public class ConversionUtil
 	 * @param pDefaut valeur par défaut si la conversion échoue
 	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
-	public static Integer stringVersInteger(String pString, Integer pDefaut)
+	public static Integer stringVersInteger(final String pString, final Integer pDefaut)
 	{
 		Integer resultat = pDefaut;
 
@@ -723,7 +721,7 @@ public class ConversionUtil
 	 * @param pDefaut valeur par défaut si la conversion échoue
 	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
-	public static Double stringVersDouble(String pString, Double pDefaut)
+	public static Double stringVersDouble(final String pString, final Double pDefaut)
 	{
 		Double resultat = pDefaut;
 
@@ -748,7 +746,7 @@ public class ConversionUtil
 	 * @param pString chaîne à convertir
 	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
-	public static Double stringVersDouble(String pString)
+	public static Double stringVersDouble(final String pString)
 	{
 		Double resultat = null;
 
@@ -764,7 +762,7 @@ public class ConversionUtil
 	 * @param pString chaîne à convertir
 	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
-	public static Long stringVersLong(String pString)
+	public static Long stringVersLong(final String pString)
 	{
 		return stringVersLong(pString, new Long(0));
 	}
@@ -777,7 +775,7 @@ public class ConversionUtil
 	 * @param pDefaut valeur par défaut si la conversion échoue
 	 * @return Integer correspondant à la chaîne ou null si la chaîne n'est pas un entier
 	 */
-	public static Long stringVersLong(String pString, Long pDefaut)
+	public static Long stringVersLong(final String pString, final Long pDefaut)
 	{
 		Long resultat = pDefaut;
 
@@ -800,7 +798,7 @@ public class ConversionUtil
 	 * @param pChaine Chaîne à convertir
 	 * @return String
 	 */
-	public static String virguleVersPoint(String pChaine)
+	public static String virguleVersPoint(final String pChaine)
 	{
 
 		String retour = null;
@@ -820,7 +818,7 @@ public class ConversionUtil
 	 * @param aDouble un Double
 	 * @return le BigDecimal équivalent au Double, null si le paramètre est null
 	 */
-	public static BigDecimal doubleVersBigDecimal(Double aDouble)
+	public static BigDecimal doubleVersBigDecimal(final Double aDouble)
 	{
 
 		String theDoubleValue = "";
@@ -844,7 +842,7 @@ public class ConversionUtil
 	 * @param aDouble un double
 	 * @return le BigDecimal équivalent au Double
 	 */
-	public static BigDecimal doubleVersBigDecimal(double aDouble)
+	public static BigDecimal doubleVersBigDecimal(final double aDouble)
 	{
 
 		String theDoubleValue = String.valueOf(aDouble);
@@ -858,7 +856,7 @@ public class ConversionUtil
 	 * @param aBigDecimal un BigDecimal
 	 * @return le Double équivalent au BigDecimal en paramètre, null si le paramètre est null
 	 */
-	public static Double bigdecimalVersDouble(BigDecimal aBigDecimal)
+	public static Double bigdecimalVersDouble(final BigDecimal aBigDecimal)
 	{
 
 		Double dble = null;
@@ -878,7 +876,7 @@ public class ConversionUtil
 	 * @param scale scale
 	 * @return le Double équivalent au BigDecimal en paramètre, null si le paramètre est null
 	 */
-	public static Double bigdecimalVersDouble(BigDecimal aBigDecimal, int scale)
+	public static Double bigdecimalVersDouble(final BigDecimal aBigDecimal, final int scale)
 	{
 
 		Double dble = null;
@@ -897,7 +895,7 @@ public class ConversionUtil
 	 * @param aBigDecimal un BigDecimal
 	 * @return le Long équivalent au BigDecimal en paramètre, null si le paramètre est null
 	 */
-	public static Long bigDecimalVersLong(BigDecimal aBigDecimal)
+	public static Long bigDecimalVersLong(final BigDecimal aBigDecimal)
 	{
 
 		Long lng = null;
@@ -916,7 +914,7 @@ public class ConversionUtil
 	 * @param decimal le Double à convertir
 	 * @return le Double formaté
 	 */
-	public static String doubleVersString(Double decimal)
+	public static String doubleVersString(final Double decimal)
 	{
 		String str = "";
 		int idxVirgule = -1;
@@ -965,7 +963,7 @@ public class ConversionUtil
 	 * @param scale précision du double
 	 * @return le Double formaté
 	 */
-	public static String doubleVersString(Double decimal, Integer scale)
+	public static String doubleVersString(final Double decimal, final Integer scale)
 	{
 		String str = "";
 		int idxVirgule = -1;
@@ -1023,7 +1021,7 @@ public class ConversionUtil
 	 * @return String
 	 * @throws InfraTechnicalException l'exception technique
 	 */
-	public static String completerAGauche(Integer numero, int taille, String caractere)
+	public static String completerAGauche(final Integer numero, final int taille, final String caractere)
 	{
 
 		String complete = null;
@@ -1048,7 +1046,7 @@ public class ConversionUtil
 	 * @param date la date
 	 * @return Integer
 	 */
-	public static Integer heureVersInteger(Date date)
+	public static Integer heureVersInteger(final Date date)
 	{
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
@@ -1080,7 +1078,7 @@ public class ConversionUtil
 	 * @param aInteger l'heure
 	 * @return Integer
 	 */
-	public static String heureIntegerVersHeureStringH(Integer aInteger)
+	public static String heureIntegerVersHeureStringH(final Integer aInteger)
 	{
 		String heure = null;
 		StringBuffer sb = null;
@@ -1111,7 +1109,7 @@ public class ConversionUtil
 	 * @param heure l'heure
 	 * @return Integer
 	 */
-	public static String integerVersHeure2(Integer heure)
+	public static String integerVersHeure2(final Integer heure)
 	{
 
 		String hhmmss = paddingString(integerVersString(heure, "000000"), 6, '0', true);
@@ -1131,7 +1129,7 @@ public class ConversionUtil
 	 * @param heure l'heure
 	 * @return Integer
 	 */
-	public static String integerVersHeure3(Integer heure)
+	public static String integerVersHeure3(final Integer heure)
 	{
 
 		int heureMinute = 0;
@@ -1153,7 +1151,7 @@ public class ConversionUtil
 	 * @param heure l'heure
 	 * @return Integer
 	 */
-	public static Integer heureVersInteger2(String heure)
+	public static Integer heureVersInteger2(final String heure)
 	{
 
 		String str = heure.replaceAll(":", "");
@@ -1170,7 +1168,7 @@ public class ConversionUtil
 	 * @param paddingLeft boolean
 	 * @return String
 	 */
-	private static String paddingString(String s, int n, char c, boolean paddingLeft)
+	private static String paddingString(final String s, final int n, final char c, final boolean paddingLeft)
 	{
 		StringBuffer str = new StringBuffer(s);
 		int strLength = str.length();
@@ -1203,7 +1201,7 @@ public class ConversionUtil
 	 * @param val le long
 	 * @return la valeur correctement formatée
 	 */
-	public static String longVersStringFormat(Long val)
+	public static String longVersStringFormat(final Long val)
 	{
 		String longFormat = "";
 
@@ -1237,7 +1235,7 @@ public class ConversionUtil
 	 * @param aCollection une collection
 	 * @return une liste au format Prolog
 	 */
-	public static String generatePrologListFromSringCollection(Collection<String> aCollection)
+	public static String generatePrologListFromSringCollection(final Collection<String> aCollection)
 	{
 		if (aCollection == null || aCollection.size() == 0)
 		{

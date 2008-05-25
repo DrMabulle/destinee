@@ -12,7 +12,7 @@ import destinee.core.utils.FileAssistant;
  * @author Bubulle
  * 
  */
-public class LogFactory
+public final class LogFactory
 {
 	private static final String LOG_LEVEL = "destinee.log.logLevel";
 	private static final String chemin = "./properties/destinee/properties/application.properties";
@@ -22,10 +22,10 @@ public class LogFactory
 	private static final String WARN = "warn";
 	private static final String ERROR = "error";
 
-	private static boolean isLogDebugEnabled = true;
-	private static boolean isLogInfoEnabled = true;
-	private static boolean isLogWarnEnabled = true;
-	private static boolean isLogErrorEnabled = true;
+	private static final boolean isLogDebugEnabled;
+	private static final boolean isLogInfoEnabled;
+	private static final boolean isLogWarnEnabled;
+	private static final boolean isLogErrorEnabled;
 
 	/**
 	 * 
@@ -84,9 +84,17 @@ public class LogFactory
 	}
 
 	/**
+	 * Crée une nouvelle instance de LogFactory
+	 */
+	private LogFactory()
+	{
+		super();
+	}
+
+	/**
 	 * @return the isLogDebugEnabled
 	 */
-	public static boolean isLogDebugEnabled()
+	public static final boolean isLogDebugEnabled()
 	{
 		return isLogDebugEnabled;
 	}
@@ -94,7 +102,7 @@ public class LogFactory
 	/**
 	 * @return the isLogInfoEnabled
 	 */
-	public static boolean isLogInfoEnabled()
+	public static final boolean isLogInfoEnabled()
 	{
 		return isLogInfoEnabled;
 	}
@@ -102,7 +110,7 @@ public class LogFactory
 	/**
 	 * @return the isLogWarnEnabled
 	 */
-	public static boolean isLogWarnEnabled()
+	public static final boolean isLogWarnEnabled()
 	{
 		return isLogWarnEnabled;
 	}
@@ -110,12 +118,12 @@ public class LogFactory
 	/**
 	 * @return the isLogErrorEnabled
 	 */
-	public static boolean isLogErrorEnabled()
+	public static final boolean isLogErrorEnabled()
 	{
 		return isLogErrorEnabled;
 	}
 
-	public static void logDebug(Object log)
+	public static final void logDebug(final Object log)
 	{
 		if (isLogDebugEnabled())
 		{
@@ -123,7 +131,7 @@ public class LogFactory
 		}
 	}
 
-	public static void logInfo(Object log)
+	public static final void logInfo(final Object log)
 	{
 		if (isLogInfoEnabled())
 		{
@@ -131,7 +139,7 @@ public class LogFactory
 		}
 	}
 
-	public static void logWarn(Object log)
+	public static final void logWarn(final Object log)
 	{
 		if (isLogWarnEnabled())
 		{
@@ -139,7 +147,7 @@ public class LogFactory
 		}
 	}
 
-	public static void logError(Object log)
+	public static final void logError(final Object log)
 	{
 		if (isLogErrorEnabled())
 		{
