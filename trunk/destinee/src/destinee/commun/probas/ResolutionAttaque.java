@@ -14,14 +14,21 @@ import destinee.core.utils.ConversionUtil;
  * @author Bubulle et No-one
  * 
  */
-public class ResolutionAttaque
+public final class ResolutionAttaque
 {
-
 	public static final int RESOLUTION_COUP_CRITIQUE = 0;
 	public static final int RESOLUTION_COUP_SIMPLE = 1;
 	public static final int RESOLUTION_ESQUIVE_SIMPLE = 2;
 	public static final int RESOLUTION_ESQUIVE_PARFAITE = 3;
 	public static final int RESOLUTION_ECHEC_COMPETENCE = 4;
+
+	/**
+	 * Crée une nouvelle instance de ResolutionAttaque
+	 */
+	private ResolutionAttaque()
+	{
+		super();
+	}
 
 	/**
 	 * Méthode servant à calculer les probabilités respectives des 4 resolutions possible pour certaines caractéristiques d'attaque
@@ -34,7 +41,8 @@ public class ResolutionAttaque
 	 * @param typeResol type de résolution
 	 * @return la probabilité d'obtenir la résolution choisie
 	 */
-	public static BigDecimal resoudreAttaque(int nbDesAtt, int bonusAtt, int nbDesDef, int bonusDef, double maitriseCompetence, int typeResol)
+	public static final BigDecimal resoudreAttaque(final int nbDesAtt, final int bonusAtt, final int nbDesDef, final int bonusDef,
+			final double maitriseCompetence, final int typeResol)
 	{
 		BigDecimal result = BigDecimal.ZERO;
 		BigDecimal temp = null;
@@ -103,7 +111,7 @@ public class ResolutionAttaque
 	 * @param typeResol type de résolution
 	 * @return la probabilité d'obtenir la résolution choisie
 	 */
-	public static BigDecimal resoudreAttaque(Attaque attaque, Cible cible, int typeResol)
+	public static final BigDecimal resoudreAttaque(final Attaque attaque, final Cible cible, final int typeResol)
 	{
 		if (attaque instanceof AttaqueImparable)
 		{
@@ -129,7 +137,7 @@ public class ResolutionAttaque
 	 * @param typeResol type de resolution
 	 * @return l'espérance mathématique de dégats avec le type de resolution choisi
 	 */
-	public static double esperanceDeDegats(Attaque aAttaque, Cible aCible, int typeResol)
+	public static final double esperanceDeDegats(final Attaque aAttaque, final Cible aCible, final int typeResol)
 	{
 
 		BigDecimal result = BigDecimal.ZERO;
@@ -185,7 +193,7 @@ public class ResolutionAttaque
 	 * @param aCible une cible
 	 * @return l'espérance de dégats
 	 */
-	public static double esperanceDeDegats(Attaque aAttaque, Cible aCible)
+	public static final double esperanceDeDegats(final Attaque aAttaque, final Cible aCible)
 	{
 		double probaAttaqueCritique = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE));
 		double probaAttaqueNormale = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_SIMPLE));
@@ -201,7 +209,7 @@ public class ResolutionAttaque
 	 * @param aCible une cible
 	 * @return l'espérance de malus de défense
 	 */
-	public static double esperanceMalusDefense(Attaque aAttaque, Cible aCible)
+	public static final double esperanceMalusDefense(final Attaque aAttaque, final Cible aCible)
 	{
 		double probaAttaqueCritique = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_CRITIQUE), 10);
 		double probaAttaqueNormale = ConversionUtil.bigdecimalVersDouble(resoudreAttaque(aAttaque, aCible, RESOLUTION_COUP_SIMPLE), 10);

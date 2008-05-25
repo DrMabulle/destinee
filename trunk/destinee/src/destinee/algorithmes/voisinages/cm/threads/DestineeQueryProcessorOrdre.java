@@ -67,11 +67,11 @@ public class DestineeQueryProcessorOrdre extends Thread
 		}
 		finally
 		{
+			GestionnaireOrdresAttaquants.getInstance().declarerFinTraitement();
 			// Dire aux Threads de traitement de scénario qu'ils peuvent s'arrêter une fois les traitements effectués (pas de nouveaux scénarios)
 			TraitementOrdreAttaques.arreterTraitements();
 		}
 
-		GestionnaireOrdresAttaquants.getInstance().declarerFinTraitement();
 		joinTreadsTraitement();
 
 	}

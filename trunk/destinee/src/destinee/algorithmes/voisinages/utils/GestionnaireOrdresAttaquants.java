@@ -3,6 +3,7 @@
  */
 package destinee.algorithmes.voisinages.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +18,11 @@ import destinee.core.exception.TechnicalException;
  */
 public class GestionnaireOrdresAttaquants
 {
-	private static GestionnaireOrdresAttaquants instance = new GestionnaireOrdresAttaquants();
-	private static int TAILLE_MAX = 100;
+	private static final GestionnaireOrdresAttaquants INSTANCE = new GestionnaireOrdresAttaquants();
+	private static final int TAILLE_MAX = 40;
 
-	private List<ChaineAttaquesV> chaines = new ArrayList<ChaineAttaquesV>(TAILLE_MAX);
-	private List<List<Perso>> ordresATraiter = new ArrayList<List<Perso>>(400);
+	private final List<ChaineAttaquesV> chaines = new ArrayList<ChaineAttaquesV>(TAILLE_MAX);
+	private final List<List<Perso>> ordresATraiter = new ArrayList<List<Perso>>(400);
 	private boolean traitementEnCours = true;
 
 	/**
@@ -37,10 +38,10 @@ public class GestionnaireOrdresAttaquants
 	 */
 	public static GestionnaireOrdresAttaquants getInstance()
 	{
-		return instance;
+		return INSTANCE;
 	}
 
-	public synchronized void ajouterChaineTraitee(ChaineAttaquesV aChaine) throws TechnicalException
+	public synchronized void ajouterChaineTraitee(final ChaineAttaquesV aChaine) throws TechnicalException
 	{
 		if (chaines.size() < TAILLE_MAX)
 		{
@@ -60,7 +61,7 @@ public class GestionnaireOrdresAttaquants
 				Collections.sort(chaines, new ChaineAttVComparatorConj());
 			}
 		}
-		notifyAll();
+		// notifyAll();
 	}
 
 	/**
@@ -68,9 +69,9 @@ public class GestionnaireOrdresAttaquants
 	 * 
 	 * @param aScenario un scénario à traiter
 	 */
-	public synchronized void ajouterOrdreATraiter(List<Perso> aOrdre)
+	public synchronized void ajouterOrdreATraiter(final List<Perso> aOrdre)
 	{
-		notifyAll();
+		// notifyAll();
 		try
 		{
 			// On limite la taille du buffer à 400 scénarios à traiter
@@ -95,7 +96,7 @@ public class GestionnaireOrdresAttaquants
 	 */
 	public synchronized List<Perso> getNextOrdreATraiter()
 	{
-		notifyAll();
+		// notifyAll();
 		List<Perso> ordre = null;
 		try
 		{
@@ -117,15 +118,6 @@ public class GestionnaireOrdresAttaquants
 		notifyAll();
 
 		return ordre;
-	}
-
-	/**
-	 * @return true s'il reste des ordres d'attaques à traiter
-	 */
-	public synchronized boolean hasNextOrdreATraiter()
-	{
-		notifyAll();
-		return !ordresATraiter.isEmpty();
 	}
 
 	/**
@@ -175,7 +167,7 @@ public class GestionnaireOrdresAttaquants
 	 * 
 	 * @param aChaine une chaine à retirer
 	 */
-	public void retirerChaineAttaques(ChaineAttaquesV aChaine)
+	public void retirerChaineAttaques(final ChaineAttaquesV aChaine)
 	{
 		chaines.remove(aChaine);
 	}
@@ -183,7 +175,7 @@ public class GestionnaireOrdresAttaquants
 	/**
 	 * @param aListChainesAttaques
 	 */
-	public void retirerChainesAttaques(List<ChaineAttaquesV> aListChainesAttaques)
+	public void retirerChainesAttaques(final List<ChaineAttaquesV> aListChainesAttaques)
 	{
 		chaines.removeAll(aListChainesAttaques);
 	}
@@ -202,5 +194,18 @@ public class GestionnaireOrdresAttaquants
 	public void declarerDebutTraitement()
 	{
 		traitementEnCours = true;
+	}
+
+	/**
+	 * Finalise l'évaluation des chaines d'attaques en poussant l'évaluation jusqu'à 99,5% pour les chaines d'attaque retenues.
+	 * 
+	 * @throws TechnicalException TechnicalException
+	 */
+	public void finaliserEvaluation() throws TechnicalException
+	{
+		for (ChaineAttaquesV chaine : chaines)
+		{
+			chaine.evaluer(new BigDecimal("0.999"), BigDecimal.ZERO, 2000);
+		}
 	}
 }

@@ -21,7 +21,7 @@ import destinee.logic.gateways.DestineeToLogicGatewayImpl;
  * @author Bubulle
  * 
  */
-public class PersoLoader
+public final class PersoLoader
 {
 	private static final String CHEMIN = "./properties/destinee/properties/persos.properties";
 	private static final String NB_PERSOS = "nombre.de.persos";
@@ -41,6 +41,14 @@ public class PersoLoader
 	private static final String SACRIFICE_DEG = ".kamikaze.sacrifice.degat";
 	private static final String SACRIFICE_MAX = ".kamikaze.sacrifice.max";
 	private static Properties props = null;
+
+	/**
+	 * Crée une nouvelle instance de PersoLoader
+	 */
+	private PersoLoader()
+	{
+		super();
+	}
 
 	/**
 	 * Méthode permettant de charger les persos définis dans le fichiers persos.properties
@@ -111,7 +119,7 @@ public class PersoLoader
 	 * @return l'identifiant du perso
 	 * @throws TechnicalException e
 	 */
-	private static String recupererIdentifiant(String aBase) throws TechnicalException
+	private static String recupererIdentifiant(final String aBase) throws TechnicalException
 	{
 		String id = props.getProperty(aBase + IDENTIFIANT);
 		if (id == null || "".equals(id.trim()))
@@ -126,7 +134,7 @@ public class PersoLoader
 	 * @return un tableau d'entiers contenant les caracs du perso
 	 * @throws TechnicalException
 	 */
-	private static int[] recupererCaracs(String aBase) throws TechnicalException
+	private static int[] recupererCaracs(final String aBase) throws TechnicalException
 	{
 		int[] caracsPhysiques;
 		String caracs = props.getProperty(aBase + CARACS);
@@ -165,7 +173,7 @@ public class PersoLoader
 	 * @return le nombre de PA dans le cycle indiqué
 	 * @throws TechnicalException e
 	 */
-	private static int recupererNombreDePA(String aBase, int numeroDuCycle) throws TechnicalException
+	private static int recupererNombreDePA(final String aBase, final int numeroDuCycle) throws TechnicalException
 	{
 		int pa;
 		try
@@ -193,7 +201,7 @@ public class PersoLoader
 	 * @return la maitrise de l'attaque en question
 	 * @throws TechnicalException e
 	 */
-	private static double recupererMaitriseAttaque(String aBase, String aAttaque, String aNomAttaque) throws TechnicalException
+	private static double recupererMaitriseAttaque(final String aBase, final String aAttaque, final String aNomAttaque) throws TechnicalException
 	{
 		double result = 0.0;
 		String maitrise = props.getProperty(aBase + aAttaque);
@@ -220,7 +228,7 @@ public class PersoLoader
 	 * @param aBase
 	 * @throws TechnicalException
 	 */
-	private static void recupererSacrificesPourKamikaze(Perso aPerso, String aBase) throws TechnicalException
+	private static void recupererSacrificesPourKamikaze(final Perso aPerso, final String aBase) throws TechnicalException
 	{
 		String sacroAttaque = props.getProperty(aBase + SACRIFICE_ATT);
 		String sacroDegat = props.getProperty(aBase + SACRIFICE_DEG);
@@ -276,7 +284,7 @@ public class PersoLoader
 	 * @param aIdentifiant un identifiant
 	 * @param aMaitrises des données relatives à la maitrise des compétences d'attaque
 	 */
-	private static void declarerAttaquesProlog(DestineeToLogicGateway aPrologGateway, String aIdentifiant, Map<String, Double> aMaitrises)
+	private static void declarerAttaquesProlog(final DestineeToLogicGateway aPrologGateway, final String aIdentifiant, final Map<String, Double> aMaitrises)
 	{
 		// Un perso a toujours l'attaque normale
 		aPrologGateway.ajouterAttaquePerso(aIdentifiant, ConstantesAttaques.ID_ATTAQUE_NORMALE);
@@ -327,7 +335,7 @@ public class PersoLoader
 	 * @param aFileName un fichier
 	 * @throws TechnicalException e
 	 */
-	private static void init(String aFileName) throws TechnicalException
+	private static void init(final String aFileName) throws TechnicalException
 	{
 		props = new Properties();
 		try

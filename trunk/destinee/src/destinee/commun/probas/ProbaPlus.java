@@ -9,8 +9,15 @@ import destinee.core.utils.CacheProba;
  * 
  * Class utilitaire pour les calculs de probasPlus
  */
-public class ProbaPlus
+public final class ProbaPlus
 {
+	/**
+	 * Crée une nouvelle instance de ProbaPlus
+	 */
+	private ProbaPlus()
+	{
+		super();
+	}
 
 	/**
 	 * Méthode permettant de déterminer la probabilité de tomber sur une nombre supérieur à A en jetant B dés à 10 faces
@@ -19,7 +26,7 @@ public class ProbaPlus
 	 * @param nbDes nombre de dés (B)
 	 * @return la probabilité de faire plus que A en jetant B dés
 	 */
-	public static BigDecimal calculerProba(int seuilMin, int nbDes)
+	public static final BigDecimal calculerProba(final int seuilMin, final int nbDes)
 	{
 		BigDecimal result = null;
 		if (seuilMin < nbDes)
@@ -84,7 +91,7 @@ public class ProbaPlus
 	 * @param nbDes : nombre de dés
 	 * @return probaPlus(seuilMin , nbDes)
 	 */
-	private static String genererCle(int seuilMin, int nbDes)
+	private static final String genererCle(final int seuilMin, final int nbDes)
 	{
 		StringBuffer cle = new StringBuffer("probaPlus(");
 		cle.append(seuilMin).append(",").append(nbDes).append(")");

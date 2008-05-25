@@ -44,7 +44,7 @@ public class TraitementOrdreAttaques extends Thread
 	private static int compteur = 0;
 	private Cible cible;
 
-	public TraitementOrdreAttaques(Cible aCible)
+	public TraitementOrdreAttaques(final Cible aCible)
 	{
 		super();
 		id = compteur++;
@@ -59,9 +59,10 @@ public class TraitementOrdreAttaques extends Thread
 		{
 			LogFactory.logInfo("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
 			List<Perso> ordre;
+			boolean continuer = true;
 
 			// On continue les traitements tant qu'on ne nous dit pas de s'arrêter et tant qu'il reste des traitements à faire
-			while (!traitementsTermines || GestionnaireOrdresAttaquants.getInstance().hasNextOrdreATraiter())
+			while (!traitementsTermines || continuer)
 			{
 				// Récupérer le Scenario suivant pour le traiter
 				ordre = GestionnaireOrdresAttaquants.getInstance().getNextOrdreATraiter();
@@ -69,6 +70,11 @@ public class TraitementOrdreAttaques extends Thread
 				{
 					traiterOrdreAttaques(ordre);
 					ordre = null;
+				}
+				else
+				{
+					// Si on reçoit null, c'est qu'il n'y a pas d'autres éléments à traiter
+					continuer = false;
 				}
 			}
 
@@ -85,7 +91,7 @@ public class TraitementOrdreAttaques extends Thread
 	 * @param aOrdre
 	 * @throws TechnicalException
 	 */
-	protected void traiterOrdreAttaques(List<Perso> aOrdre) throws TechnicalException
+	protected void traiterOrdreAttaques(final List<Perso> aOrdre) throws TechnicalException
 	{
 		// Variables temporaires
 		ChaineAttaquesV chaine;
@@ -154,7 +160,7 @@ public class TraitementOrdreAttaques extends Thread
 	 * @param aOrdre un ordre d'attaques
 	 * @return la Chaine d'attaques initiale pour cet ordre d'attaque
 	 */
-	protected ChaineAttaquesV genererChaineInitiale(List<Perso> aOrdre)
+	protected ChaineAttaquesV genererChaineInitiale(final List<Perso> aOrdre)
 	{
 		ChaineAttaquesV chaineInit = null;
 		List<Attaque> listeAttaques = new ArrayList<Attaque>(aOrdre.size());
@@ -173,7 +179,7 @@ public class TraitementOrdreAttaques extends Thread
 	 * @param aChaine une chaine d'attaques
 	 * @return le voisinage de la chaine d'attaques
 	 */
-	protected List<ChaineAttaquesV> genererVoisinage(ChaineAttaquesV aChaine)
+	protected List<ChaineAttaquesV> genererVoisinage(final ChaineAttaquesV aChaine)
 	{
 		List<ChaineAttaquesV> voisinage = new ArrayList<ChaineAttaquesV>(aChaine.size() * 5);
 
@@ -249,6 +255,12 @@ public class TraitementOrdreAttaques extends Thread
 					temp.set(i, new AttaqueMagique(perso));
 					voisinage.add(new ChaineAttaquesV(cible, temp));
 				}
+				if (perso.getMaitriseAttaque(ConstantesAttaques.ID_ATTAQUE_MAGIQUE) > 0)
+				{
+					temp = new ArrayList<Attaque>(listeAttaques);
+					temp.set(i, new AttaqueMagique(perso));
+					voisinage.add(new ChaineAttaquesV(cible, temp));
+				}
 			}
 		}
 
@@ -261,7 +273,7 @@ public class TraitementOrdreAttaques extends Thread
 	 * @param aIndice l'indice de la dernière attaque
 	 * @return true si le perso a suffisament de PA pour faire une attaque Kamikaze
 	 */
-	private boolean controlerPA(Perso aPerso, List<Attaque> aListeAttaques, int aIndice)
+	private boolean controlerPA(final Perso aPerso, final List<Attaque> aListeAttaques, final int aIndice)
 	{
 		int paDepenses = 0;
 		Attaque attaque;
@@ -288,7 +300,7 @@ public class TraitementOrdreAttaques extends Thread
 	 * @param aVoisinage un voisinage à évaluer
 	 * @throws TechnicalException e
 	 */
-	private void evaluerVoisinage(List<ChaineAttaquesV> aVoisinage) throws TechnicalException
+	private void evaluerVoisinage(final List<ChaineAttaquesV> aVoisinage) throws TechnicalException
 	{
 		String tmp = PropertiesFactory.getOptionalString(CLE_PROBA_CUMULEE_CIBLE);
 		BigDecimal probaCumuleeCible = ConversionUtil.stringVersBigDecimal(tmp, new BigDecimal("0.97"));
@@ -298,7 +310,7 @@ public class TraitementOrdreAttaques extends Thread
 		int facteurIncrement = nbPersos * 5;
 		int nbIterations = nbPersos;
 		int tailleEval = aVoisinage.size();
-		BigDecimal probaCible = new BigDecimal("0.6");
+		BigDecimal probaCible = new BigDecimal("0.65");
 		BigDecimal increment = new BigDecimal(0.6 / nbIterations).setScale(2, BigDecimal.ROUND_HALF_UP);
 		probaCible = probaCumuleeCible.subtract(increment.multiply(new BigDecimal(nbIterations)));
 		BigDecimal probaMin = BigDecimal.ZERO;

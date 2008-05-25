@@ -27,7 +27,7 @@ public class Perso
 	private int bonusDegats;
 	private int nombreDeDesPM;
 	private int bonusPM;
-	private String identifiant;
+	private final String identifiant;
 	private int fatigue;
 	private int fatigueIntiale;
 	private int sacrificePourAttaque, sacrificePourDegat, sacrificeMax;
@@ -35,17 +35,17 @@ public class Perso
 	private Map<String, Double> maitrisesAtt;
 
 	/**
-	 * @param aNombreDeDesAttaque
-	 * @param aBonusAttaque
-	 * @param aNombreDeDesDegats
-	 * @param aBonusDegats
-	 * @param aNombreDeDesPM
-	 * @param aBonusPM
+	 * @param aNombreDeDesAttaque nombre de dés d'attaque
+	 * @param aBonusAttaque bonus d'attaque
+	 * @param aNombreDeDesDegats nombre de dés de dégâts
+	 * @param aBonusDegats bonus de dégâts
+	 * @param aNombreDeDesPM nombre de dés de puissance magique
+	 * @param aBonusPM bonus de puissance magique
 	 * @param aFatigueInitiale fatigue initiale du perso
 	 * @param aIdentifiant identifiant du personnage
 	 */
-	public Perso(int aNombreDeDesAttaque, int aBonusAttaque, int aNombreDeDesDegats, int aBonusDegats, int aNombreDeDesPM, int aBonusPM, int aFatigueInitiale,
-			String aIdentifiant, Map<String, Double> aMaitrisesAtt)
+	public Perso(final int aNombreDeDesAttaque, final int aBonusAttaque, final int aNombreDeDesDegats, final int aBonusDegats, final int aNombreDeDesPM,
+			final int aBonusPM, final int aFatigueInitiale, final String aIdentifiant, final Map<String, Double> aMaitrisesAtt)
 	{
 		super();
 		nombreDeDesAttaque = aNombreDeDesAttaque;
@@ -59,24 +59,13 @@ public class Perso
 		fatigueIntiale = aFatigueInitiale;
 		maitrisesAtt = aMaitrisesAtt;
 		maitrisesAtt.put(ConstantesAttaques.ID_ATTAQUE_NORMALE, 1.00);
-		
+
 		sacrificePourAttaque = 0;
 		sacrificePourDegat = 0;
 		sacrificeMax = 0;
 		paCycle1 = 10;
 		paCycle2 = 0;
 	}
-
-	// /**
-	// * Constructeur par copie
-	// *
-	// * @param aPerso un perso à copier
-	// */
-	// public Perso(Perso aPerso)
-	// {
-	// new Perso(aPerso.nombreDeDesAttaque, aPerso.bonusAttaque, aPerso.nombreDeDesDegats, aPerso.bonusDegats, aPerso.nombreDeDesPM, aPerso.bonusPM,
-	// aPerso.fatigueIntiale, aPerso.identifiant);
-	// }
 
 	/**
 	 * @return the nombreDeDesAttaque
@@ -89,7 +78,7 @@ public class Perso
 	/**
 	 * @param aNombreDeDesAttaque the nombreDeDesAttaque to set
 	 */
-	public void setNombreDeDesAttaque(int aNombreDeDesAttaque)
+	public void setNombreDeDesAttaque(final int aNombreDeDesAttaque)
 	{
 		nombreDeDesAttaque = aNombreDeDesAttaque;
 	}
@@ -97,7 +86,7 @@ public class Perso
 	/**
 	 * @param aBonusAttaque the bonusAttaque to set
 	 */
-	public void setBonusAttaque(int aBonusAttaque)
+	public void setBonusAttaque(final int aBonusAttaque)
 	{
 		bonusAttaque = aBonusAttaque;
 	}
@@ -113,7 +102,7 @@ public class Perso
 	/**
 	 * @param aNombreDeDesDegats the nombreDeDesDegats to set
 	 */
-	public void setNombreDeDesDegats(int aNombreDeDesDegats)
+	public void setNombreDeDesDegats(final int aNombreDeDesDegats)
 	{
 		nombreDeDesDegats = aNombreDeDesDegats;
 	}
@@ -129,7 +118,7 @@ public class Perso
 	/**
 	 * @param aBonusDegats the bonusDegats to set
 	 */
-	public void setBonusDegats(int aBonusDegats)
+	public void setBonusDegats(final int aBonusDegats)
 	{
 		bonusDegats = aBonusDegats;
 	}
@@ -145,7 +134,7 @@ public class Perso
 	/**
 	 * @param aNombreDeDesPM the nombreDeDesPM to set
 	 */
-	public void setNombreDeDesPM(int aNombreDeDesPM)
+	public void setNombreDeDesPM(final int aNombreDeDesPM)
 	{
 		nombreDeDesPM = aNombreDeDesPM;
 	}
@@ -161,7 +150,7 @@ public class Perso
 	/**
 	 * @param aBonusPM the bonusPM to set
 	 */
-	public void setBonusPM(int aBonusPM)
+	public void setBonusPM(final int aBonusPM)
 	{
 		bonusPM = aBonusPM;
 	}
@@ -169,17 +158,9 @@ public class Perso
 	/**
 	 * @return the identifiant
 	 */
-	public String getIdentifiant()
+	public final String getIdentifiant()
 	{
 		return identifiant;
-	}
-
-	/**
-	 * @param aIdentifiant the identifiant to set
-	 */
-	public void setIdentifiant(String aIdentifiant)
-	{
-		identifiant = aIdentifiant;
 	}
 
 	/**
@@ -193,7 +174,7 @@ public class Perso
 	/**
 	 * @param aFatigue the fatigue to set
 	 */
-	public void setFatigue(int aFatigue)
+	public void setFatigue(final int aFatigue)
 	{
 		fatigue = aFatigue;
 	}
@@ -213,7 +194,7 @@ public class Perso
 	{
 		return bonusAttaque - fatigue;
 	}
-	
+
 	/**
 	 * @return the sacrificePourAttaque
 	 */
@@ -225,7 +206,7 @@ public class Perso
 	/**
 	 * @param aSacrificePourAttaque the sacrificePourAttaque to set
 	 */
-	public void setSacrificePourAttaque(int aSacrificePourAttaque)
+	public void setSacrificePourAttaque(final int aSacrificePourAttaque)
 	{
 		sacrificePourAttaque = aSacrificePourAttaque;
 	}
@@ -241,7 +222,7 @@ public class Perso
 	/**
 	 * @param aSacrificePourDegat the sacrificePourDegat to set
 	 */
-	public void setSacrificePourDegat(int aSacrificePourDegat)
+	public void setSacrificePourDegat(final int aSacrificePourDegat)
 	{
 		sacrificePourDegat = aSacrificePourDegat;
 	}
@@ -257,7 +238,7 @@ public class Perso
 	/**
 	 * @param aSacrificeMax the sacrificeMax to set
 	 */
-	public void setSacrificeMax(int aSacrificeMax)
+	public void setSacrificeMax(final int aSacrificeMax)
 	{
 		sacrificeMax = aSacrificeMax;
 	}
@@ -273,7 +254,7 @@ public class Perso
 	/**
 	 * @param aPaCycle1 un nombre de PA pour le cycle 1
 	 */
-	public void setPaCycle1(int aPaCycle1)
+	public void setPaCycle1(final int aPaCycle1)
 	{
 		paCycle1 = aPaCycle1;
 	}
@@ -289,11 +270,10 @@ public class Perso
 	/**
 	 * @param aPaCycle2 un nombre de PA pour le cycle 2
 	 */
-	public void setPaCycle2(int aPaCycle2)
+	public void setPaCycle2(final int aPaCycle2)
 	{
 		paCycle2 = aPaCycle2;
 	}
-
 
 	/**
 	 * Retourne le pourcentage de maitrise de la compétence d'attaque du perso
@@ -301,7 +281,7 @@ public class Perso
 	 * @param aNomAttaque un identifiant d'attaque
 	 * @return le pourcentage de maitrise de la compétence d'attaque du perso
 	 */
-	public double getMaitriseAttaque(String aNomAttaque)
+	public double getMaitriseAttaque(final String aNomAttaque)
 	{
 		Double result = maitrisesAtt.get(aNomAttaque);
 		if (result == null)
@@ -316,7 +296,7 @@ public class Perso
 	 * 
 	 * @param aAttaque une attaque
 	 */
-	public void incrementerFatigue(Attaque aAttaque)
+	public void incrementerFatigue(final Attaque aAttaque)
 	{
 		fatigue += aAttaque.getAugmentationFatigue();
 	}
@@ -343,7 +323,8 @@ public class Perso
 	 */
 	public Perso clone()
 	{
-		Perso clone = new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale, identifiant, maitrisesAtt);
+		Perso clone = new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale, identifiant,
+			maitrisesAtt);
 		clone.setSacrificePourAttaque(getSacrificePourAttaque());
 		clone.setSacrificePourDegat(getSacrificePourDegat());
 		clone.setSacrificeMax(getSacrificeMax());
@@ -355,7 +336,7 @@ public class Perso
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object aObj)
+	public boolean equals(final Object aObj)
 	{
 		// Vérification de l'égalité des références
 		if (this == aObj)
