@@ -8,6 +8,7 @@ import java.util.List;
 import destinee.algorithmes.normal.cm.threads.DestineeQueryProcessor;
 import destinee.algorithmes.normal.data.ChaineAttaques;
 import destinee.algorithmes.normal.utils.GestionnaireChainesAttaques;
+import destinee.commun.cm.AlgoTraitement;
 import destinee.commun.data.Cible;
 import destinee.commun.utils.PersoLoader;
 import destinee.core.exception.DestineeException;
@@ -19,14 +20,28 @@ import destinee.logic.gateways.DestineeToLogicGatewayImpl;
  * @author Bubulle
  * 
  */
-public class CMAlgoNormal
+public class CMAlgoNormal implements AlgoTraitement
 {
 
 	/**
-	 * @param args
-	 * @throws DestineeException
+	 * Méthode Main
+	 * 
+	 * @param args arguments
+	 * @throws DestineeException DestineeException
 	 */
-	public static void main(String[] args) throws DestineeException
+	public static void main(final String[] args) throws DestineeException
+	{
+		AlgoTraitement theCMTraitement = new CMAlgoNormal();
+		theCMTraitement.executerTraitement();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see destinee.commun.cm.AlgoTraitement#executerTraitement()
+	 */
+	@Override
+	public void executerTraitement() throws DestineeException
 	{
 		// long startTime = System.currentTimeMillis();
 
