@@ -12,6 +12,7 @@ import destinee.algorithmes.degrade.data.ChaineAttaquesD;
 import destinee.algorithmes.degrade.utils.GestionnaireChainesAttaquesD;
 import destinee.commun.cm.AlgoTraitement;
 import destinee.commun.data.Cible;
+import destinee.commun.utils.CachePersos;
 import destinee.commun.utils.PersoLoader;
 import destinee.core.exception.DestineeException;
 import destinee.core.log.LogFactory;
@@ -48,7 +49,7 @@ public class CMAlgoDegrade implements AlgoTraitement
 		long startTime = System.currentTimeMillis();
 
 		PersoLoader.chargerPersos();
-		Cible cible = new Cible(10, 0, 0);
+		Cible cible = CachePersos.getCible();
 
 		DestineeToLogicGateway prolog = DestineeToLogicGatewayImpl.getDefaultInstance();
 		String queryString = "generationChainesAttaques(Result).";

@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import logic.gateways.DestineeToLogicGateway;
 import destinee.commun.constantes.ConstantesAttaques;
+import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 import destinee.core.exception.TechnicalException;
 import destinee.core.utils.ConversionUtil;
@@ -40,6 +41,15 @@ public final class PersoLoader
 	private static final String SACRIFICE_ATT = ".kamikaze.sacrifice.attaque";
 	private static final String SACRIFICE_DEG = ".kamikaze.sacrifice.degat";
 	private static final String SACRIFICE_MAX = ".kamikaze.sacrifice.max";
+
+	private static final String CIBLE = "cible.";
+	private static final String NB_DES_DEF = "dés.def";
+	private static final String NB_DES_DM = "dés.dm";
+	private static final String BONUS_DEF = "bonus.def";
+	private static final String BONUS_DM = "bonus.dm";
+	private static final String ARMURE = "armure";
+	private static final String FATIGUE = "fatigue";
+
 	private static Properties props = null;
 
 	/**
@@ -112,6 +122,10 @@ public final class PersoLoader
 					.getBonusDegats(), pa1, pa2);
 			declarerAttaquesProlog(prolog, identifiant, maitrises);
 		}
+
+		// Charger la cible
+		Cible cible = chargerCible();
+		CachePersos.setCible(cible);
 	}
 
 	/**
@@ -351,4 +365,33 @@ public final class PersoLoader
 			throw new TechnicalException("Lecture du fichier impossible", e);
 		}
 	}
+
+	/**
+	 * Crée et initialise la cible
+	 * 
+	 * @return une cible
+	 */
+	private static Cible chargerCible() throws TechnicalException
+	{
+		Cible cible;
+
+		try
+		{
+			int nbDesDef = Integer.valueOf(props.getProperty(CIBLE + NB_DES_DEF));
+			int nbDesDM = Integer.valueOf(props.getProperty(CIBLE + NB_DES_DM));
+			int bonusDef = Integer.valueOf(props.getProperty(CIBLE + BONUS_DEF));
+			int bonusDM = Integer.valueOf(props.getProperty(CIBLE + BONUS_DM));
+			int armure = Integer.valueOf(props.getProperty(CIBLE + ARMURE));
+			int fatigue = Integer.valueOf(props.getProperty(CIBLE + FATIGUE, "0"));
+
+			cible = new Cible(nbDesDef, bonusDef, nbDesDM, bonusDM, armure, fatigue);
+		}
+		catch (NumberFormatException e)
+		{
+			throw new TechnicalException("Propriétés de la cible mal renseignées.", e);
+		}
+
+		return cible;
+	}
+
 }

@@ -12,6 +12,8 @@ public class Cible implements Cloneable
 {
 	private int nombreDeDesDefense;
 	private int bonusDefense;
+	private int nombreDeDesDefenseMagique;
+	private int bonusDefenseMagique;
 	private int armure;
 	private double malusDesDefense;
 	private int fatigue;
@@ -21,13 +23,32 @@ public class Cible implements Cloneable
 	 * 
 	 * @param aNombreDeDesDefense nombre de dés de défense
 	 * @param aBonusDefense bonus fixe en défense
+	 * @param aNombreDeDesDM nombre de dés de DM
+	 * @param aBonusDM bonus fixe de DM
 	 * @param aArmure quantité d'armure
 	 */
-	public Cible(int aNombreDeDesDefense, int aBonusDefense, int aArmure)
+	public Cible(final int aNombreDeDesDefense, final int aBonusDefense, final int aNombreDeDesDM, final int aBonusDM, final int aArmure)
+	{
+		this(aNombreDeDesDefense, aBonusDefense, aNombreDeDesDM, aBonusDM, aArmure, 0);
+	}
+
+	/**
+	 * Constructeur par défaut
+	 * 
+	 * @param aNombreDeDesDefense nombre de dés de défense
+	 * @param aBonusDefense bonus fixe en défense
+	 * @param aNombreDeDesDM nombre de dés de DM
+	 * @param aBonusDM bonus fixe de DM
+	 * @param aArmure quantité d'armure
+	 * @param aFatigue la fatigue
+	 */
+	public Cible(final int aNombreDeDesDefense, final int aBonusDefense, final int aNombreDeDesDM, final int aBonusDM, final int aArmure, final int aFatigue)
 	{
 		super();
 		nombreDeDesDefense = aNombreDeDesDefense;
 		bonusDefense = aBonusDefense;
+		nombreDeDesDefenseMagique = aNombreDeDesDM;
+		bonusDefenseMagique = aBonusDM;
 		armure = aArmure;
 		malusDesDefense = 0.5;
 		fatigue = 0;
@@ -52,7 +73,7 @@ public class Cible implements Cloneable
 	/**
 	 * @param aNombreDeDesDefense the nombreDeDesDefense to set
 	 */
-	public void setNombreDeDesDefense(int aNombreDeDesDefense)
+	public void setNombreDeDesDefense(final int aNombreDeDesDefense)
 	{
 		nombreDeDesDefense = aNombreDeDesDefense;
 	}
@@ -74,6 +95,38 @@ public class Cible implements Cloneable
 	}
 
 	/**
+	 * @return the nombreDeDesDefenseMagique
+	 */
+	public int getNombreDeDesDefenseMagique()
+	{
+		return nombreDeDesDefenseMagique;
+	}
+
+	/**
+	 * @param aNombreDeDesDefenseMagique the nombreDeDesDefenseMagique to set
+	 */
+	public void setNombreDeDesDefenseMagique(final int aNombreDeDesDefenseMagique)
+	{
+		nombreDeDesDefenseMagique = aNombreDeDesDefenseMagique;
+	}
+
+	/**
+	 * @return the bonusDefenseMagique
+	 */
+	public int getBonusDefenseMagique()
+	{
+		return bonusDefenseMagique;
+	}
+
+	/**
+	 * @param aBonusDefenseMagique the bonusDefenseMagique to set
+	 */
+	public void setBonusDefenseMagique(final int aBonusDefenseMagique)
+	{
+		bonusDefenseMagique = aBonusDefenseMagique;
+	}
+
+	/**
 	 * @return the armure
 	 */
 	public int getArmure()
@@ -92,7 +145,7 @@ public class Cible implements Cloneable
 	/**
 	 * @param aFatigue the fatigue to set
 	 */
-	public void setFatigue(int aFatigue)
+	public void setFatigue(final int aFatigue)
 	{
 		fatigue = aFatigue;
 	}
@@ -108,7 +161,7 @@ public class Cible implements Cloneable
 	/**
 	 * @param aMalusDesDefense the malusDesDefense to set
 	 */
-	public void setMalusDesDefense(double aMalusDesDefense)
+	public void setMalusDesDefense(final double aMalusDesDefense)
 	{
 		malusDesDefense = aMalusDesDefense;
 	}
@@ -135,7 +188,7 @@ public class Cible implements Cloneable
 	 * @param aAttaque une attaque
 	 * @param typeResolution un type de résolution
 	 */
-	public void incrementerMalusDefense(Attaque aAttaque, int typeResolution)
+	public void incrementerMalusDefense(final Attaque aAttaque, final int typeResolution)
 	{
 		// Il n'y a pas de malus d'esquive sur une attaque imparable
 		// Pour toutes les autres, on a :
@@ -167,7 +220,7 @@ public class Cible implements Cloneable
 	 * 
 	 * @param aEsperanceMalusDefense une espérance de malus de défense
 	 */
-	public void incrementerMalusDefence(double aEsperanceMalusDefense)
+	public void incrementerMalusDefence(final double aEsperanceMalusDefense)
 	{
 		malusDesDefense += aEsperanceMalusDefense;
 	}
@@ -187,7 +240,7 @@ public class Cible implements Cloneable
 	 */
 	public Cible clone()
 	{
-		return new Cible(nombreDeDesDefense, bonusDefense, armure);
+		return new Cible(nombreDeDesDefense, bonusDefense, nombreDeDesDefenseMagique, bonusDefenseMagique, armure, fatigue);
 	}
 
 	/*
@@ -196,7 +249,7 @@ public class Cible implements Cloneable
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object aObj)
+	public boolean equals(final Object aObj)
 	{
 		// Vérification de l'égalité des références
 		if (this == aObj)

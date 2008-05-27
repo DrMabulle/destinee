@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
+import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 
 /**
@@ -17,6 +18,7 @@ public final class CachePersos
 {
 	private static final Map<String, Perso> persosInitiaux = new Hashtable<String, Perso>();
 	private static final Map<String, Perso> persos = new Hashtable<String, Perso>();
+	private static Cible cible;
 
 	/**
 	 * Méthode permettant de récupérer le Perso répondant à l'identifiant passé en paramètre
@@ -72,5 +74,25 @@ public final class CachePersos
 	public static final int getNombrePersos()
 	{
 		return persos.size();
+	}
+
+	/**
+	 * Permet de récupérer la cible
+	 * 
+	 * @return the cible
+	 */
+	public static Cible getCible()
+	{
+		return cible;
+	}
+
+	/**
+	 * Renseigne la cible
+	 * 
+	 * @param aCible the cible to set
+	 */
+	public static void setCible(final Cible aCible)
+	{
+		cible = aCible;
 	}
 }
