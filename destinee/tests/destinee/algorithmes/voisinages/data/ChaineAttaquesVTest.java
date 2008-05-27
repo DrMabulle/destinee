@@ -44,7 +44,7 @@ public class ChaineAttaquesVTest extends TestCase
 	{
 		super.setUp();
 
-		cible = new Cible(10, 5, 5);
+		cible = new Cible(10, 5, 5, 0, 5);
 		Map<String, Double> maitrises = new HashMap<String, Double>();
 		maitrises.put(ConstantesAttaques.ID_ATTAQUE_BRUTALE, 0.8);
 		maitrises.put(ConstantesAttaques.ID_ATTAQUE_BERSERK, 0.8);

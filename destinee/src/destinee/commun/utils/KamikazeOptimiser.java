@@ -75,7 +75,7 @@ public final class KamikazeOptimiser
 	public static void main(final String[] args) throws DestineeException
 	{
 		PersoLoader.chargerPersos();
-		Cible cible = new Cible(15, 0, 0);
+		Cible cible = new Cible(15, 0, 5, 0, 0);
 
 		Perso perso = CachePersos.getEnsemblePersos().iterator().next();
 		perso.setFatigue(15);

@@ -44,7 +44,7 @@ public class ResolutionAttaqueTest extends TestCase
 
 		perso = new Perso(15, 11, 10, 11, 5, 0, 0, "Attaquant", maitrises);
 		attaque = new AttaqueNormale(perso);
-		cible = new Cible(10, 11, 0);
+		cible = new Cible(10, 11, 5, 0, 0);
 	}
 
 	/**

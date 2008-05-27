@@ -10,6 +10,7 @@ import destinee.algorithmes.normal.data.ChaineAttaques;
 import destinee.algorithmes.normal.utils.GestionnaireChainesAttaques;
 import destinee.commun.cm.AlgoTraitement;
 import destinee.commun.data.Cible;
+import destinee.commun.utils.CachePersos;
 import destinee.commun.utils.PersoLoader;
 import destinee.core.exception.DestineeException;
 import destinee.core.log.LogFactory;
@@ -46,7 +47,7 @@ public class CMAlgoNormal implements AlgoTraitement
 		// long startTime = System.currentTimeMillis();
 
 		PersoLoader.chargerPersos();
-		Cible cible = new Cible(10, 0, 0);
+		Cible cible = CachePersos.getCible();
 
 		DestineeQueryProcessor.processQuery(DestineeToLogicGatewayImpl.getDefaultInstance(), cible);
 

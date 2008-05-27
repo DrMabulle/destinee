@@ -35,7 +35,7 @@ public class TraitementOrdreAttaquesTest extends TestCase
 	{
 		super.setUp();
 
-		Cible cible = new Cible(10, 0, 0);
+		Cible cible = new Cible(10, 0, 5, 0, 0);
 
 		TraitementOrdreAttaques.arreterTraitements();
 		thread = new TraitementOrdreAttaques(cible);
