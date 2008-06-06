@@ -14,6 +14,10 @@ import destinee.core.utils.FileAssistant;
  */
 public final class LogFactory
 {
+	/**
+	 * 
+	 */
+	private static final int DEFAULT_LOG_SIZE = 200;
 	private static final String LOG_LEVEL = "destinee.log.logLevel";
 	private static final String chemin = "./properties/destinee/properties/application.properties";
 
@@ -125,33 +129,85 @@ public final class LogFactory
 
 	public static final void logDebug(final Object log)
 	{
-		if (isLogDebugEnabled())
+		if (isLogDebugEnabled() && log != null)
 		{
 			System.out.println(log.toString());
+		}
+	}
+
+	public static final void logDebug(final Object[] msgArray)
+	{
+		if (isLogDebugEnabled())
+		{
+			StringBuffer sb = new StringBuffer(DEFAULT_LOG_SIZE);
+			for (Object theObject : msgArray)
+			{
+				sb.append(theObject);
+			}
+			System.out.println(sb.toString());
 		}
 	}
 
 	public static final void logInfo(final Object log)
 	{
-		if (isLogInfoEnabled())
+		if (isLogInfoEnabled() && log != null)
 		{
 			System.out.println(log.toString());
+		}
+	}
+
+	public static final void logInfo(final Object[] msgArray)
+	{
+		if (isLogInfoEnabled())
+		{
+			StringBuffer sb = new StringBuffer(DEFAULT_LOG_SIZE);
+			for (Object theObject : msgArray)
+			{
+				sb.append(theObject);
+			}
+			System.out.println(sb.toString());
 		}
 	}
 
 	public static final void logWarn(final Object log)
 	{
-		if (isLogWarnEnabled())
+		if (isLogWarnEnabled() && log != null)
 		{
 			System.out.println(log.toString());
 		}
 	}
 
+	public static final void logWarn(final Object[] msgArray)
+	{
+		if (isLogWarnEnabled())
+		{
+			StringBuffer sb = new StringBuffer(DEFAULT_LOG_SIZE);
+			for (Object theObject : msgArray)
+			{
+				sb.append(theObject);
+			}
+			System.out.println(sb.toString());
+		}
+	}
+
 	public static final void logError(final Object log)
+	{
+		if (isLogErrorEnabled() && log != null)
+		{
+			System.err.println(log.toString());
+		}
+	}
+
+	public static final void logError(final Object[] msgArray)
 	{
 		if (isLogErrorEnabled())
 		{
-			System.err.println(log.toString());
+			StringBuffer sb = new StringBuffer(DEFAULT_LOG_SIZE);
+			for (Object theObject : msgArray)
+			{
+				sb.append(theObject);
+			}
+			System.err.println(sb.toString());
 		}
 	}
 

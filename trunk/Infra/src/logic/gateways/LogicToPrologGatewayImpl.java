@@ -48,7 +48,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		itsRules = new ArrayList<String>();
 	}
 
-	public void addFact(String aFact)
+	public void addFact(final String aFact)
 	{
 		if (!itsFacts.contains(aFact))
 		{
@@ -57,13 +57,13 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		}
 	}
 
-	public void addRule(String aRule)
+	public void addRule(final String aRule)
 	{
 		itsRules.add(aRule);
 		hasChanged = true;
 	}
 
-	public Map<String, List<String>> queryOnce(String aQuery)
+	public Map<String, List<String>> queryOnce(final String aQuery)
 	{
 		if (hasChanged)
 		{
@@ -79,7 +79,9 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 					itsPrologAPI.setFailUnknownPredicate(true);
 				}
 				else
+				{
 					itsPrologAPI.consultSource(itsStoringFile.getPath());
+				}
 			}
 			catch (IOException e)
 			{
@@ -101,7 +103,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 	}
 
 	@SuppressWarnings("serial")
-	public List<Map<String, List<String>>> queryAll(String aQuery)
+	public List<Map<String, List<String>>> queryAll(final String aQuery)
 	{
 		if (hasChanged)
 		{
@@ -117,7 +119,9 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 					itsPrologAPI.setFailUnknownPredicate(true);
 				}
 				else
+				{
 					itsPrologAPI.consultSource(itsStoringFile.getPath());
+				}
 			}
 			catch (IOException e)
 			{
@@ -181,7 +185,8 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 			}
 			else
 			{
-				throw new IOException("Impossible d'ouvrir le fichier. \n Vérifiez qu'il n'existe pas déjà ou qu'il n'est pas déjà utilisé.");
+				throw new IOException(
+					"Impossible d'ouvrir le fichier. \n Vérifiez qu'il n'existe pas déjà ou qu'il n'est pas déjà utilisé.");
 			}
 		}
 	}
@@ -214,9 +219,13 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 		if (itsGateway != null)
 		{
 			if (itsStoringFile != null)
+			{
 				itsStoringFile.delete();
+			}
 			if (itsPrologAPI != null)
+			{
 				itsPrologAPI.stop();
+			}
 			itsPrologAPI = null;
 			itsGateway = null;
 		}
