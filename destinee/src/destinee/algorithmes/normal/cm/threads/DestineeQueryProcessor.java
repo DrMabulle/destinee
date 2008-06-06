@@ -48,7 +48,7 @@ public class DestineeQueryProcessor extends Thread
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 * @param aCible Cible des attaques
 	 */
-	public DestineeQueryProcessor(DestineeToLogicGateway aGateway, Cible aCible)
+	public DestineeQueryProcessor(final DestineeToLogicGateway aGateway, final Cible aCible)
 	{
 		prologGateway = aGateway;
 		cible = aCible;
@@ -56,7 +56,7 @@ public class DestineeQueryProcessor extends Thread
 		start();
 	}
 
-	public static void processQuery(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
+	public static void processQuery(final DestineeToLogicGateway aGateway, final Cible aCible) throws DestineeException
 	{
 
 		Thread processor = new DestineeQueryProcessor(aGateway, aCible);
@@ -172,7 +172,7 @@ public class DestineeQueryProcessor extends Thread
 	 * @return le ScenarioElement correspondant
 	 * @throws TechnicalException si le type de résolution est erroné
 	 */
-	private static ScenarioElement getScenarioElement(Attaque aAttaque, String aTypeResolution) throws TechnicalException
+	private static ScenarioElement getScenarioElement(final Attaque aAttaque, final String aTypeResolution) throws TechnicalException
 	{
 		int typeResol = getTypeResolution(aTypeResolution);
 		return new ScenarioElement(aAttaque, typeResol);
@@ -183,7 +183,7 @@ public class DestineeQueryProcessor extends Thread
 	 * @return l'entier correspondant au type de résolution
 	 * @throws TechnicalException si le type de résolution est erroné
 	 */
-	private static int getTypeResolution(String aTypeResolution) throws TechnicalException
+	private static int getTypeResolution(final String aTypeResolution) throws TechnicalException
 	{
 		if ("Coup critique".equals(aTypeResolution))
 		{
@@ -207,7 +207,7 @@ public class DestineeQueryProcessor extends Thread
 		}
 		else
 		{
-			throw new TechnicalException("Type de résolution incorrect : " + aTypeResolution);
+			throw new TechnicalException(new StringBuffer("Type de résolution incorrect : ").append(aTypeResolution).toString());
 		}
 	}
 
@@ -217,7 +217,7 @@ public class DestineeQueryProcessor extends Thread
 	 * @return l'instance d'attaque correspondante
 	 * @throws TechnicalException si le type d'attaque est incorrect
 	 */
-	private static Attaque getNouvelleAttaque(String aTypeAttaque, Perso aAttaquant) throws TechnicalException
+	private static Attaque getNouvelleAttaque(final String aTypeAttaque, final Perso aAttaquant) throws TechnicalException
 	{
 		Attaque attaque = null;
 		if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
@@ -250,7 +250,7 @@ public class DestineeQueryProcessor extends Thread
 		}
 		else
 		{
-			throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
+			throw new TechnicalException(new StringBuffer("Type d'attaque incorrect : ").append(aTypeAttaque).toString());
 		}
 
 		return attaque;

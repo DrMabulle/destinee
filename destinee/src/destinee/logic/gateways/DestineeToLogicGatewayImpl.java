@@ -36,7 +36,7 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-	public List<Map<String, List<String>>> query(String aQuery)
+	public List<Map<String, List<String>>> query(final String aQuery)
 	{
 		try
 		{
@@ -49,7 +49,7 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-	public Map<String, List<String>> queryOnce(String aQuery)
+	public Map<String, List<String>> queryOnce(final String aQuery)
 	{
 		try
 		{
@@ -87,15 +87,22 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-	public void ajouterPerso(String aNomPerso, int aNbDesAtt, int aBonusAtt, int aNbDesDeg, int aBonusDeg, int aNbPaCyc1, int aNbPaCyc2)
+	public void ajouterPerso(final String aNomPerso, final int aNbDesAtt, final int aBonusAtt, final int aNbDesDeg, final int aBonusDeg,
+			final int aNbPaCyc1, final int aNbPaCyc2)
 	{
-		itsGate.addFact("perso('" + aNomPerso + "', " + aNbDesAtt + ", " + aBonusAtt + ", " + aNbDesDeg + ", " + aBonusDeg + ", " + aNbPaCyc1 + ", "
-				+ aNbPaCyc2 + ").");
+		StringBuffer fact = new StringBuffer(400);
+		fact.append("perso('").append(aNomPerso).append("', ");
+		fact.append(aNbDesAtt).append(", ").append(aBonusAtt).append(", ");
+		fact.append(aNbDesDeg).append(", ").append(aBonusDeg).append(", ");
+		fact.append(aNbPaCyc1).append(", ").append(aNbPaCyc2).append(").");
+		itsGate.addFact(fact.toString());
 	}
 
-	public void ajouterAttaquePerso(String aNomPerso, String aNomAttaque)
+	public void ajouterAttaquePerso(final String aNomPerso, final String aNomAttaque)
 	{
-		itsGate.addFact("attaque('" + aNomPerso + "', '" + aNomAttaque + "').");
+		StringBuffer fact = new StringBuffer(200);
+		fact.append("attaque('").append(aNomPerso).append("', '").append(aNomAttaque).append("').");
+		itsGate.addFact(fact.toString());
 	}
 
 	public void flush()

@@ -64,15 +64,15 @@ public class CMAlgoDegrade implements AlgoTraitement
 		for (ChaineAttaquesD theChaineAttaques : chainesAtt)
 		{
 			LogFactory.logInfo("-----------------------------");
-			LogFactory.logInfo("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
-			LogFactory.logInfo("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
+			LogFactory.logInfo(new Object[] { "Chaine d'attaque : ", theChaineAttaques.getIdentifiant() });
+			LogFactory.logInfo(new Object[] { "Espérance de dégâts : ", theChaineAttaques.getEsperanceDegatCumulee() });
 		}
 
 		LogFactory.logInfo("-----------------------------");
 		long stopTime = System.currentTimeMillis();
-		LogFactory.logInfo("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
-		LogFactory.logInfo("Temps Prolog : " + ConversionUtil.longVersStringFormat(tempsIntermediaire - startTime) + " ms");
-		LogFactory.logInfo("Temps Process : " + ConversionUtil.longVersStringFormat(stopTime - tempsIntermediaire) + " ms");
+		LogFactory.logInfo(new Object[] { "Temps total d'exécution : ", ConversionUtil.longVersStringFormat(stopTime - startTime), " ms" });
+		LogFactory.logInfo(new Object[] { "Temps Prolog : ", ConversionUtil.longVersStringFormat(tempsIntermediaire - startTime), " ms" });
+		LogFactory.logInfo(new Object[] { "Temps Process : ", ConversionUtil.longVersStringFormat(stopTime - tempsIntermediaire), " ms" });
 	}
 
 }

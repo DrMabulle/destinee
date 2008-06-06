@@ -30,7 +30,8 @@ public class TraitementChainesAttaquesV extends Thread
 		new TraitementChainesAttaquesV(1, BigDecimal.ONE, BigDecimal.ZERO, true);
 	}
 
-	public TraitementChainesAttaquesV(int nbEtapes, BigDecimal aProbaCible, BigDecimal aProbaMin, boolean doitUtiliserHeuristique)
+	public TraitementChainesAttaquesV(final int nbEtapes, final BigDecimal aProbaCible, final BigDecimal aProbaMin,
+			final boolean doitUtiliserHeuristique)
 	{
 		super();
 		id = compteur++;
@@ -64,7 +65,7 @@ public class TraitementChainesAttaquesV extends Thread
 
 	private void traitementNormal() throws TechnicalException
 	{
-		LogFactory.logInfo("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo(new Object[] { "Thread ", id, " : début des activités de traitement des chaines d'attaque." });
 
 		// Variables temporaires
 		ChaineAttaquesV chaine;
@@ -88,12 +89,12 @@ public class TraitementChainesAttaquesV extends Thread
 			}
 		}
 
-		LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo(new Object[] { "Thread ", id, " : fin des activités de traitement des chaines d'attaque." });
 	}
 
 	private void traitementHeuristique() throws TechnicalException
 	{
-		LogFactory.logInfo("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo(new Object[] { "Thread ", id, " : début des activités de traitement des chaines d'attaque." });
 
 		// Variables temporaires
 		ChaineAttaquesV chaine;
@@ -117,7 +118,7 @@ public class TraitementChainesAttaquesV extends Thread
 			}
 		}
 
-		LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des chaines d'attaque.");
+		LogFactory.logInfo(new Object[] { "Thread ", id, " : fin des activités de traitement des chaines d'attaque." });
 	}
 
 	public static void arreterTraitements()

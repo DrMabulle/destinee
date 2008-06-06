@@ -40,7 +40,7 @@ public class GestionnaireChainesAttaquesD
 		return instance;
 	}
 
-	public synchronized void ajouterChaineAttaqueTraitee(ChaineAttaquesD aChaine)
+	public synchronized void ajouterChaineAttaqueTraitee(final ChaineAttaquesD aChaine)
 	{
 		chainesDegradees.put(aChaine.getIdentifiant(), aChaine);
 	}
@@ -50,11 +50,14 @@ public class GestionnaireChainesAttaquesD
 	 * 
 	 * @param aScenario un scénario à traiter
 	 */
-	public synchronized void ajouterChaineAttaqueATraiter(ChaineAttaquesD aChaine)
+	public synchronized void ajouterChaineAttaqueATraiter(final ChaineAttaquesD aChaine)
 	{
 		chainesAttDATraiter.add(aChaine);
 		if (LogFactory.isLogDebugEnabled())
-			LogFactory.logDebug("Ajout d'une Chaine d'Attaques à traiter. " + chainesAttDATraiter.size() + " ChaineAttaquesDegradees à traiter.");
+		{
+			LogFactory.logDebug(new Object[] { "Ajout d'une Chaine d'Attaques à traiter. ", chainesAttDATraiter.size(),
+				" ChaineAttaquesDegradees à traiter." });
+		}
 		notifyAll();
 	}
 
@@ -78,7 +81,10 @@ public class GestionnaireChainesAttaquesD
 			{
 				chaine = chainesAttDATraiter.remove(0);
 				if (LogFactory.isLogDebugEnabled())
-					LogFactory.logDebug("Retrait d'une Chaine d'Attaques à traiter. " + chainesAttDATraiter.size() + " ChaineAttaquesDegradees à traiter.");
+				{
+					LogFactory.logDebug(new Object[] { "Retrait d'une Chaine d'Attaques à traiter. ", chainesAttDATraiter.size(),
+						" ChaineAttaquesDegradees à traiter." });
+				}
 			}
 		}
 		catch (InterruptedException e)
@@ -116,7 +122,7 @@ public class GestionnaireChainesAttaquesD
 	class ChaineAttDegradeesComparator implements Comparator<ChaineAttaquesD>
 	{
 		@Override
-		public int compare(ChaineAttaquesD aO1, ChaineAttaquesD aO2)
+		public int compare(final ChaineAttaquesD aO1, final ChaineAttaquesD aO2)
 		{
 			Double espeDeg1 = new Double(aO1.getEsperanceDegatCumulee());
 			Double espeDeg2 = new Double(aO2.getEsperanceDegatCumulee());

@@ -37,20 +37,20 @@ public class DestineeQueryProcessorOrdre extends Thread
 	 * @param aGateway une DestineeToLogicGateway
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 */
-	public DestineeQueryProcessorOrdre(DestineeToLogicGateway aGateway)
+	public DestineeQueryProcessorOrdre(final DestineeToLogicGateway aGateway)
 	{
 		prologGateway = aGateway;
 
 		start();
 	}
 
-	public static void processQuery(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
+	public static void processQuery(final DestineeToLogicGateway aGateway, final Cible aCible) throws DestineeException
 	{
 		Thread processor = new DestineeQueryProcessorOrdre(aGateway);
 		traiterXVoisinages(processor, aCible);
 	}
 
-	private static void traiterXVoisinages(Thread aProcessor, Cible aCible) throws DestineeException
+	private static void traiterXVoisinages(final Thread aProcessor, final Cible aCible) throws DestineeException
 	{
 		GestionnaireOrdresAttaquants.getInstance().declarerDebutTraitement();
 
@@ -81,7 +81,7 @@ public class DestineeQueryProcessorOrdre extends Thread
 	 * 
 	 * @param aCible Cible des attaques
 	 */
-	private static void instancierThreadsTraitement(Cible aCible)
+	private static void instancierThreadsTraitement(final Cible aCible)
 	{
 		int nbCores = Runtime.getRuntime().availableProcessors();
 		int nbThreads = nbCores * 4;
@@ -152,7 +152,9 @@ public class DestineeQueryProcessorOrdre extends Thread
 			GestionnaireOrdresAttaquants.getInstance().ajouterOrdreATraiter(listeAttaques);
 
 			if (LogFactory.isLogDebugEnabled())
-				LogFactory.logDebug("Ajout de l'ordre : " + listeAttaques);
+			{
+				LogFactory.logDebug(new Object[] { "Ajout de l'ordre : ", listeAttaques });
+			}
 
 			// préparer la prochaine itération
 			result = prologGateway.next();

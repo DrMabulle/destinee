@@ -158,7 +158,8 @@ public class ChaineAttaquesV
 	 * @param aNbVoisinages un nombre de voisinage maximum
 	 * @throws TechnicalException e
 	 */
-	public void evaluer(final BigDecimal aProbaCumuleeCible, final BigDecimal aProbaMinUnitaire, final int aNbVoisinages) throws TechnicalException
+	public void evaluer(final BigDecimal aProbaCumuleeCible, final BigDecimal aProbaMinUnitaire, final int aNbVoisinages)
+			throws TechnicalException
 	{
 		// On indique que la chaine d'attaque a été évaluée au moins une fois
 		isEvaluee = true;
@@ -216,8 +217,10 @@ public class ChaineAttaquesV
 		}
 		if (LogFactory.isLogDebugEnabled())
 		{
-			LogFactory.logDebug("Chaine d'attaques " + getIdentifiant() + ": " + ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15) + ", "
-					+ (voisinages.size() + scenariosPrincipaux.size()) + " scénarios évalués. Temps = " + (System.currentTimeMillis() - startTime) + " ms.");
+			LogFactory.logDebug(new Object[] { "Chaine d'attaques ", getIdentifiant(), ": ",
+				ConversionUtil.bigDecimalVersString(getProbaRealisationCumulee(), 15), ", ",
+				(voisinages.size() + scenariosPrincipaux.size()), " scénarios évalués. Temps = ", (System.currentTimeMillis() - startTime),
+				" ms." });
 		}
 	}
 
@@ -229,7 +232,8 @@ public class ChaineAttaquesV
 	protected ScenarioV getScenarioInital()
 	{
 		int[] typesResol = new int[] { ResolutionAttaque.RESOLUTION_ECHEC_COMPETENCE, ResolutionAttaque.RESOLUTION_COUP_SIMPLE,
-				ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE, ResolutionAttaque.RESOLUTION_COUP_CRITIQUE, ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE };
+			ResolutionAttaque.RESOLUTION_ESQUIVE_SIMPLE, ResolutionAttaque.RESOLUTION_COUP_CRITIQUE,
+			ResolutionAttaque.RESOLUTION_ESQUIVE_PARFAITE };
 
 		ScenarioV scenar = new ScenarioV(this);
 		int chaineSize = chaine.size();
@@ -437,7 +441,8 @@ public class ChaineAttaquesV
 				indBourrinismeRestant = (nbScenariosTotal - (indBourrinismeActuel * nbScenariosActuel)) / nbScenariosRestants;
 			}
 
-			esperanceDegatConjecturee = (esperanceDeg) + (esperanceDeg / probaActuelle * probaRestante / indBourrinismeActuel * indBourrinismeRestant);
+			esperanceDegatConjecturee = (esperanceDeg)
+					+ (esperanceDeg / probaActuelle * probaRestante / indBourrinismeActuel * indBourrinismeRestant);
 		}
 	}
 
@@ -499,7 +504,8 @@ public class ChaineAttaquesV
 	 * @param aVoisinages une liste de scénarios du voisinage
 	 * @throws TechnicalException e
 	 */
-	private void calculerProbaRealisationCumulee(final List<ScenarioV> aScenariosPrincipaux, final List<ScenarioV> aVoisinages) throws TechnicalException
+	private void calculerProbaRealisationCumulee(final List<ScenarioV> aScenariosPrincipaux, final List<ScenarioV> aVoisinages)
+			throws TechnicalException
 	{
 		// Une fois la chaine d'attaque vidée, on ne touche plus au résultat si on en a un
 		if (!isEvalTerminee)
@@ -525,7 +531,8 @@ public class ChaineAttaquesV
 	 * @param aVoisinages une liste de scénarios du voisinage
 	 * @throws TechnicalException e
 	 */
-	private void calculerEsperanceDegatsCumulee(final List<ScenarioV> aScenariosPrincipaux, final List<ScenarioV> aVoisinages) throws TechnicalException
+	private void calculerEsperanceDegatsCumulee(final List<ScenarioV> aScenariosPrincipaux, final List<ScenarioV> aVoisinages)
+			throws TechnicalException
 	{
 		// Une fois la chaine d'attaque vidée, on ne touche plus au résultat si on en a un
 		if (!isEvalTerminee)
@@ -534,12 +541,14 @@ public class ChaineAttaquesV
 
 			for (ScenarioV scenarioV : aScenariosPrincipaux)
 			{
-				esperanceDegatCumulee += scenarioV.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
+				esperanceDegatCumulee += scenarioV.getEsperanceDegats()
+						* ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
 			}
 
 			for (ScenarioV scenarioV : aVoisinages)
 			{
-				esperanceDegatCumulee += scenarioV.getEsperanceDegats() * ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
+				esperanceDegatCumulee += scenarioV.getEsperanceDegats()
+						* ConversionUtil.bigdecimalVersDouble(scenarioV.getProbaRealisation(), 20);
 			}
 		}
 	}
@@ -630,7 +639,7 @@ public class ChaineAttaquesV
 	{
 		if (toString == null)
 		{
-			toString = getIdentifiant() + " || " + cible.toString();
+			toString = new StringBuffer(getIdentifiant()).append(" || ").append(cible.toString()).toString();
 		}
 		return toString;
 	}

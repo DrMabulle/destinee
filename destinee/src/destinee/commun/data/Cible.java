@@ -42,7 +42,8 @@ public class Cible implements Cloneable
 	 * @param aArmure quantité d'armure
 	 * @param aFatigue la fatigue
 	 */
-	public Cible(final int aNombreDeDesDefense, final int aBonusDefense, final int aNombreDeDesDM, final int aBonusDM, final int aArmure, final int aFatigue)
+	public Cible(final int aNombreDeDesDefense, final int aBonusDefense, final int aNombreDeDesDM, final int aBonusDM, final int aArmure,
+			final int aFatigue)
 	{
 		super();
 		nombreDeDesDefense = aNombreDeDesDefense;
@@ -260,7 +261,8 @@ public class Cible implements Cloneable
 		if (aObj != null && aObj instanceof Cible)
 		{
 			Cible cible = (Cible) aObj;
-			if (getArmure() == cible.getArmure() && getBonusDefense() == cible.getBonusDefense() && getNbDesDefense() == cible.getNbDesDefense())
+			if (getArmure() == cible.getArmure() && getBonusDefense() == cible.getBonusDefense()
+					&& getNbDesDefense() == cible.getNbDesDefense())
 			{
 				return true;
 			}
@@ -291,7 +293,7 @@ public class Cible implements Cloneable
 	@Override
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuffer sb = new StringBuffer(50);
 		sb.append("Cible : DEF=").append(getNbDesDefense()).append("D+").append(getBonusDefense()).append(", ARM=").append(getArmure());
 		return sb.toString();
 	}

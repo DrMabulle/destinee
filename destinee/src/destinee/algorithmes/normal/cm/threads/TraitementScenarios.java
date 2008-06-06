@@ -32,7 +32,7 @@ public class TraitementScenarios extends Thread
 	{
 		try
 		{
-			LogFactory.logInfo("Thread " + id + " : début des activités de traitement des scénarios.");
+			LogFactory.logInfo(new Object[] { "Thread ", id, " : début des activités de traitement des scénarios." });
 
 			// Variables temporaires
 			Scenario scenar;
@@ -45,8 +45,10 @@ public class TraitementScenarios extends Thread
 				if (scenar != null)
 				{
 					if (LogFactory.isLogDebugEnabled())
-						LogFactory.logDebug("Thread " + id + " : début traitement d'un scénario.");
-					// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation du scénario
+					{
+						LogFactory.logDebug(new Object[] { "Thread ", id, " : début traitement d'un scénario." });
+						// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation du scénario
+					}
 
 					scenar.getEsperanceDegats();
 
@@ -54,11 +56,11 @@ public class TraitementScenarios extends Thread
 					GestionnaireChainesAttaques.getInstance().ajouterScenarioTraite(scenar);
 				}
 			}
-			LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des scénarios.");
+			LogFactory.logInfo(new Object[] { "Thread ", id, " : fin des activités de traitement des scénarios." });
 		}
 		catch (TechnicalException e)
 		{
-			LogFactory.logError("Thread " + id + " : erreur lors du traitement des scénarios.");
+			LogFactory.logError(new Object[] { "Thread ", id, " : erreur lors du traitement des scénarios." });
 			e.printStackTrace();
 		}
 

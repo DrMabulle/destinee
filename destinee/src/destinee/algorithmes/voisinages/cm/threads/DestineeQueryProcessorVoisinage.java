@@ -54,7 +54,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 * @param aCible Cible des attaques
 	 */
-	public DestineeQueryProcessorVoisinage(DestineeToLogicGateway aGateway, Cible aCible)
+	public DestineeQueryProcessorVoisinage(final DestineeToLogicGateway aGateway, final Cible aCible)
 	{
 		prologGateway = aGateway;
 		cible = aCible;
@@ -62,7 +62,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 		start();
 	}
 
-	public static void processQuery(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
+	public static void processQuery(final DestineeToLogicGateway aGateway, final Cible aCible) throws DestineeException
 	{
 		Boolean utiliseHeuristique = PropertiesFactory.getOptionalBoolean(CLE_UTILISATION_HEURISTIQUE);
 
@@ -82,7 +82,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	 * @param aGateway une DestineeToLogicGateway
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 */
-	private static void traitementHeuristique(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
+	private static void traitementHeuristique(final DestineeToLogicGateway aGateway, final Cible aCible) throws DestineeException
 	{
 		Thread processor = new DestineeQueryProcessorVoisinage(aGateway, aCible);
 		int nbVoisinages = 1;
@@ -146,8 +146,8 @@ public class DestineeQueryProcessorVoisinage extends Thread
 
 	}
 
-	private static void traiterXVoisinages(Thread aProcessor, int aNbVoisinages, BigDecimal aProbaCible, BigDecimal aProbaMin, boolean utiliserHeuristique)
-			throws DestineeException
+	private static void traiterXVoisinages(final Thread aProcessor, final int aNbVoisinages, final BigDecimal aProbaCible,
+			final BigDecimal aProbaMin, final boolean utiliserHeuristique) throws DestineeException
 	{
 		GestionnaireChainesAttaquesV.getInstance().declarerDebutTraitement();
 
@@ -185,7 +185,8 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	 * @param aProbaCible une proba cumulée cible souhaitée
 	 * @param aProbaMin une proba min unitaire souhaitée
 	 */
-	private static void instancierThreadsTraitement(int aNbVoisinages, BigDecimal aProbaCible, BigDecimal aProbaMin, boolean utiliserHeuristique)
+	private static void instancierThreadsTraitement(final int aNbVoisinages, final BigDecimal aProbaCible, final BigDecimal aProbaMin,
+			final boolean utiliserHeuristique)
 	{
 		int nbCores = Runtime.getRuntime().availableProcessors();
 		int nbThreads = nbCores * 4;
@@ -221,7 +222,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	 * @param aGateway une DestineeToLogicGateway
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 */
-	private static void traitementNormal(DestineeToLogicGateway aGateway, Cible aCible) throws DestineeException
+	private static void traitementNormal(final DestineeToLogicGateway aGateway, final Cible aCible) throws DestineeException
 	{
 		Thread processor = new DestineeQueryProcessorVoisinage(aGateway, aCible);
 		traiterXVoisinages(processor, 0, BigDecimal.ONE, BigDecimal.ZERO, false);
@@ -299,7 +300,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 	 * @return l'instance d'attaque correspondante
 	 * @throws TechnicalException si le type d'attaque est incorrect
 	 */
-	private static Attaque getNouvelleAttaque(String aTypeAttaque, Perso aAttaquant) throws TechnicalException
+	private static Attaque getNouvelleAttaque(final String aTypeAttaque, final Perso aAttaquant) throws TechnicalException
 	{
 		Attaque attaque = null;
 		if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
@@ -336,7 +337,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 		}
 		else
 		{
-			throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
+			throw new TechnicalException(new StringBuffer("Type d'attaque incorrect : ").append(aTypeAttaque).toString());
 		}
 
 		return attaque;

@@ -42,7 +42,7 @@ public class Scenario
 	private static final String CLE_ARRET_TRAITEMENT = "destinee.scenario.evaluation.testerProbas";
 	private static final String CLE_VALEUR_MIN = "destinee.scenario.evaluation.valeurMin";
 
-	public Scenario(Cible aCible)
+	public Scenario(final Cible aCible)
 	{
 
 		super();
@@ -131,7 +131,10 @@ public class Scenario
 					probaRealisation = BigDecimal.ZERO;
 					esperanceDegats = 0;
 					if (LogFactory.isLogDebugEnabled())
-						LogFactory.logDebug("scenario " + toString() + ": abandon. " + (System.currentTimeMillis() - startTime) + " ms");
+					{
+						LogFactory.logDebug(new Object[] { "scenario ", toString(), ": abandon. ",
+							(System.currentTimeMillis() - startTime), " ms" });
+					}
 					return;
 				}
 			}
@@ -151,8 +154,10 @@ public class Scenario
 		// TODO une gestion de la charge : attaque identique a l'attaque normale mais générant un point de fatigue en plus
 
 		if (LogFactory.isLogDebugEnabled())
-			LogFactory.logDebug("scenario " + toString() + ": " + ConversionUtil.bigDecimalVersString(probaRealisation, 15) + ". "
-					+ (System.currentTimeMillis() - startTime) + " ms");
+		{
+			LogFactory.logDebug(new Object[] { "scenario ", toString(), ": ", ConversionUtil.bigDecimalVersString(probaRealisation, 15),
+				". ", (System.currentTimeMillis() - startTime), " ms" });
+		}
 	}
 
 	/**
@@ -179,7 +184,7 @@ public class Scenario
 	 * 
 	 * @param aScenarioElmt le ScenarioElement à ajouter
 	 */
-	public void ajouterElement(ScenarioElement aScenarioElmt)
+	public void ajouterElement(final ScenarioElement aScenarioElmt)
 	{
 		listeElements.add(aScenarioElmt);
 		// réinitialiser les probas et espérances
@@ -193,7 +198,7 @@ public class Scenario
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object aArg0)
+	public boolean equals(final Object aArg0)
 	{
 		// Vérification de l'égalité des références
 		if (this == aArg0)

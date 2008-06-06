@@ -52,7 +52,7 @@ public final class KamikazeOptimiser
 
 			if (LogFactory.isLogDebugEnabled())
 			{
-				LogFactory.logDebug(aAttaqueKamikaze.toString() + " : " + esperanceDegTemp);
+				LogFactory.logDebug(new Object[] { aAttaqueKamikaze.toString(), " : ", esperanceDegTemp });
 			}
 
 			if (esperanceDegTemp > esperanceDegMax)
@@ -68,7 +68,7 @@ public final class KamikazeOptimiser
 
 		if (LogFactory.isLogDebugEnabled())
 		{
-			LogFactory.logDebug("Attaque Kamikaze optimale : " + aAttaqueKamikaze.toString());
+			LogFactory.logDebug(new Object[] { "Attaque Kamikaze optimale : ", aAttaqueKamikaze.toString() });
 		}
 	}
 
