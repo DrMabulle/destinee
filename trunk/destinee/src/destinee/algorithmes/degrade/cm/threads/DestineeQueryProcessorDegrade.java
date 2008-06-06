@@ -44,7 +44,8 @@ public class DestineeQueryProcessorDegrade extends Thread
 	 * @param aScenarioVariableName nom de la variable Prolog utilisée
 	 * @param aCible Cible des attaques
 	 */
-	public DestineeQueryProcessorDegrade(List<Map<String, List<String>>> results, String aScenarioVariableName, Cible aCible)
+	public DestineeQueryProcessorDegrade(final List<Map<String, List<String>>> results, final String aScenarioVariableName,
+			final Cible aCible)
 	{
 		queryResults = results;
 		scenarioVariableName = aScenarioVariableName;
@@ -53,7 +54,8 @@ public class DestineeQueryProcessorDegrade extends Thread
 		start();
 	}
 
-	public static void processQuery(List<Map<String, List<String>>> results, String scenarioVariableName, Cible aCible) throws DestineeException
+	public static void processQuery(final List<Map<String, List<String>>> results, final String scenarioVariableName, final Cible aCible)
+			throws DestineeException
 	{
 
 		Thread processor = new DestineeQueryProcessorDegrade(results, scenarioVariableName, aCible);
@@ -166,7 +168,7 @@ public class DestineeQueryProcessorDegrade extends Thread
 	 * @return l'instance d'attaque correspondante
 	 * @throws TechnicalException si le type d'attaque est incorrect
 	 */
-	private static Attaque getNouvelleAttaque(String aTypeAttaque, Perso aAttaquant) throws TechnicalException
+	private static Attaque getNouvelleAttaque(final String aTypeAttaque, final Perso aAttaquant) throws TechnicalException
 	{
 		Attaque attaque;
 		if (ConstantesAttaques.ID_ATTAQUE_BERSERK.equals(aTypeAttaque))
@@ -199,7 +201,7 @@ public class DestineeQueryProcessorDegrade extends Thread
 		}
 		else
 		{
-			throw new TechnicalException("Type d'attaque incorrect : " + aTypeAttaque);
+			throw new TechnicalException(new StringBuffer("Type d'attaque incorrect : ").append(aTypeAttaque).toString());
 		}
 		return attaque;
 	}

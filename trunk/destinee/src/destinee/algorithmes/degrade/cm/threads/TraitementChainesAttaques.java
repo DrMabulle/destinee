@@ -29,7 +29,7 @@ public class TraitementChainesAttaques extends Thread
 
 	public void run()
 	{
-		LogFactory.logInfo("Thread " + id + " : début des activités de traitement des Chaines d'attaques.");
+		LogFactory.logInfo(new Object[] { "Thread ", id, " : début des activités de traitement des Chaines d'attaques." });
 
 		// Variables temporaires
 		ChaineAttaquesD chaine;
@@ -42,7 +42,9 @@ public class TraitementChainesAttaques extends Thread
 			if (chaine != null)
 			{
 				if (LogFactory.isLogDebugEnabled())
-					LogFactory.logDebug("Thread " + id + " : début traitement d'une Chaine d'attaques.");
+				{
+					LogFactory.logDebug(new Object[] { "Thread ", id, " : début traitement d'une Chaine d'attaques." });
+				}
 				// Le traitement consiste simplement, ici, à demander l'espérance de dégâts, afin d'effectuer l'évaluation du scénario
 				chaine.getEsperanceDegatCumulee();
 				// Ajouter le scénario une fois traité
@@ -50,7 +52,7 @@ public class TraitementChainesAttaques extends Thread
 			}
 		}
 
-		LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des Chaines d'attaques.");
+		LogFactory.logInfo(new Object[] { "Thread ", id, " : fin des activités de traitement des Chaines d'attaques." });
 	}
 
 	public static void arreterTraitements()

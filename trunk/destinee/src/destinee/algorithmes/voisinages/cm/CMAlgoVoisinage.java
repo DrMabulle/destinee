@@ -56,17 +56,18 @@ public class CMAlgoVoisinage implements AlgoTraitement
 		for (ChaineAttaquesV theChaineAttaques : chainesAtt)
 		{
 			LogFactory.logInfo("-----------------------------");
-			LogFactory.logInfo("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
-			LogFactory.logInfo("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
-			LogFactory.logInfo("Probabilité de réalisation : " + ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10));
-			LogFactory.logInfo("Espérance de dégâts conjecturée : " + theChaineAttaques.getEsperanceDegatConjecturee());
-			LogFactory.logInfo("Indice de bourrinisme : " + theChaineAttaques.getIndiceBourrinisme());
-			LogFactory.logInfo("Scenarios traités : " + theChaineAttaques.getNbScenariosTraites());
+			LogFactory.logInfo(new Object[] { "Chaine d'attaque : ", theChaineAttaques.getIdentifiant() });
+			LogFactory.logInfo(new Object[] { "Espérance de dégâts : ", theChaineAttaques.getEsperanceDegatCumulee() });
+			LogFactory.logInfo(new Object[] { "Probabilité de réalisation : ",
+				ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10) });
+			LogFactory.logInfo(new Object[] { "Espérance de dégâts conjecturée : ", theChaineAttaques.getEsperanceDegatConjecturee() });
+			LogFactory.logInfo(new Object[] { "Indice de bourrinisme : ", theChaineAttaques.getIndiceBourrinisme() });
+			LogFactory.logInfo(new Object[] { "Scenarios traités : ", theChaineAttaques.getNbScenariosTraites() });
 		}
 
 		LogFactory.logInfo("-----------------------------");
 		long stopTime = System.currentTimeMillis();
-		LogFactory.logInfo("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
+		LogFactory.logInfo(new Object[] { "Temps total d'exécution : ", ConversionUtil.longVersStringFormat(stopTime - startTime), " ms" });
 	}
 
 }

@@ -47,7 +47,7 @@ public class GestionnaireChainesAttaques
 	 * @param aSceanrio un scénario traité à ajouter
 	 * @throws TechnicalException e
 	 */
-	public synchronized void ajouterScenarioTraite(Scenario aSceanrio) throws TechnicalException
+	public synchronized void ajouterScenarioTraite(final Scenario aSceanrio) throws TechnicalException
 	{
 		notifyAll();
 
@@ -75,7 +75,7 @@ public class GestionnaireChainesAttaques
 	 * 
 	 * @param aScenario un scénario à traiter
 	 */
-	public synchronized void ajouterScenarioATraiter(Scenario aScenario)
+	public synchronized void ajouterScenarioATraiter(final Scenario aScenario)
 	{
 		notifyAll();
 
@@ -94,7 +94,9 @@ public class GestionnaireChainesAttaques
 
 		scenariosATraiter.add(aScenario);
 		if (LogFactory.isLogDebugEnabled())
-			LogFactory.logDebug("Ajout d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+		{
+			LogFactory.logDebug(new Object[] { "Ajout d'un Scenario à traiter. ", scenariosATraiter.size(), " Scenarios à traiter." });
+		}
 		notifyAll();
 	}
 
@@ -126,7 +128,9 @@ public class GestionnaireChainesAttaques
 			scenario = scenariosATraiter.remove(0);
 
 			if (LogFactory.isLogDebugEnabled())
-				LogFactory.logDebug("Retrait d'un Scenario à traiter. " + scenariosATraiter.size() + " Scenarios à traiter.");
+			{
+				LogFactory.logDebug(new Object[] { "Retrait d'un Scenario à traiter. ", scenariosATraiter.size(), " Scenarios à traiter." });
+			}
 		}
 		notifyAll();
 
@@ -161,7 +165,7 @@ public class GestionnaireChainesAttaques
 	class ChaineAttComparator implements Comparator<ChaineAttaques>
 	{
 		@Override
-		public int compare(ChaineAttaques aO1, ChaineAttaques aO2)
+		public int compare(final ChaineAttaques aO1, final ChaineAttaques aO2)
 		{
 			Double espeDeg1 = new Double(aO1.getEsperanceDegatCumulee());
 			Double espeDeg2 = new Double(aO2.getEsperanceDegatCumulee());

@@ -57,7 +57,7 @@ public class TraitementOrdreAttaques extends Thread
 	{
 		try
 		{
-			LogFactory.logInfo("Thread " + id + " : début des activités de traitement des chaines d'attaque.");
+			LogFactory.logInfo(new Object[] { "Thread ", id, " : début des activités de traitement des chaines d'attaque." });
 			List<Perso> ordre;
 			boolean continuer = true;
 
@@ -78,7 +78,7 @@ public class TraitementOrdreAttaques extends Thread
 				}
 			}
 
-			LogFactory.logInfo("Thread " + id + " : fin des activités de traitement des ordres d'attaque.");
+			LogFactory.logInfo(new Object[] { "Thread ", id, " : fin des activités de traitement des ordres d'attaque." });
 		}
 		catch (TechnicalException e)
 		{

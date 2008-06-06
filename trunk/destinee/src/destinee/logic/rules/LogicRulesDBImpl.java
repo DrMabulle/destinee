@@ -6,184 +6,214 @@ package destinee.logic.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import destinee.commun.constantes.ConstantesAttaques;
-
 import logic.rules.LogicRulesDB;
-
+import destinee.commun.constantes.ConstantesAttaques;
 
 /**
  * @author Benoit Kessler
- *
+ * 
  */
-public class LogicRulesDBImpl implements LogicRulesDB 
+public class LogicRulesDBImpl implements LogicRulesDB
 {
-private List<String> rulesList;
-    
-    private static LogicRulesDB DEFAULT = new LogicRulesDBImpl();
-    
-    private LogicRulesDBImpl() 
-    {
-        super();
-        rulesList = new ArrayList<String>();
-        initialiseRules();
-    }
+	private List<String> rulesList;
 
-    public static LogicRulesDB getDefaultInstance()
-    {
-        if (DEFAULT == null)
-            DEFAULT = new LogicRulesDBImpl();
-        return DEFAULT;
-    }
-    
-    /* (non-Javadoc)
-     * @see reflex.core.build.logic.LogicRulesDB#getRulesList()
-     */
-    public List<String> getRulesList()
-    {
-        return rulesList;
-    }
-    
-    private void initialiseRules() 
-    {
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Méthodes utilitaires\n" +
-        		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        
-        rulesList.add("% Le prédicat concat/3\n" +
-        		"concat([],X,X).\n" +
-        		"concat([X|Y],Z,[X|W]):-\n" +
-        		"    concat(Y,Z,W).");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Méthodes propres à DESTINEE\n" +
-        		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-    			"% Méthode permettant d'ajouter les types de résolution aux différentes attaques\n" +
-    			"ajouterResolution([], []).\n" +
-        		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Coup critique') | Tail2]) :-\n" +
-        		"	ajouterResolution(Tail, Tail2).\n" +
-        		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Coup simple') | Tail2]) :-\n" +
-        		"	ajouterResolution(Tail, Tail2).\n" +
-        		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Esquive simple') | Tail2]) :-\n" +
-        		"	ajouterResolution(Tail, Tail2).\n" +
-        		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Esquive parfaite') | Tail2]) :-\n" +
-        		"	ajouterResolution(Tail, Tail2).\n" +
-        		"ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Echec competence') | Tail2]) :-\n" +
-        		"	ajouterResolution(Tail, Tail2).");
+	private static LogicRulesDB DEFAULT = new LogicRulesDBImpl();
 
-        rulesList.add("generationScenarios(Result) :-\n" +
-        		"	generationListeAttaques(Tmp),\n" +
-        		"	ajouterResolution(Tmp, Result).");
-        
-        rulesList.add("generationChainesAttaques(Result) :-\n" +
-    		"	generationListeAttaques(Result).");
-        		
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	\n" +
-        		"% Méthode permettant de creer une première liste d'attaques (normales) en fonction des persos et de leurs PA\n" +
-        		"generationListeAttaques(L) :- genererListeAtt(L, []).\n" +
-        		"genererListeAtt([], Atts) :-\n" +
-        		"	not(getNextAttaque(Atts, _)).\n" +
-        		"genererListeAtt(Retour, Atts) :-\n" +
-        		"	getNextAttaque(Atts, Attaque),\n" +
-        		"	concat(Atts, [Attaque], Atts2),\n" +
-        		"	genererListeAtt(Retour2, Atts2),\n" +
-        		"	concat([Attaque], Retour2, Retour).");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Methode permettant de récupérer la prochaine attaque possible\n" +
-        		"getNextAttaque(Atts, Attaque) :-\n" +
-        		"	peutAttaquerBerserk(Perso, Atts),\n" +
-        		"	attaque(Perso, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "'),\n" +
-        		"	Attaque = att(Perso, '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "').\n" +
-        		"getNextAttaque(Atts, Attaque) :-\n" +
-        		"	peutAttaquerKamikaze(Perso, Atts),\n" +
-        		"	attaque(Perso, '" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "'),\n" +
-        		"	Attaque = att(Perso, '" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "').\n" +
-        		"getNextAttaque(Atts, Attaque) :-\n" +
-        		"	peutAttaquer(Perso, Atts),\n" +
-        		"	attaque(Perso, Type),\n" +
-        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "',\n" +
-        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "',\n" +
-        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "',\n" +
-        		"	Type \\== '" + ConstantesAttaques.ID_ATTAQUE_CHARGE + "',\n" +
-        		"	Attaque = att(Perso, Type).\n" +
-        		"getNextAttaque(Atts, Attaque) :-\n" +
-        		"	peutAttaquerRapide(Perso, Atts),\n" +
-        		"	attaque(Perso, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "'),\n" +
-        		"	Attaque = att(Perso, '" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "').");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Méthode permettant de trouver une personne qui peut encore attaquer (possède assez de PA)\n" +
-        		"peutAttaquer(Perso, Atts) :-\n" +
-        		"	paRestants(Perso, Atts, PARestants),\n" +
-        		"	PARestants >= 4.\n" +
-        		"peutAttaquerKamikaze(Perso, Atts) :-\n" +
-        		"	paRestants(Perso, Atts, PARestants),\n" +
-        		"	PARestants >= 6.\n" +
-        		"peutAttaquerCharge(Perso, Atts) :-\n" +
-        		"	paRestants(Perso, Atts, PARestants),\n" +
-        		"	PARestants >= 6.\n" +
-        		"peutAttaquerBerserk(Perso, Atts) :-\n" +
-        		"	paRestants(Perso, Atts, PARestants),\n" +
-        		"	PARestants >= 8.\n" +
-        		"peutAttaquerRapide(Perso, Atts) :-\n" +
-        		"	paRestants(Perso, Atts, PARestants),\n" +
-        		"	PARestants >= 2.");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Methode permettant de savoir combien de PA restent à un perso\n" +
-        		"paRestants(Perso, Atts, PARestants) :-\n" +
-        		"	perso(Perso, _, _, _, _, PA, _),\n" +
-        		"	paUtilises(Perso, Atts, PaUtilises),\n" +
-        		"	PARestants is PA - PaUtilises.");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Methode permettant de savoir combien de PA ont été utilisés par un perso\n" +
-        		"paUtilises(_, [], 0).\n" +
-        		"paUtilises(Perso1, [att(Perso2, Type) | Suite], PaUtilises) :-\n" +
-        		"	Perso1 == Perso2,\n" +
-        		"	coutPA(Type, PA),\n" +
-        		"	paUtilises(Perso1, Suite, PaUtilisesSuite),\n" +
-        		"	PaUtilises is PaUtilisesSuite + PA.\n" +
-        		"paUtilises(Perso1, [att(Perso2, _) | Suite], PaUtilises) :-\n" +
-        		"	Perso1 \\== Perso2,\n" +
-        		"	paUtilises(Perso1, Suite, PaUtilisesSuite),\n" +
-        		"	PaUtilises is PaUtilisesSuite.");
-        
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        	"% Méthode permettant de creer l'ordre d'attaque en fonction des persos et de leurs PA\n" +
-        	"generationListeAttaquants(L) :- genererOrdre(L, [], []).\n" +
-        	"genererOrdre([], Atts, _) :-\n" +
-        	"	not(getNextAttaquant(Atts, _)).\n" +
-        	"genererOrdre(Retour, Atts, Ordre) :-\n" +
-        	"	getNextAttaquant(Atts, Attaquant),\n" +
-        	"	concat(Atts, [att(Attaquant, '" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "')], Atts2),\n" +
-        	"	concat(Ordre, [Attaquant], Ordre2),\n" +
-        	"	genererOrdre(Retour2, Atts2, Ordre2),\n" +
-        	"	concat([Attaquant], Retour2, Retour).");
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Methode permettant de récupérer le prochain attaquant possible\n" +
-        		"getNextAttaquant(Atts, Attaquant) :-\n" +
-        		"	peutAttaquer(Attaquant, Atts).");
+	private LogicRulesDBImpl()
+	{
+		super();
+		rulesList = new ArrayList<String>();
+		initialiseRules();
+	}
 
-        
-        rulesList.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n" +
-        		"% Données sur les attaques\n" +
-        		"% caracAttaque(typeAttaque, att, bonAtt, deg, bonDeg, resultAtt, resultBonAtt, resultDeg, resultBonDeg).\n" +
-        		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        
-        rulesList.add("coutPA('" + ConstantesAttaques.ID_ATTAQUE_BERSERK + "', 8).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_BRUTALE + "', 4).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_CHARGE + "', 6).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_IMPARABLE + "', 4).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_KAMIKAZE + "', 6).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_MAGIQUE + "', 4).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_NORMALE + "', 4).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_PRECISE + "', 4).\n" +
-        		"coutPA('" + ConstantesAttaques.ID_ATTAQUE_RAPIDE + "', 2).");
-    }
+	public static LogicRulesDB getDefaultInstance()
+	{
+		if (DEFAULT == null)
+		{
+			DEFAULT = new LogicRulesDBImpl();
+		}
+		return DEFAULT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see reflex.core.build.logic.LogicRulesDB#getRulesList()
+	 */
+	public List<String> getRulesList()
+	{
+		return rulesList;
+	}
+
+	private void initialiseRules()
+	{
+		StringBuffer rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Méthodes utilitaires\n");
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("% Le prédicat concat/3\n");
+		rule.append("concat([],X,X).\n");
+		rule.append("concat([X|Y],Z,[X|W]):-\n");
+		rule.append("    concat(Y,Z,W).");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Méthodes propres à DESTINEE\n");
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Méthode permettant d'ajouter les types de résolution aux différentes attaques\n");
+		rule.append("ajouterResolution([], []).\n");
+		rule.append("ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Coup critique') | Tail2]) :-\n");
+		rule.append("	ajouterResolution(Tail, Tail2).\n");
+		rule.append("ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Coup simple') | Tail2]) :-\n");
+		rule.append("	ajouterResolution(Tail, Tail2).\n");
+		rule.append("ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Esquive simple') | Tail2]) :-\n");
+		rule.append("	ajouterResolution(Tail, Tail2).\n");
+		rule.append("ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Esquive parfaite') | Tail2]) :-\n");
+		rule.append("	ajouterResolution(Tail, Tail2).\n");
+		rule.append("ajouterResolution([att(Perso,Type) | Tail], [att(Perso,Type,'Echec competence') | Tail2]) :-\n");
+		rule.append("	ajouterResolution(Tail, Tail2).");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("generationScenarios(Result) :-\n");
+		rule.append("	generationListeAttaques(Tmp),\n");
+		rule.append("	ajouterResolution(Tmp, Result).");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("generationChainesAttaques(Result) :-\n");
+		rule.append("	generationListeAttaques(Result).");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	\n");
+		rule.append("% Méthode permettant de creer une première liste d'attaques (normales) en fonction des persos et de leurs PA\n");
+		rule.append("generationListeAttaques(L) :- genererListeAtt(L, []).\n");
+		rule.append("genererListeAtt([], Atts) :-\n");
+		rule.append("	not(getNextAttaque(Atts, _)).\n");
+		rule.append("genererListeAtt(Retour, Atts) :-\n");
+		rule.append("	getNextAttaque(Atts, Attaque),\n");
+		rule.append("	concat(Atts, [Attaque], Atts2),\n");
+		rule.append("	genererListeAtt(Retour2, Atts2),\n");
+		rule.append("	concat([Attaque], Retour2, Retour).");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(2000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Methode permettant de récupérer la prochaine attaque possible\n");
+		rule.append("getNextAttaque(Atts, Attaque) :-\n");
+		rule.append("	peutAttaquerBerserk(Perso, Atts),\n");
+		rule.append("	attaque(Perso, '").append(ConstantesAttaques.ID_ATTAQUE_BERSERK).append("'),\n");
+		rule.append("	Attaque = att(Perso, '").append(ConstantesAttaques.ID_ATTAQUE_BERSERK).append("').\n");
+		rule.append("getNextAttaque(Atts, Attaque) :-\n");
+		rule.append("	peutAttaquerKamikaze(Perso, Atts),\n");
+		rule.append("	attaque(Perso, '").append(ConstantesAttaques.ID_ATTAQUE_KAMIKAZE).append("'),\n");
+		rule.append("	Attaque = att(Perso, '").append(ConstantesAttaques.ID_ATTAQUE_KAMIKAZE).append("').\n");
+		rule.append("getNextAttaque(Atts, Attaque) :-\n");
+		rule.append("	peutAttaquer(Perso, Atts),\n");
+		rule.append("	attaque(Perso, Type),\n");
+		rule.append("	Type \\== '").append(ConstantesAttaques.ID_ATTAQUE_RAPIDE).append("',\n");
+		rule.append("	Type \\== '").append(ConstantesAttaques.ID_ATTAQUE_BERSERK).append("',\n");
+		rule.append("	Type \\== '").append(ConstantesAttaques.ID_ATTAQUE_KAMIKAZE).append("',\n");
+		rule.append("	Type \\== '").append(ConstantesAttaques.ID_ATTAQUE_CHARGE).append("',\n");
+		rule.append("	Attaque = att(Perso, Type).\n");
+		rule.append("getNextAttaque(Atts, Attaque) :-\n");
+		rule.append("	peutAttaquerRapide(Perso, Atts),\n");
+		rule.append("	attaque(Perso, '").append(ConstantesAttaques.ID_ATTAQUE_RAPIDE).append("'),\n");
+		rule.append("	Attaque = att(Perso, '").append(ConstantesAttaques.ID_ATTAQUE_RAPIDE).append("').");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Méthode permettant de trouver une personne qui peut encore attaquer (possède assez de PA)\n");
+		rule.append("peutAttaquer(Perso, Atts) :-\n");
+		rule.append("	paRestants(Perso, Atts, PARestants),\n");
+		rule.append("	PARestants >= 4.\n");
+		rule.append("peutAttaquerKamikaze(Perso, Atts) :-\n");
+		rule.append("	paRestants(Perso, Atts, PARestants),\n");
+		rule.append("	PARestants >= 6.\n");
+		rule.append("peutAttaquerCharge(Perso, Atts) :-\n");
+		rule.append("	paRestants(Perso, Atts, PARestants),\n");
+		rule.append("	PARestants >= 6.\n");
+		rule.append("peutAttaquerBerserk(Perso, Atts) :-\n");
+		rule.append("	paRestants(Perso, Atts, PARestants),\n");
+		rule.append("	PARestants >= 8.\n");
+		rule.append("peutAttaquerRapide(Perso, Atts) :-\n");
+		rule.append("	paRestants(Perso, Atts, PARestants),\n");
+		rule.append("	PARestants >= 2.");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Methode permettant de savoir combien de PA restent à un perso\n");
+		rule.append("paRestants(Perso, Atts, PARestants) :-\n");
+		rule.append("	perso(Perso, _, _, _, _, PA, _),\n");
+		rule.append("	paUtilises(Perso, Atts, PaUtilises),\n");
+		rule.append("	PARestants is PA - PaUtilises.");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Methode permettant de savoir combien de PA ont été utilisés par un perso\n");
+		rule.append("paUtilises(_, [], 0).\n");
+		rule.append("paUtilises(Perso1, [att(Perso2, Type) | Suite], PaUtilises) :-\n");
+		rule.append("	Perso1 == Perso2,\n");
+		rule.append("	coutPA(Type, PA),\n");
+		rule.append("	paUtilises(Perso1, Suite, PaUtilisesSuite),\n");
+		rule.append("	PaUtilises is PaUtilisesSuite + PA.\n");
+		rule.append("paUtilises(Perso1, [att(Perso2, _) | Suite], PaUtilises) :-\n");
+		rule.append("	Perso1 \\== Perso2,\n");
+		rule.append("	paUtilises(Perso1, Suite, PaUtilisesSuite),\n");
+		rule.append("	PaUtilises is PaUtilisesSuite.");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Méthode permettant de creer l'ordre d'attaque en fonction des persos et de leurs PA\n");
+		rule.append("generationListeAttaquants(L) :- genererOrdre(L, [], []).\n");
+		rule.append("genererOrdre([], Atts, _) :-\n");
+		rule.append("	not(getNextAttaquant(Atts, _)).\n");
+		rule.append("genererOrdre(Retour, Atts, Ordre) :-\n");
+		rule.append("	getNextAttaquant(Atts, Attaquant),\n");
+		rule.append("	concat(Atts, [att(Attaquant, '").append(ConstantesAttaques.ID_ATTAQUE_NORMALE).append("')], Atts2),\n");
+		rule.append("	concat(Ordre, [Attaquant], Ordre2),\n");
+		rule.append("	genererOrdre(Retour2, Atts2, Ordre2),\n");
+		rule.append("	concat([Attaquant], Retour2, Retour).");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Methode permettant de récupérer le prochain attaquant possible\n");
+		rule.append("getNextAttaquant(Atts, Attaquant) :-\n");
+		rule.append("	peutAttaquer(Attaquant, Atts).");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+		rule.append("% Données sur les attaques\n");
+		rule.append("% caracAttaque(typeAttaque, att, bonAtt, deg, bonDeg, resultAtt, resultBonAtt, resultDeg, resultBonDeg).\n");
+		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		rulesList.add(rule.toString());
+
+		rule = new StringBuffer(1000);
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_BERSERK).append("', 8).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_BRUTALE).append("', 4).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_CHARGE).append("', 6).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_IMPARABLE).append("', 4).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_KAMIKAZE).append("', 6).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_MAGIQUE).append("', 4).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_NORMALE).append("', 4).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_PRECISE).append("', 4).\n");
+		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_RAPIDE).append("', 2).");
+		rulesList.add(rule.toString());
+	}
 
 }

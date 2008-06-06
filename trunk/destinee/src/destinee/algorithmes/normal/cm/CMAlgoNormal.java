@@ -44,8 +44,6 @@ public class CMAlgoNormal implements AlgoTraitement
 	@Override
 	public void executerTraitement() throws DestineeException
 	{
-		// long startTime = System.currentTimeMillis();
-
 		PersoLoader.chargerPersos();
 		Cible cible = CachePersos.getCible();
 
@@ -56,14 +54,13 @@ public class CMAlgoNormal implements AlgoTraitement
 		for (ChaineAttaques theChaineAttaques : chainesAtt)
 		{
 			LogFactory.logInfo("-----------------------------");
-			LogFactory.logInfo("Chaine d'attaque : " + theChaineAttaques.getIdentifiant());
-			LogFactory.logInfo("Espérance de dégâts : " + theChaineAttaques.getEsperanceDegatCumulee());
-			LogFactory.logInfo(theChaineAttaques.getIdentifiant() + " : " + theChaineAttaques.getEsperanceDegatCumulee());
-			LogFactory.logInfo("Probabilité de réalisation : " + ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10));
+			LogFactory.logInfo(new Object[] { "Chaine d'attaque : ", theChaineAttaques.getIdentifiant() });
+			LogFactory.logInfo(new Object[] { "Espérance de dégâts : ", theChaineAttaques.getEsperanceDegatCumulee() });
+			LogFactory.logInfo(new Object[] { theChaineAttaques.getIdentifiant(), " : ", theChaineAttaques.getEsperanceDegatCumulee() });
+			LogFactory.logInfo(new Object[] { "Probabilité de réalisation : ",
+				ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10) });
 		}
 
 		LogFactory.logInfo("-----------------------------");
-		// long stopTime = System.currentTimeMillis();
-		// LogFactory.logInfo("Temps total d'exécution : " + ConversionUtil.longVersStringFormat(stopTime - startTime) + " ms");
 	}
 }
