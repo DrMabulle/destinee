@@ -25,14 +25,29 @@ public final class FileAssistant
 	/**
 	 * Génère une instance de InputStream permettant de charger la ressource passée en paramètre
 	 * 
-	 * @param aChemin un chemin vers un fichier ou une ressource
+	 * @param aPath un chemin (dossier)
+	 * @param aFileName un fichier ou une ressource
+	 * @param aClassLoader un ClassLoader
+	 */
+	public static final InputStream getInputStream(final String aPath, final String aFileName)
+	{
+		return getInputStream(aPath, aFileName, Thread.currentThread().getContextClassLoader());
+	}
+
+	/**
+	 * Génère une instance de InputStream permettant de charger la ressource passée en paramètre
+	 * 
+	 * @param aPath un chemin (dossier)
+	 * @param aFileName un fichier ou une ressource
+	 * @param aClassLoader un ClassLoader
+	 * 
 	 * @return InputStream permettant de charger la ressource passée en paramètre
 	 */
-	public static final InputStream getInputStream(final String aChemin)
+	public static final InputStream getInputStream(final String aPath, final String aFileName, final ClassLoader aClassLoader)
 	{
 		InputStream is;
 
-		File file = new File(aChemin);
+		File file = new File(aPath + aFileName);
 		if (file.exists())
 		{
 			try
@@ -41,14 +56,29 @@ public final class FileAssistant
 			}
 			catch (FileNotFoundException e)
 			{
-				is = Thread.currentThread().getContextClassLoader().getResourceAsStream(aChemin);
+				is = loadWithClassLoader(aPath, aFileName, aClassLoader);
 			}
 		}
 		else
 		{
-			is = Thread.currentThread().getContextClassLoader().getResourceAsStream(aChemin);
+			is = loadWithClassLoader(aPath, aFileName, aClassLoader);
 		}
 
+		return is;
+	}
+
+	private static final InputStream loadWithClassLoader(final String aPath, final String aFileName, final ClassLoader aClassLoader)
+	{
+		InputStream is = aClassLoader.getResourceAsStream(aFileName);
+
+		if (is == null)
+		{
+			is = aClassLoader.getResourceAsStream(aPath + aFileName);
+		}
+		if (is == null)
+		{
+			is = aClassLoader.getResourceAsStream("properties/" + aFileName);
+		}
 		return is;
 	}
 }
