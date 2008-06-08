@@ -19,7 +19,8 @@ public final class LogFactory
 	 */
 	private static final int DEFAULT_LOG_SIZE = 200;
 	private static final String LOG_LEVEL = "destinee.log.logLevel";
-	private static final String chemin = "./properties/destinee/properties/application.properties";
+	private static final String CHEMIN = "./properties/";
+	private static final String FICHIER = "application.properties";
 
 	private static final String DEBUG = "debug";
 	private static final String INFO = "info";
@@ -40,7 +41,7 @@ public final class LogFactory
 		Properties props = new Properties();
 		try
 		{
-			props.load(FileAssistant.getInputStream(chemin));
+			props.load(FileAssistant.getInputStream(CHEMIN, FICHIER));
 			logLevel = props.getProperty(LOG_LEVEL);
 		}
 		catch (IOException e)

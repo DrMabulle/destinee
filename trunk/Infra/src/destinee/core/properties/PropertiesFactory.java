@@ -16,7 +16,8 @@ import destinee.core.utils.FileAssistant;
  */
 public final class PropertiesFactory
 {
-	private static final String chemin = "./properties/destinee/properties/application.properties";
+	private static final String CHEMIN = "./properties/";
+	private static final String FICHIER = "application.properties";
 	private static Properties props;
 
 	/**
@@ -29,15 +30,15 @@ public final class PropertiesFactory
 
 	private static final void init() throws TechnicalException
 	{
-		init(chemin);
+		init(CHEMIN, FICHIER);
 	}
 
-	private static final void init(final String aFileName) throws TechnicalException
+	private static final void init(final String aPath, final String aFileName) throws TechnicalException
 	{
 		props = new Properties();
 		try
 		{
-			props.load(FileAssistant.getInputStream(aFileName));
+			props.load(FileAssistant.getInputStream(aPath, aFileName));
 		}
 		catch (FileNotFoundException e)
 		{
