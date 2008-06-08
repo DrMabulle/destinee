@@ -3,7 +3,6 @@
  */
 package destinee.commun.utils;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,6 +15,7 @@ import destinee.commun.data.Cible;
 import destinee.commun.data.Perso;
 import destinee.core.exception.TechnicalException;
 import destinee.core.utils.ConversionUtil;
+import destinee.core.utils.FileAssistant;
 import destinee.logic.gateways.DestineeToLogicGatewayImpl;
 
 /**
@@ -24,7 +24,8 @@ import destinee.logic.gateways.DestineeToLogicGatewayImpl;
  */
 public final class PersoLoader
 {
-	private static final String CHEMIN = "./properties/destinee/properties/persos.properties";
+	private static final String CHEMIN = "./properties/";
+	private static final String FICHIER = "persos.properties";
 	private static final String NB_PERSOS = "nombre.de.persos";
 	private static final String PERSO = "perso";
 	private static final String CARACS = ".caracs";
@@ -118,8 +119,8 @@ public final class PersoLoader
 			CachePersos.addPerso(identifiant, perso);
 
 			// Déclarer le perso à Prolog
-			prolog.ajouterPerso(perso.getIdentifiant(), perso.getNombreDeDesAttaque(), perso.getBonusAttaque(), perso.getNombreDeDesDegats(), perso
-					.getBonusDegats(), pa1, pa2);
+			prolog.ajouterPerso(perso.getIdentifiant(), perso.getNombreDeDesAttaque(), perso.getBonusAttaque(),
+				perso.getNombreDeDesDegats(), perso.getBonusDegats(), pa1, pa2);
 			declarerAttaquesProlog(prolog, identifiant, maitrises);
 		}
 
@@ -170,12 +171,14 @@ public final class PersoLoader
 		}
 		catch (Exception e)
 		{
-			throw new TechnicalException("Erreur : les caractéristiques physiques du " + aBase + " sont mal renseignées : caractères numériques attendus.");
+			throw new TechnicalException("Erreur : les caractéristiques physiques du " + aBase
+					+ " sont mal renseignées : caractères numériques attendus.");
 		}
 
 		if (caracsPhysiques.length != 7)
 		{
-			throw new TechnicalException("Erreur : les caractéristiques physiques du " + aBase + " sont mal renseignées : caracs manquantes.");
+			throw new TechnicalException("Erreur : les caractéristiques physiques du " + aBase
+					+ " sont mal renseignées : caracs manquantes.");
 		}
 
 		return caracsPhysiques;
@@ -203,7 +206,8 @@ public final class PersoLoader
 		}
 		catch (Exception e)
 		{
-			throw new TechnicalException("Erreur : le nombre de PA pour le cycle " + numeroDuCycle + " et le " + aBase + " est mal renseigné.");
+			throw new TechnicalException("Erreur : le nombre de PA pour le cycle " + numeroDuCycle + " et le " + aBase
+					+ " est mal renseigné.");
 		}
 		return pa;
 	}
@@ -215,7 +219,8 @@ public final class PersoLoader
 	 * @return la maitrise de l'attaque en question
 	 * @throws TechnicalException e
 	 */
-	private static double recupererMaitriseAttaque(final String aBase, final String aAttaque, final String aNomAttaque) throws TechnicalException
+	private static double recupererMaitriseAttaque(final String aBase, final String aAttaque, final String aNomAttaque)
+			throws TechnicalException
 	{
 		double result = 0.0;
 		String maitrise = props.getProperty(aBase + aAttaque);
@@ -298,7 +303,8 @@ public final class PersoLoader
 	 * @param aIdentifiant un identifiant
 	 * @param aMaitrises des données relatives à la maitrise des compétences d'attaque
 	 */
-	private static void declarerAttaquesProlog(final DestineeToLogicGateway aPrologGateway, final String aIdentifiant, final Map<String, Double> aMaitrises)
+	private static void declarerAttaquesProlog(final DestineeToLogicGateway aPrologGateway, final String aIdentifiant,
+			final Map<String, Double> aMaitrises)
 	{
 		// Un perso a toujours l'attaque normale
 		aPrologGateway.ajouterAttaquePerso(aIdentifiant, ConstantesAttaques.ID_ATTAQUE_NORMALE);
@@ -340,21 +346,22 @@ public final class PersoLoader
 	 */
 	private static void init() throws TechnicalException
 	{
-		init(CHEMIN);
+		init(CHEMIN, FICHIER);
 	}
 
 	/**
 	 * Initialise les données du Properties avec les données d'un fichier
 	 * 
+	 * @param aPath un dossier
 	 * @param aFileName un fichier
 	 * @throws TechnicalException e
 	 */
-	private static void init(final String aFileName) throws TechnicalException
+	private static void init(final String aPath, final String aFileName) throws TechnicalException
 	{
 		props = new Properties();
 		try
 		{
-			props.load(new FileInputStream(aFileName));
+			props.load(FileAssistant.getInputStream(aPath, aFileName));
 		}
 		catch (FileNotFoundException e)
 		{
