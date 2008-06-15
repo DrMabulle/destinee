@@ -35,6 +35,8 @@ public class Perso
 	private Map<String, Double> maitrisesAtt;
 
 	/**
+	 * Constructeur par défaut
+	 * 
 	 * @param aNombreDeDesAttaque nombre de dés d'attaque
 	 * @param aBonusAttaque bonus d'attaque
 	 * @param aNombreDeDesDegats nombre de dés de dégâts
@@ -44,8 +46,9 @@ public class Perso
 	 * @param aFatigueInitiale fatigue initiale du perso
 	 * @param aIdentifiant identifiant du personnage
 	 */
-	public Perso(final int aNombreDeDesAttaque, final int aBonusAttaque, final int aNombreDeDesDegats, final int aBonusDegats, final int aNombreDeDesPM,
-			final int aBonusPM, final int aFatigueInitiale, final String aIdentifiant, final Map<String, Double> aMaitrisesAtt)
+	public Perso(final int aNombreDeDesAttaque, final int aBonusAttaque, final int aNombreDeDesDegats, final int aBonusDegats,
+			final int aNombreDeDesPM, final int aBonusPM, final int aFatigueInitiale, final String aIdentifiant,
+			final Map<String, Double> aMaitrisesAtt)
 	{
 		super();
 		nombreDeDesAttaque = aNombreDeDesAttaque;
@@ -323,8 +326,8 @@ public class Perso
 	 */
 	public Perso clone()
 	{
-		Perso clone = new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale, identifiant,
-			maitrisesAtt);
+		Perso clone = new Perso(nombreDeDesAttaque, bonusAttaque, nombreDeDesDegats, bonusDegats, nombreDeDesPM, bonusPM, fatigueIntiale,
+			identifiant, maitrisesAtt);
 		clone.setSacrificePourAttaque(getSacrificePourAttaque());
 		clone.setSacrificePourDegat(getSacrificePourDegat());
 		clone.setSacrificeMax(getSacrificeMax());

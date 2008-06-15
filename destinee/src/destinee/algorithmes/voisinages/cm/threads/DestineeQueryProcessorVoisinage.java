@@ -90,7 +90,7 @@ public class DestineeQueryProcessorVoisinage extends Thread
 		int facteurIncrement = nbPersos;
 		int nbIterations = 3 * nbPersos;
 		BigDecimal probaCible = new BigDecimal("0.5");
-		BigDecimal increment = new BigDecimal(0.5 / nbIterations).setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal increment = new BigDecimal("" + (0.5 / nbIterations)).setScale(2, BigDecimal.ROUND_HALF_UP);
 		probaCible = new BigDecimal("0.98").subtract(increment.multiply(new BigDecimal(nbIterations)));
 		BigDecimal probaMin = BigDecimal.ZERO; // new BigDecimal("0.1");
 

@@ -311,7 +311,7 @@ public class TraitementOrdreAttaques extends Thread
 		int nbIterations = nbPersos;
 		int tailleEval = aVoisinage.size();
 		BigDecimal probaCible = new BigDecimal("0.65");
-		BigDecimal increment = new BigDecimal(0.6 / nbIterations).setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal increment = new BigDecimal("" + (0.6 / nbIterations)).setScale(2, BigDecimal.ROUND_HALF_UP);
 		probaCible = probaCumuleeCible.subtract(increment.multiply(new BigDecimal(nbIterations)));
 		BigDecimal probaMin = BigDecimal.ZERO;
 

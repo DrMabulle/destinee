@@ -62,7 +62,7 @@ public final class ResolutionAttaque
 					temp = temp.multiply(ProbaMoins.calculerProba((int) (0.5 * (i + 1 + bonusAtt) - bonusDef), nbDesDef));
 					result = result.add(temp);
 				}
-				result = result.multiply(new BigDecimal(maitriseCompetence));
+				result = result.multiply(new BigDecimal("" + maitriseCompetence));
 				break;
 			case RESOLUTION_COUP_SIMPLE: // attaque reussie
 				for (int i = attMin; i <= attMax; i++)
@@ -73,7 +73,7 @@ public final class ResolutionAttaque
 					temp = temp.multiply(borneSup.subtract(borneInf));
 					result = result.add(temp);
 				}
-				result = result.multiply(new BigDecimal(maitriseCompetence));
+				result = result.multiply(new BigDecimal("" + maitriseCompetence));
 				break;
 			case RESOLUTION_ESQUIVE_SIMPLE: // esquive reussie
 				for (int i = attMin; i <= attMax; i++)
@@ -84,7 +84,7 @@ public final class ResolutionAttaque
 					temp = temp.multiply(borneSup.subtract(borneInf));
 					result = result.add(temp);
 				}
-				result = result.multiply(new BigDecimal(maitriseCompetence));
+				result = result.multiply(new BigDecimal("" + maitriseCompetence));
 				break;
 			case RESOLUTION_ESQUIVE_PARFAITE: // esquive parfaite
 				for (int i = attMin; i <= attMax; i++)
@@ -94,10 +94,10 @@ public final class ResolutionAttaque
 					temp = temp.multiply(borneInf);
 					result = result.add(temp);
 				}
-				result = result.multiply(new BigDecimal(maitriseCompetence));
+				result = result.multiply(new BigDecimal("" + maitriseCompetence));
 				break;
 			case RESOLUTION_ECHEC_COMPETENCE: // échec de la compétence
-				result = new BigDecimal(1 - maitriseCompetence).setScale(2, BigDecimal.ROUND_HALF_UP);
+				result = new BigDecimal("" + (1 - maitriseCompetence)).setScale(2, BigDecimal.ROUND_HALF_UP);
 				break;
 		}
 		return result;
@@ -125,8 +125,8 @@ public final class ResolutionAttaque
 			}
 		}
 
-		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNbDesDefenseEffectif(), cible.getBonusDefenseEffectif(), attaque
-				.getPerso().getMaitriseAttaque(attaque.getTypeAttaque()), typeResol);
+		return resoudreAttaque(attaque.getNbDesAtt(), attaque.getBonusAtt(), cible.getNbDesDefenseEffectif(),
+			cible.getBonusDefenseEffectif(), attaque.getPerso().getMaitriseAttaque(attaque.getTypeAttaque()), typeResol);
 	}
 
 	/**
