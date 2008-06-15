@@ -110,7 +110,7 @@ public class Scenario
 		double esperanceTmp = 0;
 
 		String valeurMinTemp = PropertiesFactory.getOptionalString(CLE_VALEUR_MIN);
-		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal(0.00001));
+		BigDecimal valeurMin = ConversionUtil.stringVersBigDecimal(valeurMinTemp, new BigDecimal("0.00001"));
 		// valeurMin.pow(listeElements.size() + 1);
 		Boolean arretPossible = PropertiesFactory.getOptionalBoolean(CLE_ARRET_TRAITEMENT);
 
