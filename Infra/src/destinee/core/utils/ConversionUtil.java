@@ -287,7 +287,7 @@ public class ConversionUtil
 		{
 			if (pFloat != null)
 			{
-				retour = new Integer((int) (pFloat.floatValue() * pMultiplicateur));
+				retour = Integer.valueOf((int) (pFloat.floatValue() * pMultiplicateur));
 			}
 		}
 		catch (NumberFormatException nfe)
@@ -924,7 +924,7 @@ public class ConversionUtil
 		if (decimal != null)
 		{
 			// Arrondi à 2 chiffres après la virgule
-			str = new BigDecimal(decimal.doubleValue()).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+			str = new BigDecimal("" + decimal.doubleValue()).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
 			// , au lieu de .
 			str = str.replaceAll("\\.", ",");
 
@@ -975,7 +975,7 @@ public class ConversionUtil
 			// Arrondi à 2 chiffres après la virgule
 			if (scale == null || scale.intValue() < 0)
 			{
-				str = new BigDecimal(decimal.doubleValue()).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+				str = new BigDecimal(decimal.toString()).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
 			}
 			else
 			{
