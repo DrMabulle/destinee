@@ -93,8 +93,8 @@ public final class ProbaPlus
 	 */
 	private static final String genererCle(final int seuilMin, final int nbDes)
 	{
-		StringBuffer cle = new StringBuffer("probaPlus(");
-		cle.append(seuilMin).append(",").append(nbDes).append(")");
+		StringBuilder cle = new StringBuilder("probaPlus(");
+		cle.append(seuilMin).append(',').append(nbDes).append(')');
 		return cle.toString();
 	}
 }

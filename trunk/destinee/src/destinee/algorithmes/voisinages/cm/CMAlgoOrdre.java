@@ -55,21 +55,23 @@ public class CMAlgoOrdre implements AlgoTraitement
 
 		List<ChaineAttaquesV> chainesAtt = GestionnaireOrdresAttaquants.getInstance().getListeChainesOrdonneeConj();
 
+		LogFactory.logToFile("=========================================================================");
+		LogFactory.logToFile("=========================================================================");
 		for (ChaineAttaquesV theChaineAttaques : chainesAtt)
 		{
-			LogFactory.logInfo("-----------------------------");
-			LogFactory.logInfo(new Object[] { "Chaine d'attaque : ", theChaineAttaques.getIdentifiant() });
-			LogFactory.logInfo(new Object[] { "Espérance de dégâts : ", theChaineAttaques.getEsperanceDegatCumulee() });
-			LogFactory.logInfo(new Object[] { "Probabilité de réalisation : ",
+			LogFactory.logToFile("-----------------------------");
+			LogFactory.logToFile(new Object[] { "Chaine d'attaque : ", theChaineAttaques.getIdentifiant() });
+			LogFactory.logToFile(new Object[] { "Espérance de dégâts : ", theChaineAttaques.getEsperanceDegatCumulee() });
+			LogFactory.logToFile(new Object[] { "Probabilité de réalisation : ",
 				ConversionUtil.bigDecimalVersString(theChaineAttaques.getProbaRealisationCumulee(), 10) });
-			LogFactory.logInfo(new Object[] { "Espérance de dégâts conjecturée : ", theChaineAttaques.getEsperanceDegatConjecturee() });
-			LogFactory.logInfo(new Object[] { "Indice de bourrinisme : ", theChaineAttaques.getIndiceBourrinisme() });
-			LogFactory.logInfo(new Object[] { "Scenarios traités : ", theChaineAttaques.getNbScenariosTraites() });
+			LogFactory.logToFile(new Object[] { "Espérance de dégâts conjecturée : ", theChaineAttaques.getEsperanceDegatConjecturee() });
+			LogFactory.logToFile(new Object[] { "Indice de bourrinisme : ", theChaineAttaques.getIndiceBourrinisme() });
+			LogFactory.logToFile(new Object[] { "Scenarios traités : ", theChaineAttaques.getNbScenariosTraites() });
 		}
 
-		LogFactory.logInfo("-----------------------------");
+		LogFactory.logToFile("-----------------------------");
 		long stopTime = System.currentTimeMillis();
-		LogFactory.logInfo(new Object[] { "Temps total d'exécution : ", ConversionUtil.longVersStringFormat(stopTime - startTime), " ms" });
+		LogFactory.logToFile(new Object[] { "Temps total d'exécution : ", ConversionUtil.longVersStringFormat(stopTime - startTime), " ms" });
 	}
 
 }

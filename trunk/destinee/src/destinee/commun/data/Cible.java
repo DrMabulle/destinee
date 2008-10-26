@@ -293,7 +293,7 @@ public class Cible implements Cloneable
 	@Override
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer(50);
+		StringBuilder sb = new StringBuilder(64);
 		sb.append("Cible : DEF=").append(getNbDesDefense()).append("D+").append(getBonusDefense()).append(", ARM=").append(getArmure());
 		return sb.toString();
 	}

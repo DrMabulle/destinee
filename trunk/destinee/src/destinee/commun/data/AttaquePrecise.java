@@ -15,7 +15,7 @@ public class AttaquePrecise extends AttaqueAbstract
 	/**
 	 * @param aPerso un Perso
 	 */
-	public AttaquePrecise(Perso aPerso)
+	public AttaquePrecise(final Perso aPerso)
 	{
 		super(aPerso);
 	}
@@ -37,7 +37,7 @@ public class AttaquePrecise extends AttaqueAbstract
 	 */
 	public int getNbDesAtt()
 	{
-		return (int) (1.5 * getPerso().getNombreDeDesAttaque());
+		return (2 * getPerso().getNombreDeDesAttaque());
 	}
 
 	/*
@@ -55,7 +55,7 @@ public class AttaquePrecise extends AttaqueAbstract
 	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
-	public int getBonusDeg(int aArmureCible)
+	public int getBonusDeg(final int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
@@ -65,7 +65,7 @@ public class AttaquePrecise extends AttaqueAbstract
 	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
-	public int getBonusDegatsCritique(int aArmureCible)
+	public int getBonusDegatsCritique(final int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}

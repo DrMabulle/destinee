@@ -87,8 +87,8 @@ public final class Proba
 	 */
 	private static final String genererCle(final int resultatCible, final int nbDes)
 	{
-		StringBuffer cle = new StringBuffer("proba(");
-		cle.append(resultatCible).append(",").append(nbDes).append(")");
+		StringBuilder cle = new StringBuilder("proba(");
+		cle.append(resultatCible).append(',').append(nbDes).append(')');
 		return cle.toString();
 	}
 }

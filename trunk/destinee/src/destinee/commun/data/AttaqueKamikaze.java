@@ -14,7 +14,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	/**
 	 * @param aPerso un Perso
 	 */
-	public AttaqueKamikaze(Perso aPerso)
+	public AttaqueKamikaze(final Perso aPerso)
 	{
 		super(aPerso);
 	}
@@ -36,7 +36,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 */
 	public int getNbDesAtt()
 	{
-		return (getPerso().getNombreDeDesAttaque() + ((int) (getPerso().getSacrificePourAttaque() / 20)));
+		return (getPerso().getNombreDeDesAttaque() + ((getPerso().getSacrificePourAttaque() / 20)));
 	}
 
 	/*
@@ -46,7 +46,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 */
 	public int getNbDesDeg()
 	{
-		return (getPerso().getNombreDeDesDegats() + ((int) (getPerso().getSacrificePourDegat() / 20)));
+		return (getPerso().getNombreDeDesDegats() + ((getPerso().getSacrificePourDegat() / 20)));
 	}
 
 	/*
@@ -54,7 +54,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 * 
 	 * @see destinee.data.Attaque#getBonusDeg(int)
 	 */
-	public int getBonusDeg(int aArmureCible)
+	public int getBonusDeg(final int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
@@ -64,7 +64,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 * 
 	 * @see destinee.data.Attaque#getBonusDegatsCritique(int)
 	 */
-	public int getBonusDegatsCritique(int aArmureCible)
+	public int getBonusDegatsCritique(final int aArmureCible)
 	{
 		return (getPerso().getBonusDegats() - aArmureCible);
 	}
@@ -76,7 +76,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	 */
 	public int getNbDesDegatsCritique()
 	{
-		return (int) (1.5 * (getPerso().getNombreDeDesDegats() + ((int) (getPerso().getSacrificePourDegat() / 20))));
+		return (int) (1.5 * (getPerso().getNombreDeDesDegats() + ((getPerso().getSacrificePourDegat() / 20))));
 	}
 
 	/*
@@ -99,7 +99,9 @@ public class AttaqueKamikaze extends AttaqueAbstract
 		return 2;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see destinee.commun.data.Attaque#getCoutEnPA()
 	 */
 	@Override
@@ -107,7 +109,7 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	{
 		return 6;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -116,10 +118,10 @@ public class AttaqueKamikaze extends AttaqueAbstract
 	@Override
 	public String toString()
 	{
-		StringBuffer result = new StringBuffer(50);
+		StringBuilder result = new StringBuilder(64);
 		result.append(super.toString());
-		result.append("(").append(getPerso().getSacrificePourAttaque()).append("/");
-		result.append(getPerso().getSacrificePourDegat()).append(")");
+		result.append('(').append(getPerso().getSacrificePourAttaque()).append('/');
+		result.append(getPerso().getSacrificePourDegat()).append(')');
 		return result.toString();
 	}
 }

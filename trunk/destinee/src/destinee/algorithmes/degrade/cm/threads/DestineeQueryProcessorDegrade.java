@@ -201,7 +201,7 @@ public class DestineeQueryProcessorDegrade extends Thread
 		}
 		else
 		{
-			throw new TechnicalException(new StringBuffer("Type d'attaque incorrect : ").append(aTypeAttaque).toString());
+			throw new TechnicalException(new StringBuilder("Type d'attaque incorrect : ").append(aTypeAttaque).toString());
 		}
 		return attaque;
 	}

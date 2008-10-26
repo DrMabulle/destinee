@@ -3,7 +3,6 @@
  */
 package destinee.commun.data;
 
-
 /**
  * classe abstraite des attaques
  * 
@@ -31,7 +30,7 @@ public abstract class AttaqueAbstract implements Attaque
 	/**
 	 * @param aPerso the perso to set
 	 */
-	protected void setPerso(Perso aPerso)
+	protected void setPerso(final Perso aPerso)
 	{
 		perso = aPerso;
 	}
@@ -39,7 +38,7 @@ public abstract class AttaqueAbstract implements Attaque
 	/**
 	 * @param aPerso
 	 */
-	public AttaqueAbstract(Perso aPerso)
+	public AttaqueAbstract(final Perso aPerso)
 	{
 		super();
 		perso = aPerso;
@@ -51,7 +50,7 @@ public abstract class AttaqueAbstract implements Attaque
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object aObj)
+	public boolean equals(final Object aObj)
 	{
 		// Vérification de l'égalité des références
 		if (this == aObj)
@@ -95,8 +94,8 @@ public abstract class AttaqueAbstract implements Attaque
 	@Override
 	public String toString()
 	{
-		StringBuffer result = new StringBuffer(50);
-		result.append(getPerso().toString()).append("_").append(getTypeAttaque());
+		StringBuilder result = new StringBuilder(64);
+		result.append(getPerso().toString()).append('_').append(getTypeAttaque());
 		return result.toString();
 	}
 }

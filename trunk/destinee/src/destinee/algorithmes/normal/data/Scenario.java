@@ -167,13 +167,13 @@ public class Scenario
 	 */
 	public String getIdentifiantChaineAttaques()
 	{
-		StringBuffer sb = new StringBuffer("");
+		StringBuilder sb = new StringBuilder(512);
 
 		for (ScenarioElement scenarioElemt : listeElements)
 		{
 			sb.append(scenarioElemt.getAttaque().getPerso().getIdentifiant());
 			sb.append(scenarioElemt.getAttaque().getTypeAttaque());
-			sb.append("-");
+			sb.append('-');
 		}
 
 		return sb.toString();
@@ -257,7 +257,7 @@ public class Scenario
 	@Override
 	public String toString()
 	{
-		StringBuffer result = new StringBuffer(150);
+		StringBuilder result = new StringBuilder(256);
 		for (ScenarioElement scenarElem : listeElements)
 		{
 			result.append(scenarElem.toString()).append(" - ");

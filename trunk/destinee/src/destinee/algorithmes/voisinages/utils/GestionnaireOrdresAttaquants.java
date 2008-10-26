@@ -21,8 +21,8 @@ public class GestionnaireOrdresAttaquants
 	private static final GestionnaireOrdresAttaquants INSTANCE = new GestionnaireOrdresAttaquants();
 	private static final int TAILLE_MAX = 40;
 
-	private final List<ChaineAttaquesV> chaines = new ArrayList<ChaineAttaquesV>(TAILLE_MAX);
-	private final List<List<Perso>> ordresATraiter = new ArrayList<List<Perso>>(400);
+	private final List<ChaineAttaquesV> chaines = new ArrayList<ChaineAttaquesV>((int) (TAILLE_MAX * 1.2));
+	private final List<List<Perso>> ordresATraiter = new ArrayList<List<Perso>>(350);
 	private boolean traitementEnCours = true;
 
 	/**
@@ -75,7 +75,7 @@ public class GestionnaireOrdresAttaquants
 		try
 		{
 			// On limite la taille du buffer à 400 scénarios à traiter
-			while (ordresATraiter.size() >= 400)
+			while (ordresATraiter.size() >= 300)
 			{
 				wait();
 			}
