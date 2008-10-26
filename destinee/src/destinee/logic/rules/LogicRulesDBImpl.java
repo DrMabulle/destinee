@@ -47,26 +47,26 @@ public class LogicRulesDBImpl implements LogicRulesDB
 
 	private void initialiseRules()
 	{
-		StringBuffer rule = new StringBuffer(1000);
+		StringBuilder rule = new StringBuilder(2048);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Méthodes utilitaires\n");
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("% Le prédicat concat/3\n");
 		rule.append("concat([],X,X).\n");
 		rule.append("concat([X|Y],Z,[X|W]):-\n");
 		rule.append("    concat(Y,Z,W).");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Méthodes propres à DESTINEE\n");
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Méthode permettant d'ajouter les types de résolution aux différentes attaques\n");
 		rule.append("ajouterResolution([], []).\n");
@@ -82,18 +82,18 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("	ajouterResolution(Tail, Tail2).");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("generationScenarios(Result) :-\n");
 		rule.append("	generationListeAttaques(Tmp),\n");
 		rule.append("	ajouterResolution(Tmp, Result).");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("generationChainesAttaques(Result) :-\n");
 		rule.append("	generationListeAttaques(Result).");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	\n");
 		rule.append("% Méthode permettant de creer une première liste d'attaques (normales) en fonction des persos et de leurs PA\n");
 		rule.append("generationListeAttaques(L) :- genererListeAtt(L, []).\n");
@@ -106,7 +106,7 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("	concat([Attaque], Retour2, Retour).");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(2000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Methode permettant de récupérer la prochaine attaque possible\n");
 		rule.append("getNextAttaque(Atts, Attaque) :-\n");
@@ -131,7 +131,7 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("	Attaque = att(Perso, '").append(ConstantesAttaques.ID_ATTAQUE_RAPIDE).append("').");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Méthode permettant de trouver une personne qui peut encore attaquer (possède assez de PA)\n");
 		rule.append("peutAttaquer(Perso, Atts) :-\n");
@@ -151,7 +151,7 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("	PARestants >= 2.");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Methode permettant de savoir combien de PA restent à un perso\n");
 		rule.append("paRestants(Perso, Atts, PARestants) :-\n");
@@ -160,7 +160,7 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("	PARestants is PA - PaUtilises.");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Methode permettant de savoir combien de PA ont été utilisés par un perso\n");
 		rule.append("paUtilises(_, [], 0).\n");
@@ -175,7 +175,7 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("	PaUtilises is PaUtilisesSuite.");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Méthode permettant de creer l'ordre d'attaque en fonction des persos et de leurs PA\n");
 		rule.append("generationListeAttaquants(L) :- genererOrdre(L, [], []).\n");
@@ -189,21 +189,21 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("	concat([Attaquant], Retour2, Retour).");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Methode permettant de récupérer le prochain attaquant possible\n");
 		rule.append("getNextAttaquant(Atts, Attaquant) :-\n");
 		rule.append("	peutAttaquer(Attaquant, Atts).");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Données sur les attaques\n");
 		rule.append("% caracAttaque(typeAttaque, att, bonAtt, deg, bonDeg, resultAtt, resultBonAtt, resultDeg, resultBonDeg).\n");
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		rulesList.add(rule.toString());
 
-		rule = new StringBuffer(1000);
+		rule.setLength(0);
 		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_BERSERK).append("', 8).\n");
 		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_BRUTALE).append("', 4).\n");
 		rule.append("coutPA('").append(ConstantesAttaques.ID_ATTAQUE_CHARGE).append("', 6).\n");

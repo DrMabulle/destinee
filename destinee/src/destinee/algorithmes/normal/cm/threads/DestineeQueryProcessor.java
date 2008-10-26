@@ -207,7 +207,7 @@ public class DestineeQueryProcessor extends Thread
 		}
 		else
 		{
-			throw new TechnicalException(new StringBuffer("Type de résolution incorrect : ").append(aTypeResolution).toString());
+			throw new TechnicalException(new StringBuilder("Type de résolution incorrect : ").append(aTypeResolution).toString());
 		}
 	}
 
@@ -250,7 +250,7 @@ public class DestineeQueryProcessor extends Thread
 		}
 		else
 		{
-			throw new TechnicalException(new StringBuffer("Type d'attaque incorrect : ").append(aTypeAttaque).toString());
+			throw new TechnicalException(new StringBuilder("Type d'attaque incorrect : ").append(aTypeAttaque).toString());
 		}
 
 		return attaque;

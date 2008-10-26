@@ -24,7 +24,7 @@ public class ChaineAttaquesD
 	/**
 	 * Constructeur par défaut
 	 */
-	public ChaineAttaquesD(Cible aCible)
+	public ChaineAttaquesD(final Cible aCible)
 	{
 		super();
 		cible = aCible;
@@ -70,13 +70,13 @@ public class ChaineAttaquesD
 	 */
 	public String getIdentifiant()
 	{
-		StringBuffer sb = new StringBuffer("");
+		StringBuilder sb = new StringBuilder(512);
 
 		for (Attaque attaque : chaineAttaque)
 		{
 			sb.append(attaque.getPerso().getIdentifiant());
 			sb.append(attaque.getTypeAttaque());
-			sb.append("-");
+			sb.append('-');
 		}
 
 		return sb.toString();
@@ -87,7 +87,7 @@ public class ChaineAttaquesD
 	 * 
 	 * @param aAttaque une attaque à ajouter
 	 */
-	public void ajouterAttaque(Attaque aAttaque)
+	public void ajouterAttaque(final Attaque aAttaque)
 	{
 		chaineAttaque.add(aAttaque);
 		hasBeenEvaluated = false;

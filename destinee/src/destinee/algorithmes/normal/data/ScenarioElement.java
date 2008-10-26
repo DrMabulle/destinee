@@ -26,7 +26,7 @@ public class ScenarioElement
 	 * @param aAttaque
 	 * @param aTypeResolution
 	 */
-	public ScenarioElement(Attaque aAttaque, int aTypeResolution)
+	public ScenarioElement(final Attaque aAttaque, final int aTypeResolution)
 	{
 		super();
 		attaque = aAttaque;
@@ -55,7 +55,7 @@ public class ScenarioElement
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object aObj)
+	public boolean equals(final Object aObj)
 	{
 		// Vérification de l'égalité des références
 		if (this == aObj)
@@ -100,8 +100,8 @@ public class ScenarioElement
 	@Override
 	public String toString()
 	{
-		StringBuffer result = new StringBuffer(25);
-		result.append(getAttaque().toString()).append("_");
+		StringBuilder result = new StringBuilder(32);
+		result.append(getAttaque().toString()).append('_');
 
 		if (getTypeResolution() == ResolutionAttaque.RESOLUTION_COUP_CRITIQUE)
 		{

@@ -84,7 +84,7 @@ public class DestineeQueryProcessorOrdre extends Thread
 	private static void instancierThreadsTraitement(final Cible aCible)
 	{
 		int nbCores = Runtime.getRuntime().availableProcessors();
-		int nbThreads = nbCores * 4;
+		int nbThreads = nbCores * 6;
 		for (int i = 0; i < nbThreads; i++)
 		{
 			listeThreads.add(new TraitementOrdreAttaques(aCible));

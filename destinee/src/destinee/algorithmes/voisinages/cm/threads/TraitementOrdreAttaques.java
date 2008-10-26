@@ -143,7 +143,7 @@ public class TraitementOrdreAttaques extends Thread
 			{
 				chaine = null;
 			}
-		} while (chaine != null && (isProgressing || (!isProgressing && etapesSecurite < 3)));
+		} while (chaine != null && (isProgressing || (!isProgressing && etapesSecurite < 5)));
 
 		// Ajouter les chaines d'attaques une fois traitées
 		for (ChaineAttaquesV theChaineAttaquesV : chainesPrincipales)

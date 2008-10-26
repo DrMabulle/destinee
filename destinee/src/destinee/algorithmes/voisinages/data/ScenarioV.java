@@ -296,7 +296,7 @@ public class ScenarioV
 	{
 		if (toString == null)
 		{
-			StringBuffer result = new StringBuffer(150);
+			StringBuilder result = new StringBuilder(256);
 			for (Integer elt : listeResultats)
 			{
 				result.append(elt.toString()).append(" - ");

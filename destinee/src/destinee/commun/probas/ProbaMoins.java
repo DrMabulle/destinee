@@ -92,8 +92,8 @@ public final class ProbaMoins
 	 */
 	private static final String genererCle(final int seuilMin, final int nbDes)
 	{
-		StringBuffer cle = new StringBuffer("probaMoins(");
-		cle.append(seuilMin).append(",").append(nbDes).append(")");
+		StringBuilder cle = new StringBuilder("probaMoins(");
+		cle.append(seuilMin).append(',').append(nbDes).append(')');
 		return cle.toString();
 	}
 }

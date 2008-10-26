@@ -73,7 +73,7 @@ public class ChaineAttaquesV
 	{
 		if (identifiant == null)
 		{
-			StringBuffer sb = new StringBuffer("");
+			StringBuilder sb = new StringBuilder(512);
 
 			for (Attaque att : chaine)
 			{
@@ -639,7 +639,7 @@ public class ChaineAttaquesV
 	{
 		if (toString == null)
 		{
-			toString = new StringBuffer(getIdentifiant()).append(" || ").append(cible.toString()).toString();
+			toString = new StringBuilder(getIdentifiant()).append(" || ").append(cible.toString()).toString();
 		}
 		return toString;
 	}
