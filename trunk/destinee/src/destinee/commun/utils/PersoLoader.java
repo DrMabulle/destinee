@@ -119,8 +119,7 @@ public final class PersoLoader
 			CachePersos.addPerso(identifiant, perso);
 
 			// Déclarer le perso à Prolog
-			prolog.ajouterPerso(perso.getIdentifiant(), perso.getNombreDeDesAttaque(), perso.getBonusAttaque(),
-				perso.getNombreDeDesDegats(), perso.getBonusDegats(), pa1, pa2);
+			prolog.ajouterPerso(perso.getIdentifiant(), pa1, pa2);
 			declarerAttaquesProlog(prolog, identifiant, maitrises);
 		}
 

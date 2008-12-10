@@ -87,13 +87,10 @@ public class DestineeToLogicGatewayImpl implements DestineeToLogicGateway
 		}
 	}
 
-	public void ajouterPerso(final String aNomPerso, final int aNbDesAtt, final int aBonusAtt, final int aNbDesDeg, final int aBonusDeg,
-			final int aNbPaCyc1, final int aNbPaCyc2)
+	public void ajouterPerso(final String aNomPerso, final int aNbPaCyc1, final int aNbPaCyc2)
 	{
 		StringBuilder fact = new StringBuilder(446);
 		fact.append("perso('").append(aNomPerso).append("', ");
-		fact.append(aNbDesAtt).append(", ").append(aBonusAtt).append(", ");
-		fact.append(aNbDesDeg).append(", ").append(aBonusDeg).append(", ");
 		fact.append(aNbPaCyc1).append(", ").append(aNbPaCyc2).append(").");
 		itsGate.addFact(fact.toString());
 	}

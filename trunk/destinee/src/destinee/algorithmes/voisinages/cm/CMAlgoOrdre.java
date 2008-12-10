@@ -34,6 +34,8 @@ public class CMAlgoOrdre implements AlgoTraitement
 	{
 		AlgoTraitement theCMTraitement = new CMAlgoOrdre();
 		theCMTraitement.executerTraitement();
+
+		LogFactory.stopper();
 	}
 
 	/*

@@ -155,7 +155,7 @@ public class LogicRulesDBImpl implements LogicRulesDB
 		rule.append("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
 		rule.append("% Methode permettant de savoir combien de PA restent à un perso\n");
 		rule.append("paRestants(Perso, Atts, PARestants) :-\n");
-		rule.append("	perso(Perso, _, _, _, _, PA, _),\n");
+		rule.append("	perso(Perso, PA, _),\n");
 		rule.append("	paUtilises(Perso, Atts, PaUtilises),\n");
 		rule.append("	PARestants is PA - PaUtilises.");
 		rulesList.add(rule.toString());

@@ -34,6 +34,8 @@ public class CMAlgoNormal implements AlgoTraitement
 	{
 		AlgoTraitement theCMTraitement = new CMAlgoNormal();
 		theCMTraitement.executerTraitement();
+
+		LogFactory.stopper();
 	}
 
 	/*
