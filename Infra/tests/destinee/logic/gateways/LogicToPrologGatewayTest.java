@@ -69,11 +69,8 @@ public class LogicToPrologGatewayTest extends TestCase
 	{
 		Hashtable bindings = new Hashtable();
 		Hashtable result;
-		StringBuffer qbuff = new StringBuffer();
 
-		qbuff.append("generationScenarios(Result).");
-
-		result = api.query(qbuff.toString(), bindings);
+		result = api.query("generationScenarios(Result).", bindings);
 
 		while (result != null)
 		{

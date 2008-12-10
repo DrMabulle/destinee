@@ -158,7 +158,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 			e.printStackTrace();
 		}
 
-		String theTempContent = "";
+		String theTempContent;
 		if (itsStoringFile.createNewFile())
 		{
 			FileWriter theFileWriter = new FileWriter(itsStoringFile, false);
@@ -193,7 +193,7 @@ public class LogicToPrologGatewayImpl implements LogicToPrologGateway
 
 	private String createContents()
 	{
-		StringBuffer theResult = new StringBuffer(1000);
+		StringBuilder theResult = new StringBuilder(65536);
 		for (String rule : itsRules)
 		{
 			theResult.append(rule).append("\n\n");

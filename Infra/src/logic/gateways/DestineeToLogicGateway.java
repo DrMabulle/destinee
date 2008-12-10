@@ -41,14 +41,10 @@ public interface DestineeToLogicGateway
 	 * Permet d'ajouter un personnage et ses caractéristiques
 	 * 
 	 * @param aNomPerso un nom de personnage
-	 * @param aNbDesAtt nombre de dés d'attaque du personnage
-	 * @param aBonusAtt bonus d'attaque du personnage
-	 * @param aNbDesDeg nombre de dés de dégat du personnage
-	 * @param aBonusDeg bonus de dégat du personnage
 	 * @param aNbPaCyc1 nombre de Points d'Action du personnage lors du premier cycle (attaques en cumul)
 	 * @param aNbPaCyc2 nombre de Points d'Action du personnage lors du second cycle (attaques en cumul) (0 si pas de cumul)
 	 */
-	public void ajouterPerso(String aNomPerso, int aNbDesAtt, int aBonusAtt, int aNbDesDeg, int aBonusDeg, int aNbPaCyc1, int aNbPaCyc2);
+	public void ajouterPerso(String aNomPerso, int aNbPaCyc1, int aNbPaCyc2);
 
 	/**
 	 * Permet de renseigner les différentes attaques connues par le personnage. Exemples : Attaque brtuale, Attaque précise, etc.

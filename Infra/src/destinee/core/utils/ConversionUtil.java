@@ -41,7 +41,7 @@ public class ConversionUtil
 		String str = "";
 		int idxVirgule = -1;
 		char[] buf = null;
-		StringBuffer sb = null;
+		StringBuilder sb = null;
 
 		if (decimal != null)
 		{
@@ -77,7 +77,7 @@ public class ConversionUtil
 				idxVirgule = str.indexOf(',');
 				buf = new char[idxVirgule];
 				str.getChars(0, idxVirgule, buf, 0);
-				sb = new StringBuffer();
+				sb = new StringBuilder(32);
 
 				for (int n = 0; n < idxVirgule; n++)
 				{
@@ -919,7 +919,7 @@ public class ConversionUtil
 		String str = "";
 		int idxVirgule = -1;
 		char[] buf = null;
-		StringBuffer sb = null;
+		StringBuilder sb = null;
 
 		if (decimal != null)
 		{
@@ -932,7 +932,7 @@ public class ConversionUtil
 			idxVirgule = str.indexOf(',');
 			buf = new char[idxVirgule];
 			str.getChars(0, idxVirgule, buf, 0);
-			sb = new StringBuffer();
+			sb = new StringBuilder(24);
 
 			for (int n = 0; n < idxVirgule; n++)
 			{
@@ -968,7 +968,7 @@ public class ConversionUtil
 		String str = "";
 		int idxVirgule = -1;
 		char[] buf = null;
-		StringBuffer sb = null;
+		StringBuilder sb = null;
 
 		if (decimal != null)
 		{
@@ -988,7 +988,7 @@ public class ConversionUtil
 			idxVirgule = str.indexOf(',');
 			buf = new char[idxVirgule];
 			str.getChars(0, idxVirgule, buf, 0);
-			sb = new StringBuffer();
+			sb = new StringBuilder(24);
 
 			for (int n = 0; n < idxVirgule; n++)
 			{
@@ -1081,7 +1081,7 @@ public class ConversionUtil
 	public static String heureIntegerVersHeureStringH(final Integer aInteger)
 	{
 		String heure = null;
-		StringBuffer sb = null;
+		StringBuilder sb = null;
 
 		if (aInteger != null)
 		{
@@ -1090,9 +1090,9 @@ public class ConversionUtil
 			{
 				heure = "0" + heure;
 			}
-			sb = new StringBuffer();
+			sb = new StringBuilder(8);
 			sb.append(heure.substring(0, 2));
-			sb.append("H");
+			sb.append('H');
 			sb.append(heure.substring(2, 4));
 		}
 
@@ -1111,9 +1111,8 @@ public class ConversionUtil
 	 */
 	public static String integerVersHeure2(final Integer heure)
 	{
-
 		String hhmmss = paddingString(integerVersString(heure, "000000"), 6, '0', true);
-		StringBuffer str = new StringBuffer(hhmmss);
+		StringBuilder str = new StringBuilder(hhmmss);
 		str.insert(2, ':');
 		str.insert(5, ':');
 		return str.toString();
@@ -1136,7 +1135,7 @@ public class ConversionUtil
 
 		heureMinute = heure.intValue() / 100;
 		String hhmm = paddingString(integerVersString(new Integer(heureMinute), "000"), 3, '0', true);
-		StringBuffer str = new StringBuffer(hhmm);
+		StringBuilder str = new StringBuilder(hhmm);
 		str.insert(str.length() - 2, ':');
 		return str.toString();
 	}
@@ -1170,7 +1169,7 @@ public class ConversionUtil
 	 */
 	private static String paddingString(final String s, final int n, final char c, final boolean paddingLeft)
 	{
-		StringBuffer str = new StringBuffer(s);
+		StringBuilder str = new StringBuilder(s);
 		int strLength = str.length();
 		if (n > 0 && n > strLength)
 		{
@@ -1208,7 +1207,7 @@ public class ConversionUtil
 		if (val != null)
 		{
 			String longSimple = val.toString();
-			StringBuffer sbLong = new StringBuffer();
+			StringBuilder sbLong = new StringBuilder(24);
 
 			int nbCar = longSimple.length();
 			int numCar = 0;
@@ -1219,7 +1218,7 @@ public class ConversionUtil
 				numCar++;
 				if (numCar % 3 == 0 && idx > 0)
 				{
-					sbLong.append(" ");
+					sbLong.append(' ');
 				}
 			}
 
@@ -1242,7 +1241,7 @@ public class ConversionUtil
 			return "[]";
 		}
 
-		StringBuffer theResult = new StringBuffer(150);
+		StringBuilder theResult = new StringBuilder(156);
 		theResult.append("['");
 
 		for (Iterator<String> iter = aCollection.iterator(); iter.hasNext();)
