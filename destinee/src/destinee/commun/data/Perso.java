@@ -371,7 +371,6 @@ public class Perso
 	@Override
 	public int hashCode()
 	{
-		// TODO Auto-generated method stub
 		return getIdentifiant().hashCode();
 	}
 }

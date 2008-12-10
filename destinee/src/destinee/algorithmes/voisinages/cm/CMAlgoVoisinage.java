@@ -34,6 +34,8 @@ public class CMAlgoVoisinage implements AlgoTraitement
 	{
 		AlgoTraitement theCMTraitement = new CMAlgoVoisinage();
 		theCMTraitement.executerTraitement();
+
+		LogFactory.stopper();
 	}
 
 	/*

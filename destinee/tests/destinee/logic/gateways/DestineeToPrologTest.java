@@ -45,7 +45,7 @@ public class DestineeToPrologTest extends TestCase
 	@SuppressWarnings("unchecked")
 	public void testQuery()
 	{
-		itsGate.ajouterPerso("Koumi", 12, 5, 12, -6, 10, 0);
+		itsGate.ajouterPerso("Koumi", 10, 0);
 		itsGate.ajouterAttaquePerso("Koumi", ConstantesAttaques.ID_ATTAQUE_NORMALE);
 		itsGate.ajouterAttaquePerso("Koumi", ConstantesAttaques.ID_ATTAQUE_BRUTALE);
 		List<Map<String, List<String>>> retour = itsGate.query("peutAttaquer(Perso, []).");
@@ -61,7 +61,7 @@ public class DestineeToPrologTest extends TestCase
 	 */
 	public void testAjouterPerso()
 	{
-		itsGate.ajouterPerso("Koumi", 12, 5, 12, -6, 10, 0);
+		itsGate.ajouterPerso("Koumi", 10, 0);
 	}
 
 	/**

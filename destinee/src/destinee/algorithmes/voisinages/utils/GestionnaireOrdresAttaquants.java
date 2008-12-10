@@ -3,14 +3,18 @@
  */
 package destinee.algorithmes.voisinages.utils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import destinee.algorithmes.voisinages.cm.threads.ChaineEvaluator;
 import destinee.algorithmes.voisinages.data.ChaineAttaquesV;
 import destinee.commun.data.Perso;
 import destinee.core.exception.TechnicalException;
+import destinee.core.log.LogFactory;
 
 /**
  * @author Bubulle et No-one
@@ -203,9 +207,31 @@ public class GestionnaireOrdresAttaquants
 	 */
 	public void finaliserEvaluation() throws TechnicalException
 	{
+		// for (ChaineAttaquesV chaine : chaines)
+		// {
+		// chaine.evaluer(new BigDecimal("0.999"), BigDecimal.ZERO, 2000);
+		// }
+		if (LogFactory.isLogDebugEnabled())
+		{
+			LogFactory.logDebug("Finalisation des calculs");
+		}
+
+		ExecutorService executor = Executors.newCachedThreadPool();
 		for (ChaineAttaquesV chaine : chaines)
 		{
-			chaine.evaluer(new BigDecimal("0.999"), BigDecimal.ZERO, 2000);
+			executor.execute(new ChaineEvaluator(chaine, 0.999, 2000));
+			// chaine.evaluer(new BigDecimal("0.999"), BigDecimal.ZERO, 2000);
+		}
+
+		// Attendre la fin du traitement des chaines puis tuer l'exécutor
+		executor.shutdown();
+		try
+		{
+			executor.awaitTermination(60, TimeUnit.SECONDS);
+		}
+		catch (InterruptedException e)
+		{
+			LogFactory.logError("Erreur de l'Executor lors de la finalisation des calculs", e);
 		}
 	}
 }

@@ -36,6 +36,8 @@ public class CMAlgoDegrade implements AlgoTraitement
 	{
 		AlgoTraitement theCMTraitement = new CMAlgoDegrade();
 		theCMTraitement.executerTraitement();
+
+		LogFactory.stopper();
 	}
 
 	/*

@@ -85,7 +85,7 @@ public class ScenarioV
 		// Si le scénario n'a pas encore été évaluer, le faire
 		if (probaRealisation == null)
 		{
-			evalerEvenement();
+			evaluerEvenement();
 		}
 
 		return esperanceDegats;
@@ -103,7 +103,7 @@ public class ScenarioV
 		// Si le scénario n'a pas encore été évaluer, le faire
 		if (probaRealisation == null)
 		{
-			evalerEvenement();
+			evaluerEvenement();
 		}
 
 		return probaRealisation;
@@ -114,7 +114,7 @@ public class ScenarioV
 	 * 
 	 * @throws TechnicalException e
 	 */
-	private void evalerEvenement() throws TechnicalException
+	private void evaluerEvenement() throws TechnicalException
 	{
 		// long startTime = System.currentTimeMillis();
 

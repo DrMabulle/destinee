@@ -29,13 +29,13 @@ public class LogicRulesTest extends TestCase
 		super.setUp();
 		itsGate = DestineeToLogicGatewayImpl.getDefaultInstance();
 
-		itsGate.ajouterPerso("Koumi", 12, 5, 12, -6, 10, 0);
+		itsGate.ajouterPerso("Koumi", 10, 0);
 		itsGate.ajouterAttaquePerso("Koumi", ConstantesAttaques.ID_ATTAQUE_NORMALE);
 
-		itsGate.ajouterPerso("Dwarfeater", 12, 5, 12, -6, 10, 0);
+		itsGate.ajouterPerso("Dwarfeater", 10, 0);
 		itsGate.ajouterAttaquePerso("Dwarfeater", ConstantesAttaques.ID_ATTAQUE_NORMALE);
 
-		itsGate.ajouterPerso("LaPorte", 12, 5, 12, -6, 10, 0);
+		itsGate.ajouterPerso("LaPorte", 10, 0);
 		itsGate.ajouterAttaquePerso("LaPorte", ConstantesAttaques.ID_ATTAQUE_NORMALE);
 	}
 
